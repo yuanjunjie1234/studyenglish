@@ -1,0 +1,1023 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#E9F3EE">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>单词营地</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Baloo+2:wght@600;800&family=Nunito:wght@500;700;800&display=swap">
+<style>
+/* Layout: a camp trail — home is the trail map of units, each unit is a column of numbered stations (easy → hard), each station a chunky tactile game screen. */
+:root{
+  --bg:#E9F3EE; --surface:#FFFFFF; --surface-2:#F2F8F4; --line:#C9DDD2;
+  --ink:#16382C; --ink-soft:#557367;
+  --pine:#1F7A55; --pine-deep:#155C3F; --on-pine:#FFFFFF;
+  --sun:#FFC83D; --sun-deep:#D9A21A; --sun-ink:#4A3300;
+  --coral:#E8644E; --coral-deep:#B9442F; --sky:#3D8FD6; --chunk-b:#C04A33; --sky-bg:#D4E9F6;
+  --good:#23894E; --good-bg:#D9F2E2; --bad:#C9402F; --bad-bg:#FBE1DC;
+  --display:"Baloo 2","Nunito",system-ui,sans-serif;
+  --body:"Nunito","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --word:"Andika","Nunito",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1D17; --surface:#162D25; --surface-2:#1B372D; --line:#2C4B3F;
+  --ink:#E5F2EB; --ink-soft:#A1BCB0;
+  --pine:#4CC08A; --pine-deep:#2E8A5F; --on-pine:#06261A;
+  --sun:#FFC83D; --sun-deep:#C99415; --sun-ink:#3A2800;
+  --coral:#FF8A72; --coral-deep:#C9563F; --sky:#6CB2EE; --chunk-b:#FF9580; --sky-bg:#16303F;
+  --good:#5FD39A; --good-bg:#1C4334; --bad:#FF8E7C; --bad-bg:#4A2520;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1D17; --surface:#162D25; --surface-2:#1B372D; --line:#2C4B3F;
+  --ink:#E5F2EB; --ink-soft:#A1BCB0;
+  --pine:#4CC08A; --pine-deep:#2E8A5F; --on-pine:#06261A;
+  --sun:#FFC83D; --sun-deep:#C99415; --sun-ink:#3A2800;
+  --coral:#FF8A72; --coral-deep:#C9563F; --sky:#6CB2EE; --chunk-b:#FF9580; --sky-bg:#16303F;
+  --good:#5FD39A; --good-bg:#1C4334; --bad:#FF8E7C; --bad-bg:#4A2520;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:8px 48px;display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.15;text-wrap:balance}
+.word{font-family:var(--word)}
+.muted{color:var(--ink-soft)}
+
+/* buttons: tactile, pressable */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:8px 16px;border-radius:14px;border:2px solid var(--line);background:var(--surface);box-shadow:0 4px 0 var(--line);font-weight:800;cursor:pointer;transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
+.btn.primary{background:var(--pine);border-color:var(--pine-deep);box-shadow:0 4px 0 var(--pine-deep);color:var(--on-pine)}
+.btn.primary:active{box-shadow:0 1px 0 var(--pine-deep)}
+.btn.sun{background:var(--sun);border-color:var(--sun-deep);box-shadow:0 4px 0 var(--sun-deep);color:var(--sun-ink)}
+.btn.sm{min-height:38px;padding:4px 12px;font-size:14px;border-radius:12px}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.row.center{justify-content:center}
+
+.topbar{display:flex;align-items:center;gap:10px;min-height:52px}
+.topbar .title{flex:1;min-width:0;font-family:var(--display);font-size:20px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--surface);border:2px solid var(--line);font-weight:800;font-size:14px;white-space:nowrap}
+button.chip{cursor:pointer}
+.chip .star{color:var(--sun-deep)}
+
+/* home */
+.panel{background:var(--sky-bg);border-radius:28px;padding:18px 18px 16px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:10px 8px;margin-top:4px}
+.hero .stats{grid-column:1/-1}
+.lesson-head{display:flex;align-items:center;gap:12px}
+.lesson-head h1{font-size:clamp(36px,9vw,50px);font-weight:800}
+.hero-text{flex:1;min-width:0}
+.eyebrow{margin:0 0 2px;font-size:13px;font-weight:800;letter-spacing:.08em;color:var(--pine)}
+.hero h1{font-size:clamp(40px,11vw,58px);font-weight:800;color:var(--ink);letter-spacing:.02em}
+.lede{margin:4px 0 0;color:var(--ink-soft)}
+.hero-art{width:clamp(110px,28vw,170px);flex:none}
+.stats{display:flex;flex-wrap:wrap;gap:8px}
+.sec{font-size:22px;display:flex;align-items:baseline;gap:8px}
+.sec small{font-family:var(--body);font-size:14px;color:var(--ink-soft);font-weight:700}
+.units{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.unit{display:grid;grid-template-columns:56px minmax(0,1fr) auto;align-items:center;gap:14px;text-align:left;padding:14px 16px;border-radius:20px;background:var(--surface);border:2px solid var(--line);box-shadow:0 5px 0 var(--line);cursor:pointer}
+.unit:active{transform:translateY(3px);box-shadow:0 2px 0 var(--line)}
+.u-badge{width:56px;height:56px;border-radius:18px;background:var(--sun);color:var(--sun-ink);display:grid;place-items:center;font-family:var(--display);font-size:28px;font-weight:800;box-shadow:inset 0 -4px 0 var(--sun-deep)}
+.u-body{display:flex;flex-direction:column;gap:5px;min-width:0}
+.u-title{font-family:var(--display);font-size:22px;font-weight:800;line-height:1.1}
+.u-stars{font-weight:800;font-size:18px;white-space:nowrap}
+.u-stars .star{color:var(--sun-deep)}
+.u-stars small{font-size:12px;color:var(--ink-soft)}
+.coming{grid-column:1/-1;padding:12px 16px;border-radius:16px;border:2px dashed var(--line);color:var(--ink-soft);font-size:14px;font-weight:700}
+.u-meta{font-size:14px;color:var(--ink-soft);font-weight:700}
+.u-emojis{font-size:22px;letter-spacing:2px}
+.unit.locked{cursor:default;background:transparent;box-shadow:none;border-style:dashed;color:var(--ink-soft)}
+.bar{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--sun);border-radius:99px}
+.stickers{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.sticker{aspect-ratio:1;max-width:100%;display:grid;place-items:center;font-size:clamp(24px,7vw,36px);border-radius:16px;background:var(--surface);border:2px solid var(--line)}
+.sticker.off{filter:grayscale(1);opacity:.3;border-style:dashed;background:transparent}
+.foot{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;font-size:14px;color:var(--ink-soft)}
+
+/* unit */
+.unit-head{display:flex;flex-direction:column;gap:6px}
+.unit-head h1{font-size:clamp(34px,8vw,48px)}
+.seg{display:inline-flex;padding:4px;border-radius:14px;background:var(--surface-2);border:2px solid var(--line);gap:4px;align-self:flex-start}
+.seg button{border:0;background:transparent;padding:8px 14px;border-radius:10px;font-weight:800;cursor:pointer;color:var(--ink-soft)}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 2px 0 var(--line)}
+.wordchips{display:flex;flex-wrap:wrap;gap:8px}
+.wchip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:12px;background:var(--surface);border:2px solid var(--line);cursor:pointer;font-family:var(--word);font-size:16px}
+.wchip.extra{border-style:dashed;color:var(--ink-soft)}
+.legend{font-size:13px;color:var(--ink-soft);display:flex;gap:14px;flex-wrap:wrap}
+.legend span::before{content:"";display:inline-block;width:14px;height:10px;border:2px solid var(--line);border-radius:4px;margin-right:6px;vertical-align:-1px}
+.legend span.ex::before{border-style:dashed}
+.acts{display:flex;flex-direction:column;gap:14px;list-style:none;margin:0;padding:0}
+.station{position:relative}
+.station:not(:last-child)::after{content:"";position:absolute;left:32px;top:calc(100% + 4px);height:10px;border-left:4px dotted var(--ink-soft);opacity:.45}
+.act-row{width:100%;display:grid;grid-template-columns:34px 44px minmax(0,1fr) auto;align-items:center;gap:10px;text-align:left;padding:12px 14px;border-radius:18px;background:var(--surface);border:2px solid var(--line);box-shadow:0 4px 0 var(--line);cursor:pointer}
+.act-row:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
+.act-n{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:18px;color:var(--pine);background:var(--surface-2);box-shadow:inset 0 0 0 2px var(--line)}
+.done .act-n{background:var(--pine);color:var(--on-pine);box-shadow:none}
+.next .act-n{background:var(--sun);color:var(--sun-ink);box-shadow:none}
+.next .act-row{border-color:var(--sun-deep);box-shadow:0 4px 0 var(--sun-deep)}
+.next-tag{font-style:normal;font-size:11px;font-weight:800;margin-left:8px;padding:2px 8px;border-radius:99px;background:var(--sun);color:var(--sun-ink);vertical-align:2px}
+.ring{position:relative;width:78px;height:78px;flex:none;margin-left:auto}
+.ring svg{width:100%;height:100%;display:block}
+.ring-bg{fill:none;stroke:var(--surface);stroke-width:8}
+.ring-fg{fill:none;stroke:var(--sun-deep);stroke-width:8;stroke-linecap:round}
+.ring span{position:absolute;inset:0;display:grid;place-content:center;text-align:center;line-height:1.05}
+.ring b{font-family:var(--display);font-size:24px}
+.ring small{font-size:11px;font-weight:800;color:var(--ink-soft)}
+.words{border-radius:18px}
+.words summary{cursor:pointer;font-weight:800;font-size:15px;padding:4px 0 10px;list-style:none}
+.words summary::-webkit-details-marker{display:none}
+.words summary::before{content:"▸";display:inline-block;margin-right:6px;transition:transform .2s;color:var(--pine)}
+.words[open] summary::before{transform:rotate(90deg)}
+.words summary small{font-weight:700;color:var(--ink-soft);margin-left:4px}
+.act-ic{font-size:28px;text-align:center}
+.act-txt b{display:block;font-size:17px}
+.act-txt small{color:var(--ink-soft);font-size:13px}
+.stars{font-size:18px;letter-spacing:1px;white-space:nowrap}
+.stars .on{color:var(--sun-deep)}
+.stars .off{color:var(--line)}
+.group-label{font-family:var(--display);font-size:20px;font-weight:800;margin:6px 0 -4px}
+.note{padding:12px 14px;border-radius:14px;background:var(--surface-2);border:2px dashed var(--line);font-size:14px;color:var(--ink-soft)}
+
+/* game common */
+.progress{height:10px;border-radius:99px;background:var(--surface-2);box-shadow:inset 0 0 0 2px var(--line);overflow:hidden}
+.progress>i{display:block;height:100%;min-width:10px;background:var(--pine);border-radius:99px;transition:width .3s}
+.stage.bare{background:none;border:0;padding:4px 0}
+.stage{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;padding:18px 14px;border-radius:24px;background:var(--surface);border:2px solid var(--line)}
+.q-label{margin:0;font-weight:800;color:var(--ink-soft)}
+.q-word{font-size:clamp(40px,11vw,60px);font-weight:700;line-height:1.1;overflow-wrap:anywhere}
+.q-emoji{font-size:64px;line-height:1}
+.q-cn{font-size:28px;font-weight:800}
+.big-say{width:96px;height:96px;border-radius:50%;font-size:40px;background:var(--sun);border:3px solid var(--sun-deep);box-shadow:0 5px 0 var(--sun-deep);cursor:pointer}
+.big-say:active{transform:translateY(3px);box-shadow:0 2px 0 var(--sun-deep)}
+.link{background:none;border:0;color:var(--sky);font-weight:800;cursor:pointer;padding:6px}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:100%}
+.opt{min-height:64px;padding:10px;border-radius:16px;border:2px solid var(--line);background:var(--surface);box-shadow:0 4px 0 var(--line);cursor:pointer;font-weight:800;font-size:17px;overflow-wrap:anywhere}
+.opt .word{font-size:22px;font-weight:700}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
+.opt.right{animation:bump .35s;background:var(--good-bg);border-color:var(--good);box-shadow:0 4px 0 var(--good);color:var(--ink)}
+.opt.wrong{background:var(--bad-bg);border-color:var(--bad);box-shadow:0 4px 0 var(--bad);animation:shake .4s}
+.opt[disabled]{cursor:default}
+.feedback{min-height:28px;font-weight:800;font-size:18px;margin:0}
+.feedback.ok{color:var(--good)}
+.feedback.no{color:var(--bad)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@keyframes bump{50%{transform:scale(1.05)}}
+@keyframes pop{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+
+/* flashcard */
+.flash{width:100%;max-width:420px;height:clamp(330px,88vw,370px);perspective:1200px;background:none;border:0;padding:0;cursor:pointer;display:block}
+.flash-inner{position:relative;display:block;width:100%;height:100%;transform-style:preserve-3d;transition:transform .45s}
+.flash-inner.is-flipped{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px;border-radius:24px;background:var(--surface);border:3px solid var(--line);box-shadow:0 6px 0 var(--line);backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.face.back{transform:rotateY(180deg);background:var(--surface-2)}
+.face .emo{font-size:clamp(46px,13vw,66px);line-height:1}
+.face .word{font-size:clamp(34px,10vw,52px);font-weight:700;line-height:1.1;overflow-wrap:anywhere}
+.face .ipa{font-size:18px;color:var(--ink-soft);font-family:"Andika","Lucida Sans Unicode","Arial Unicode MS",sans-serif}
+.face .cn{font-size:clamp(26px,7vw,34px);font-weight:800}
+.tags{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.tag{font-size:12px;font-weight:800;padding:2px 8px;border-radius:99px;border:2px solid var(--line);color:var(--ink-soft)}
+.tag.core{border-color:var(--pine);color:var(--pine)}
+.tap-tip{font-size:13px;color:var(--ink-soft);margin:0}
+.dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;max-width:420px}
+.dots i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.dots i.k{background:var(--pine)}
+.dots i.cur{outline:2px solid var(--ink);outline-offset:1px}
+.known-on{background:var(--good-bg)!important;border-color:var(--good)!important;box-shadow:0 4px 0 var(--good)!important}
+
+/* spelling */
+.slots{display:flex;flex-wrap:wrap;justify-content:center;gap:14px 20px}
+.slot-group{display:flex;gap:6px}
+.slot{width:42px;height:52px;border:0;border-bottom:4px solid var(--ink-soft);background:var(--surface-2);border-radius:10px 10px 4px 4px;font-family:var(--word);font-size:30px;font-weight:700;cursor:pointer;padding:0}
+.slot.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+.slot.bad{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);animation:shake .4s}
+.tiles{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.tile{width:50px;height:54px;border-radius:14px;border:2px solid var(--sun-deep);background:var(--sun);color:var(--sun-ink);box-shadow:0 4px 0 var(--sun-deep);font-family:var(--word);font-size:28px;font-weight:700;cursor:pointer}
+.tile:active{transform:translateY(3px);box-shadow:0 1px 0 var(--sun-deep)}
+.tile.used{visibility:hidden}
+
+/* dictation + fill */
+.dict-form{display:flex;gap:8px;width:100%;max-width:460px}
+.dict-in{flex:1;min-width:0;font-family:var(--word);font-size:26px;padding:8px 14px;border-radius:14px;border:3px solid var(--line);background:var(--surface-2);color:var(--ink)}
+.dict-in:focus{outline:none;border-color:var(--sky)}
+.dict-in.ok{border-color:var(--good);background:var(--good-bg)}
+.dict-in.bad{border-color:var(--bad);background:var(--bad-bg);animation:shake .4s}
+.hint-letters{font-size:26px;letter-spacing:2px;margin:0;color:var(--ink-soft)}
+.answer{display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 22px;border-radius:18px;background:var(--surface-2);border:2px solid var(--line);font-weight:800;font-size:18px}
+.answer .word{font-size:34px;font-weight:700}
+.fill-sent{font-size:clamp(23px,6.5vw,32px);line-height:1.6;margin:0}
+.blank{display:inline-block;min-width:3.4em;border-bottom:4px solid var(--ink-soft);margin:0 4px;line-height:1.2}
+.blank.filled.ok{color:var(--good);border-color:var(--good)}
+
+/* sentences */
+.sents{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.sent{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;padding:10px 10px 10px 8px;border-radius:16px;background:var(--surface);border:2px solid var(--line)}
+.sent.done{border-color:var(--good)}
+.sent-text{display:grid;grid-template-columns:30px minmax(0,1fr);gap:8px;align-items:start;text-align:left;background:none;border:0;padding:4px;border-radius:12px;cursor:pointer;min-width:0}
+.sent-text:active{background:var(--surface-2)}
+.play{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:12px;background:var(--sun);color:var(--sun-ink);margin-top:3px}
+.sent.done .play{background:var(--good);color:var(--surface);font-size:15px;font-weight:800}
+.sent-words{display:flex;flex-direction:column;min-width:0}
+.sent .en{font-family:var(--word);font-size:20px;line-height:1.45}
+.sent .cn{margin-top:2px;color:var(--ink-soft);font-size:15px}
+.sent mark{background:var(--sun);color:var(--sun-ink);border-radius:6px;padding:0 3px}
+.sent-btns{display:flex;gap:6px}
+.sent .icon-btn{width:42px;height:42px}
+.icon-btn{width:46px;height:46px;border-radius:14px;border:2px solid var(--line);background:var(--surface-2);font-size:20px;cursor:pointer;box-shadow:0 3px 0 var(--line)}
+.icon-btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--line)}
+.check{color:var(--good);font-weight:800}
+
+/* word order */
+.line{min-height:70px;width:100%;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-content:center;padding:10px;border-radius:16px;border:2px dashed var(--line);background:var(--surface-2)}
+.line.ok{border-style:solid;border-color:var(--good);background:var(--good-bg)}
+.wtok{padding:8px 14px;border-radius:12px;border:2px solid var(--line);background:var(--surface);box-shadow:0 3px 0 var(--line);font-family:var(--word);font-size:21px;font-weight:700;cursor:pointer}
+.wtok.bank{background:var(--sun);border-color:var(--sun-deep);box-shadow:0 3px 0 var(--sun-deep);color:var(--sun-ink)}
+.wtok.used{visibility:hidden}
+.wtok.bad{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);animation:shake .4s}
+.line-hint{color:var(--ink-soft);font-size:14px}
+
+/* result */
+.result{padding:28px 16px}
+.big-stars{font-size:64px;letter-spacing:6px;line-height:1}
+.big-stars span{display:inline-block;animation:pop .5s both}
+.big-stars span:nth-child(2){animation-delay:.15s}
+.big-stars span:nth-child(3){animation-delay:.3s}
+.big-stars .on{color:var(--sun)}
+.big-stars .off{color:var(--line)}
+.new-sticker{font-size:16px;font-weight:800;padding:10px 16px;border-radius:14px;background:var(--surface-2);border:2px solid var(--sun-deep)}
+
+/* mistakes */
+.mlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.mitem{display:grid;grid-template-columns:40px minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:10px 12px;border-radius:14px;background:var(--surface);border:2px solid var(--line)}
+.mitem .e{font-size:28px;text-align:center}
+.mitem .word{font-size:20px;font-weight:700}
+.mitem small{display:block;color:var(--ink-soft)}
+.miss-n{font-size:13px;font-weight:800;color:var(--bad)}
+.empty{text-align:center;padding:30px 16px;color:var(--ink-soft)}
+.empty .big{font-size:48px}
+
+/* split, settings, mix */
+.sp{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 14px}
+.sp-w{display:flex;gap:3px}
+.chunk{display:flex;flex-direction:column;align-items:center;padding:2px 6px;border-radius:8px;background:var(--surface-2);line-height:1.2}
+.face.back .chunk,.answer .chunk{background:var(--surface)}
+.chunk b{font-family:var(--word);font-size:22px;font-weight:700}
+.chunk.c0 b{color:var(--pine)}
+.chunk.c1 b{color:var(--chunk-b)}
+.chunk i{font-style:normal;font-size:12px;color:var(--ink-soft);font-family:"Andika","Lucida Sans Unicode","Arial Unicode MS",sans-serif}
+.settings{display:flex;flex-direction:column;gap:8px}
+.switch-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border-radius:16px;background:var(--surface);border:2px solid var(--line);cursor:pointer}
+.sw-txt{flex:1;min-width:0}
+.sw-txt b{display:block;font-size:16px}
+.sw-txt small{color:var(--ink-soft);font-size:13px}
+.switch{flex:none;width:52px;height:30px;border-radius:99px;background:var(--line);position:relative;transition:background .2s}
+.switch i{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .2s}
+.switch.on{background:var(--pine)}
+.switch.on i{transform:translateX(22px)}
+.mix{display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:14px;border-radius:20px;border:2px solid var(--line);background:var(--surface)}
+.mixchip{padding:8px 14px;border-radius:12px;border:2px solid var(--line);background:var(--surface-2);font-weight:800;cursor:pointer}
+.mixchip.on{background:var(--good-bg);border-color:var(--pine)}
+.cn-btn{font-weight:800;font-size:17px}
+.cn-btn.on{background:var(--sun);border-color:var(--sun-deep);color:var(--sun-ink);box-shadow:0 3px 0 var(--sun-deep)}
+.wtok.ref{cursor:default;box-shadow:none;background:var(--surface-2);color:var(--ink);border-color:var(--line)}
+.fill-ans{font-size:22px;font-weight:700}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:14px;font-weight:800;z-index:60;max-width:calc(100% - 32px);text-align:center}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+<div id="toast" role="status" hidden></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<script>
+/* ===== 课本数据：以后添加新的一课，只需在 UNITS 里照格式加一项 ===== */
+const UNITS = [
+  { id: 9, sampleSentences: true,
+    words: [
+      { w:'camp', cn:'露营；营地', ipa:'/kæmp/', pos:'n./v.', core:true, e:'⛺' },
+      { w:'trip', cn:'旅行', ipa:'/trɪp/', pos:'n.', core:true, e:'🧳' },
+      { w:'pick', cn:'采摘；挑选', ipa:'/pɪk/', pos:'v.', core:true, e:'🍓' },
+      { w:'vegetable', cn:'蔬菜', ipa:'/ˈvedʒtəbl/', pos:'n.', core:true, e:'🥕' },
+      { w:'set', cn:'放置；设置', ipa:'/set/', pos:'v.', core:true, e:'🍽️' },
+      { w:'ourselves', cn:'我们自己', ipa:'/aʊəˈselvz/', pos:'pron.', core:true, e:'👨‍👩‍👧' },
+      { w:'myself', cn:'我自己', ipa:'/maɪˈself/', pos:'pron.', core:true, e:'🙋' },
+      { w:'set up', cn:'搭建；建立', ipa:'/set ʌp/', pos:'短语动词', core:false, e:'🏕️' },
+      { w:'take care of', cn:'照顾；照料', ipa:'/teɪk keə(r) ɒv/', pos:'短语动词', core:false, e:'🫶' },
+      { w:'wash', cn:'洗；洗涤', ipa:'/wɒʃ/', pos:'v.', core:false, e:'🧼' },
+      { w:'clothes', cn:'衣服（无单数）', ipa:'/kləʊðz/', pos:'n. 复数', core:false, e:'👕' },
+      { w:'tidy up', cn:'整理；收拾', ipa:'/ˈtaɪdi ʌp/', pos:'短语动词', core:false, e:'🧹' },
+      { w:'plan', cn:'计划；打算', ipa:'/plæn/', pos:'n./v.', core:false, e:'📋' },
+      { w:'in groups', cn:'分组；以小组形式', ipa:'/ɪn ɡruːps/', pos:'介词短语', core:false, e:'👥' },
+      { w:'himself', cn:'他自己', ipa:'/hɪmˈself/', pos:'pron.', core:false, e:'👦' },
+      { w:'herself', cn:'她自己', ipa:'/hɜːˈself/', pos:'pron.', core:false, e:'👧' },
+      { w:'classmate', cn:'同班同学', ipa:'/ˈklɑːsmeɪt/', pos:'n.', core:false, e:'🧑‍🤝‍🧑' },
+    ],
+    sentences: [
+      { en:'We are going on a camping trip.', cn:'我们要去露营旅行。' },
+      { en:'Let\'s pick some vegetables.', cn:'我们去摘些蔬菜吧。' },
+      { en:'We can set up the tent ourselves.', cn:'我们可以自己搭帐篷。' },
+      { en:'I can wash my clothes myself.', cn:'我可以自己洗衣服。' },
+      { en:'Please tidy up your room.', cn:'请整理你的房间。' },
+      { en:'We work in groups.', cn:'我们分组合作。' },
+      { en:'He can take care of himself.', cn:'他能照顾好自己。' },
+      { en:'She is my classmate.', cn:'她是我的同班同学。' },
+      { en:'Let me set the table.', cn:'让我来摆餐桌。' },
+      { en:'What is your plan for the trip?', cn:'你的旅行计划是什么？' },
+    ]
+  },
+  { id: 10, sampleSentences: true,
+    words: [
+      { w:'never', cn:'从不；不可能', ipa:'/ˈnevə(r)/', pos:'adv.', core:true, e:'🚫' },
+      { w:'before', cn:'在……之前；以前', ipa:'/bɪˈfɔː(r)/', pos:'prep./adv.', core:true, e:'⏮️' },
+      { w:'take out', cn:'拿出去', ipa:'/teɪk aʊt/', pos:'短语动词', core:true, e:'🚮' },
+      { w:'rubbish', cn:'垃圾', ipa:'/ˈrʌbɪʃ/', pos:'n.', core:true, e:'🗑️' },
+      { w:'all', cn:'全；都是', ipa:'/ɔːl/', pos:'adj./adv.', core:true, e:'💯' },
+      { w:'come in', cn:'进来', ipa:'/kʌm ɪn/', pos:'短语动词', core:false, e:'🚪' },
+      { w:'lots of', cn:'许多；大量', ipa:'/lɒts əv/', pos:'限定短语', core:false, e:'🍬' },
+      { w:'chore', cn:'家务事（复数 chores）', ipa:'/tʃɔː(r)/', pos:'n.', core:false, e:'🧽' },
+      { w:'walk the dog', cn:'遛狗', ipa:'/wɔːk ðə dɒɡ/', pos:'动词短语', core:false, e:'🐕' },
+      { w:'dinner', cn:'晚餐；正餐', ipa:'/ˈdɪnə(r)/', pos:'n.', core:false, e:'🍲' },
+      { w:'helper', cn:'帮手；助手', ipa:'/ˈhelpə(r)/', pos:'n.', core:false, e:'🦸' },
+      { w:'difference', cn:'差异；差别', ipa:'/ˈdɪfrəns/', pos:'n.', core:false, e:'🔍' },
+    ],
+    sentences: [
+      { en:'I never forget to take out the rubbish.', cn:'我从不忘记倒垃圾。' },
+      { en:'Wash your hands before dinner.', cn:'晚饭前要洗手。' },
+      { en:'May I come in?', cn:'我可以进来吗？' },
+      { en:'I do lots of chores at home.', cn:'我在家做很多家务。' },
+      { en:'My dad walks the dog every day.', cn:'我爸爸每天遛狗。' },
+      { en:'I am a good helper at home.', cn:'我是家里的好帮手。' },
+      { en:'We all help with the chores.', cn:'我们都帮忙做家务。' },
+      { en:'Can you find the difference?', cn:'你能找出不同吗？' },
+    ]
+  },
+];
+const COMING = [11, 12, 13];
+const ACTS = [
+  { id:'cards', name:'认识单词', desc:'看图、听发音、翻卡片', ic:'🃏', kind:'word' },
+  { id:'quiz',  name:'听一听 选一选', desc:'快问快答，答错的进错题本', ic:'🎧', kind:'word' },
+  { id:'spell', name:'拼一拼', desc:'把字母放回原位', ic:'🔤', kind:'word' },
+  { id:'dictCE', name:'默写：汉译英', desc:'看中文，写出英文单词', ic:'✍️', kind:'word' },
+  { id:'dictEC', name:'默写：英译汉', desc:'看英文，写出中文意思', ic:'📝', kind:'word' },
+  { id:'read',  name:'句子跟读', desc:'听一句，大声读一句', ic:'📣', kind:'sent' },
+  { id:'fill',  name:'句子填空', desc:'把单词填回句子里', ic:'🎯', kind:'sent' },
+  { id:'order', name:'连词成句', desc:'把单词排成正确的句子', ic:'🧩', kind:'sent' },
+];
+const STICKERS = ['🐼','🎋','⛺','🔥','🌟','🦊','🐿️','🦉','🌈','🚀','🏆','👑'];
+const PER = 4; // 每 4 颗星解锁一张贴纸
+/* 拆分拼读：每块写成 字母:音标，单词之间用 | 隔开 */
+const SPLIT = {
+  'camp':'c:k a:æ mp:mp', 'trip':'tr:tr i:ɪ p:p', 'pick':'p:p i:ɪ ck:k', 'vegetable':'ve:ve ge:dʒ ta:tə ble:bl',
+  'set':'s:s e:e t:t', 'ourselves':'our:aʊə sel:sel ves:vz', 'myself':'my:maɪ self:self', 'set up':'set:set | up:ʌp',
+  'take care of':'take:teɪk | care:keə | of:ɒv', 'wash':'w:w a:ɒ sh:ʃ', 'clothes':'cl:kl o:əʊ thes:ðz',
+  'tidy up':'ti:taɪ dy:di | up:ʌp', 'plan':'pl:pl a:æ n:n', 'in groups':'in:ɪn | gr:ɡr ou:uː ps:ps',
+  'himself':'him:hɪm self:self', 'herself':'her:hɜː self:self', 'classmate':'class:klɑːs mate:meɪt',
+  'never':'ne:ne ver:və', 'before':'be:bɪ fore:fɔː', 'take out':'take:teɪk | out:aʊt', 'rubbish':'ru:rʌ bb:b i:ɪ sh:ʃ',
+  'all':'all:ɔːl', 'come in':'come:kʌm | in:ɪn', 'lots of':'lots:lɒts | of:əv', 'chore':'ch:tʃ ore:ɔː',
+  'walk the dog':'walk:wɔːk | the:ðə | dog:dɒɡ', 'dinner':'di:dɪ nn:n er:ə', 'helper':'help:help er:ə',
+  'difference':'di:dɪ ffe:f rence:rəns',
+};
+UNITS.forEach(u => u.words.forEach(w => { w.u = u.id; w.k = u.id + ':' + w.w;
+  if (SPLIT[w.w]) w.sp = SPLIT[w.w].split(' | ').map(x => x.split(' ').map(c => c.split(':'))); }));
+
+/* ===== 存档（只保存在本设备浏览器里） ===== */
+const SKEY = 'wordcamp-v1';
+const DEF = { stars:{}, known:{}, miss:{}, read:{}, coreOnly:false, sound:true, dictPaper:false, orderPaper:false, shuffle:false, mixSel:null, streak:{d:'', n:0} };
+let S = (() => { try { const s = JSON.parse(localStorage.getItem(SKEY)); return Object.assign(structuredClone(DEF), s || {}); } catch (e) { return structuredClone(DEF); } })();
+Object.keys(S.stars).forEach(k => { if (k.endsWith('-match')) delete S.stars[k]; });
+function save(){ try { localStorage.setItem(SKEY, JSON.stringify(S)); } catch (e) {} }
+
+/* ===== 小工具 ===== */
+const $app = document.getElementById('app');
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const unitOf = id => UNITS.find(u => u.id == id);
+const allWords = () => UNITS.flatMap(u => u.words);
+const pool = u => S.coreOnly ? u.words.filter(w => w.core) : u.words;
+const ord = a => S.shuffle ? shuffle(a) : a.slice();
+const uname = u => u.mix ? '综合练习' : 'Lesson ' + u.id;
+const mixSel = () => (S.mixSel || UNITS.map(u => u.id)).filter(id => UNITS.some(u => u.id === id));
+function mixUnit(){
+  const ids = mixSel(), us = UNITS.filter(u => ids.includes(u.id)), seen = new Set(), words = [];
+  us.forEach(u => u.words.forEach(w => { if (!seen.has(w.w)) { seen.add(w.w); words.push(w); } }));
+  return { id: 'mix', mix: true, lessons: ids, words, sentences: us.flatMap(u => u.sentences), sampleSentences: us.some(u => u.sampleSentences) };
+}
+function spHtml(w){
+  if (!w.sp) return '';
+  return '<span class="sp" aria-label="拆分拼读">' + w.sp.map(word => '<span class="sp-w">' + word.map((c, j) =>
+    `<span class="chunk c${j % 2}"><b>${esc(c[0])}</b><i>${c[1] ? '/' + esc(c[1]) + '/' : '不发音'}</i></span>`).join('') + '</span>').join('') + '</span>';
+}
+const totalStars = () => Object.values(S.stars).reduce((a, b) => a + b, 0);
+const unitStars = u => ACTS.reduce((a, x) => a + (S.stars[u.id + '-' + x.id] || 0), 0);
+const starsHtml = n => '<span class="stars" aria-label="' + n + ' 颗星">' + [0,1,2].map(i => `<span class="${i < n ? 'on' : 'off'}">★</span>`).join('') + '</span>';
+const today = () => { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
+function bumpStreak(){ const t = today(); if (S.streak.d === t) return; const y = new Date(); y.setDate(y.getDate() - 1); const ys = y.getFullYear() + '-' + (y.getMonth() + 1) + '-' + y.getDate(); S.streak = { d:t, n: S.streak.d === ys ? S.streak.n + 1 : 1 }; save(); }
+function addMiss(k){ S.miss[k] = { n:(S.miss[k] ? S.miss[k].n : 0) + 1, ok:0 }; save(); }
+function okMiss(k){ if (!S.miss[k]) return; S.miss[k].ok++; if (S.miss[k].ok >= 2) delete S.miss[k]; save(); }
+let toastT;
+function toast(msg){ const t = document.getElementById('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2200); }
+
+/* ===== 发音（设备自带英语朗读） ===== */
+const TTS = 'speechSynthesis' in window;
+let voice = null;
+function pickVoice(){ const vs = speechSynthesis.getVoices(); voice = vs.find(v => /en[-_]US/i.test(v.lang) && /Samantha|Google US|Jenny|Aria|Ava|Allison/i.test(v.name)) || vs.find(v => /^en[-_]US/i.test(v.lang)) || vs.find(v => /^en/i.test(v.lang)) || null; }
+if (TTS) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function speak(t, slow){
+  if (!TTS) { toast('这台设备不支持朗读，换个浏览器试试'); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(t); u.lang = 'en-US'; if (voice) u.voice = voice; u.rate = slow ? 0.55 : 0.85;
+  speechSynthesis.speak(u);
+}
+let ac;
+function tone(ok){
+  if (!S.sound) return;
+  try {
+    ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+    const notes = ok ? [660, 880] : [260, 200];
+    notes.forEach((f, i) => { const o = ac.createOscillator(), g = ac.createGain(), t0 = ac.currentTime + i * 0.11;
+      o.type = ok ? 'triangle' : 'square'; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(ok ? 0.18 : 0.06, t0 + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.18);
+      o.connect(g).connect(ac.destination); o.start(t0); o.stop(t0 + 0.2); });
+  } catch (e) {}
+}
+function confetti(){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c = document.getElementById('fx'), ctx = c.getContext('2d'), dpr = devicePixelRatio || 1;
+  const W = c.width = innerWidth * dpr, H = c.height = innerHeight * dpr;
+  const cs = getComputedStyle(document.documentElement);
+  const cols = ['--sun','--pine','--coral','--sky'].map(v => cs.getPropertyValue(v).trim());
+  const ps = Array.from({ length: 90 }, () => ({ x: W / 2 + (Math.random() - .5) * W * .4, y: H * .3, vx: (Math.random() - .5) * 14 * dpr, vy: (-Math.random() * 13 - 4) * dpr, r: Math.random() * 6, s: (7 + Math.random() * 6) * dpr, c: cols[Math.floor(Math.random() * cols.length)] }));
+  const t0 = performance.now();
+  (function f(t){ ctx.clearRect(0, 0, W, H);
+    ps.forEach(p => { p.vy += .45 * dpr; p.x += p.vx; p.y += p.vy; p.r += .2; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c; ctx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); ctx.restore(); });
+    if (t - t0 < 2200) requestAnimationFrame(f); else ctx.clearRect(0, 0, W, H); })(t0);
+}
+
+/* ===== 视图状态 ===== */
+let view = 'home', U = null, ACT = null, G = null, R = null;
+function go(v, u){ view = v; if (u !== undefined) U = u; if (TTS) speechSynthesis.cancel(); render(); scrollTo(0, 0); }
+
+function render(){
+  const html = ({ home:vHome, unit:vUnit, act:vAct, result:vResult, miss:vMiss })[view]();
+  $app.innerHTML = '<div class="wrap">' + html + '</div>';
+  afterRender();
+}
+function afterRender(){
+  if (view !== 'act' || !G) return;
+  const inp = document.getElementById('dict-in');
+  if (inp) { inp.value = G.val || ''; G.shake = false; const fk = G.i + ':' + G.tries + ':' + G.hint; if (G.state === 'ask' && G.focused !== fk) { G.focused = fk; inp.focus(); } }
+  const sayKey = ACT + ':' + (G.i ?? 0);
+  if (G.spoke === sayKey) return;
+  if (ACT === 'cards') { G.spoke = sayKey; speak(G.list[G.i].w); }
+  if (ACT === 'quiz' && !G.answered) { const q = G.qs[G.i]; if (q.type !== 'cn2en') { G.spoke = sayKey; speak(q.ans.w); } }
+  if (ACT === 'spell' && G.state === 'play') { G.spoke = sayKey; speak(G.list[G.i].w); }
+}
+
+/* ----- 首页 ----- */
+const TENT = `<svg class="hero-art" viewBox="0 0 170 120" aria-hidden="true">
+  <circle cx="140" cy="26" r="15" style="fill:var(--sun)"/>
+  <path d="M22 100 L38 56 L54 100Z" style="fill:var(--pine)"/>
+  <path d="M6 104 L26 64 L46 104Z" style="fill:var(--pine-deep)"/>
+  <path d="M62 104 L104 36 L146 104Z" style="fill:var(--coral)"/>
+  <path d="M104 36 L146 104 L122 104Z" style="fill:var(--coral-deep)"/>
+  <path d="M94 104 L104 76 L114 104Z" style="fill:var(--sky-bg)"/>
+  <path d="M152 104 L160 84 L168 104Z" style="fill:var(--pine)"/>
+  <rect x="0" y="103" width="170" height="4" rx="2" style="fill:var(--line)"/>
+</svg>`;
+function vHome(){
+  const tot = totalStars(), max = UNITS.length * ACTS.length * 3;
+  const missN = Object.keys(S.miss).length, got = Math.floor(tot / PER);
+  const sel = mixSel(), mixN = (() => { const m = mixUnit(); return pool(m).length; })();
+  const sw = (a, on, label, sub) => `<button class="switch-row" role="switch" aria-checked="${on}" data-a="${a}">
+      <span class="sw-txt"><b>${label}</b><small>${sub}</small></span><span class="switch ${on ? 'on' : ''}" aria-hidden="true"><i></i></span></button>`;
+  return `
+  <header class="hero panel">
+    <div class="hero-text">
+      <p class="eyebrow">北京版 · 五年级上册</p>
+      <h1>单词营地</h1>
+      <p class="lede">每天走一小站<br>单词句子一起记</p>
+    </div>${TENT}
+    <div class="stats">
+      <span class="chip"><span class="star">★</span> ${tot} / ${max}</span>
+      <span class="chip">🔥 连续 ${S.streak.n} 天</span>
+      <button class="chip" data-a="miss">📒 错题本 ${missN}</button>
+    </div>
+  </header>
+  ${TTS ? '' : '<p class="note">这个浏览器不支持英语朗读，建议用 Safari、Chrome 或 Edge 打开。</p>'}
+  <h2 class="sec">练习设置</h2>
+  <div class="settings">
+    ${sw('setcore', S.coreOnly, '只练必会单词', S.coreOnly ? '书上带 * 的拓展词已隐藏' : '现在包含书上带 * 的拓展词')}
+    ${sw('setshuf', S.shuffle, '打乱顺序', S.shuffle ? '单词和句子随机出现' : '按课本顺序出现')}
+  </div>
+  <h2 class="sec">选择课文</h2>
+  <div class="units">
+    ${UNITS.map(u => { const st = unitStars(u), m = ACTS.length * 3;
+      return `<button class="unit" data-a="unit" data-u="${u.id}">
+        <span class="u-badge">${u.id}</span>
+        <span class="u-body"><span class="u-title">Lesson ${u.id}</span>
+          <span class="u-meta">${pool(u).length} 个单词 · ${u.sentences.length} 个句子</span>
+          <span class="bar"><i style="width:${Math.round(st / m * 100)}%"></i></span></span>
+        <span class="u-stars"><span class="star">★</span> ${st}<small>/${m}</small></span>
+      </button>`; }).join('')}
+    ${COMING.length ? `<div class="coming">${COMING.map(n => 'Lesson ' + n).join('、')}：发来课本内容后添加</div>` : ''}
+  </div>
+  <h2 class="sec">综合练习 <small>几课混在一起练</small></h2>
+  <div class="mix">
+    <div class="wordchips">${UNITS.map(u => { const on = sel.includes(u.id);
+      return `<button class="mixchip ${on ? 'on' : ''}" data-a="mixtog" data-u="${u.id}" aria-pressed="${on}">${on ? '✓ ' : ''}Lesson ${u.id}</button>`; }).join('')}
+      <button class="btn sm" data-a="mixall">全选（整本书）</button></div>
+    <button class="btn primary" data-a="mixgo" ${sel.length ? '' : 'disabled'}>开始综合练习（${sel.length ? mixN : 0} 个单词）</button>
+  </div>
+  <h2 class="sec">贴纸收藏 <small>${Math.min(got, STICKERS.length)} / ${STICKERS.length}</small></h2>
+  <div class="stickers">${STICKERS.map((s, i) => `<div class="sticker ${i < got ? '' : 'off'}" title="${i < got ? '已获得' : '还差 ' + ((i + 1) * PER - tot) + ' 颗星'}">${s}</div>`).join('')}</div>
+  <div class="foot"><span>每得 ${PER} 颗星解锁一张贴纸。进度保存在这台设备上。</span>
+    <button class="btn sm" data-a="sound">${S.sound ? '🔔 音效开' : '🔕 音效关'}</button></div>`;
+}
+
+/* ----- 课文页 ----- */
+function vUnit(){
+  const u = U, p = pool(u), st = unitStars(u), max = ACTS.length * 3;
+  const nextId = u.mix ? null : (ACTS.find(a => !S.stars[u.id + '-' + a.id]) || {}).id;
+  const row = a => { const n = ACTS.indexOf(a) + 1, got = u.mix ? 0 : (S.stars[u.id + '-' + a.id] || 0);
+    const cls = got ? 'done' : a.id === nextId ? 'next' : '';
+    return `<li class="station ${cls}"><button class="act-row" data-a="act" data-act="${a.id}">
+      <span class="act-n">${n}</span><span class="act-ic" aria-hidden="true">${a.ic}</span>
+      <span class="act-txt"><b>${a.name}${cls === 'next' ? '<em class="next-tag">下一站</em>' : ''}</b><small>${a.desc}</small></span>${u.mix ? '' : starsHtml(got)}</button></li>`; };
+  const C = 2 * Math.PI * 30, pct = st / max;
+  const ring = u.mix ? '' : `<div class="ring" aria-label="已得 ${st} 颗星，共 ${max} 颗"><svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="30" class="ring-bg"/>${st ? `<circle cx="36" cy="36" r="30" class="ring-fg" stroke-dasharray="${(C * pct).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 36 36)"/>` : ''}</svg><span><b>${st}</b><small>/ ${max} ★</small></span></div>`;
+  return `
+  <div class="topbar"><button class="btn sm" data-a="home">← 营地</button></div>
+  <header class="lesson-head panel">
+    <div class="hero-text"><p class="eyebrow">${u.mix ? '综合练习 · ' + u.lessons.map(x => 'L' + x).join(' + ') : '北京版 · 五年级上册'}</p><h1>${uname(u)}</h1>
+      <p class="lede">${p.length} 个单词 · ${u.sentences.length} 个句子</p></div>${ring}
+  </header>
+  <details class="words" open><summary>本课单词 <small>点一下听发音</small></summary>
+    <div class="wordchips">${p.map(w => `<button class="wchip" data-a="say" data-t="${esc(w.w)}">${w.e} ${esc(w.w)}</button>`).join('')}</div></details>
+  <p class="group-label">单词关</p>
+  <ul class="acts">${ACTS.filter(a => a.kind === 'word').map(row).join('')}</ul>
+  <p class="group-label">句子关</p>
+  <ul class="acts">${ACTS.filter(a => a.kind === 'sent').map(row).join('')}</ul>
+  ${u.mix ? '<p class="note">综合练习不计星星，答错的单词一样会进错题本。</p>' : ''}
+  ${u.sampleSentences ? '<p class="note">现在的句子是用本课单词编的练习句。把课本对话页拍照发来后，会换成课本原句。</p>' : ''}`;
+}
+
+/* ----- 活动入口 ----- */
+function startAct(id, review){
+  ACT = id; R = null;
+  const p = review ? allWords().filter(w => S.miss[w.k]) : pool(U);
+  if (id === 'cards') G = { list: ord(p), i: 0 };
+  if (id === 'quiz')  G = makeQuiz(p, !!review);
+  if (id === 'spell') { G = { list: ord(p), i: 0, first: 0 }; initSpell(); }
+  if (id === 'dictCE') initDict('ce', p);
+  if (id === 'dictEC') initDict('ec', p);
+  if (id === 'read')  G = { showCn: false, cn: {}, order: ord(U.sentences.map((s, i) => i)) };
+  if (id === 'fill')  G = { items: makeFill(), i: 0, correct: 0, answered: false };
+  if (id === 'order') { G = { list: ord(U.sentences), i: 0, first: 0 }; initOrder(); }
+  view = 'act'; render(); scrollTo(0, 0);
+}
+function actTop(progress){
+  const a = ACTS.find(x => x.id === ACT);
+  const back = G && G.review ? `<button class="btn sm" data-a="miss">← 错题本</button>` : `<button class="btn sm" data-a="back">← ${uname(U)}</button>`;
+  return `<div class="topbar">${back}<span class="title">${G && G.review ? '错题复习' : a.name}</span>${progress != null ? `<span class="chip">${progress}</span>` : ''}</div>`;
+}
+function vAct(){ return ({ cards:vCards, quiz:vQuiz, spell:vSpell, dictCE:vDict, dictEC:vDict, read:vRead, fill:vFill, order:vOrder })[ACT](); }
+
+function finish(id, stars, detail){
+  const before = Math.floor(totalStars() / PER);
+  if (!G.review && !U.mix) { const k = U.id + '-' + id; S.stars[k] = Math.max(S.stars[k] || 0, stars); save(); }
+  bumpStreak();
+  const after = Math.floor(totalStars() / PER);
+  R = { id, stars, detail, review: G.review, sticker: after > before && before < STICKERS.length ? STICKERS[Math.min(after, STICKERS.length) - 1] : null };
+  view = 'result'; render(); scrollTo(0, 0);
+  if (stars >= 2) confetti();
+}
+const ratioStars = r => r >= 0.9 ? 3 : r >= 0.7 ? 2 : r >= 0.4 ? 1 : 0;
+
+/* ----- 1 认识单词 ----- */
+function vCards(){
+  const w = G.list[G.i], n = G.list.length, known = !!S.known[w.k];
+  return `${actTop((G.i + 1) + ' / ' + n)}
+  <div class="stage bare">
+    <button class="flash" data-a="flip" aria-label="翻转卡片">
+      <span class="flash-inner">
+        <span class="face front"><span class="emo">${w.e}</span><span class="word">${esc(w.w)}</span><span class="ipa">${esc(w.ipa)}</span>
+          ${spHtml(w)}<span class="tags"><span class="tag">${esc(w.pos)}</span></span></span>
+        <span class="face back"><span class="emo">${w.e}</span><span class="cn">${esc(w.cn)}</span><span class="word" style="font-size:26px">${esc(w.w)}</span></span>
+      </span>
+    </button>
+    <p class="tap-tip">点卡片翻面看中文</p>
+    <div class="row center">
+      <button class="btn sun" data-a="say" data-t="${esc(w.w)}">🔊 读一读</button>
+      <button class="btn" data-a="say" data-t="${esc(w.w)}" data-slow="1">🐢 慢一点</button>
+    </div>
+    <div class="dots">${G.list.map((x, i) => `<i class="${S.known[x.k] ? 'k' : ''} ${i === G.i ? 'cur' : ''}"></i>`).join('')}</div>
+  </div>
+  <div class="row center">
+    <button class="btn" data-a="cprev" ${G.i === 0 ? 'disabled' : ''}>← 上一个</button>
+    <button class="btn ${known ? 'known-on' : ''}" data-a="cknow">${known ? '✓ 记住了' : '记住了？'}</button>
+    <button class="btn primary" data-a="cnext">${G.i === n - 1 ? '完成 ★' : '下一个 →'}</button>
+  </div>`;
+}
+
+/* ----- 2 听一听 选一选 ----- */
+function makeQuiz(p, review){
+  const n = review ? Math.min(p.length * 2, 12) : Math.min(10, Math.max(p.length, 6));
+  let seq = []; while (seq.length < n) seq = seq.concat(shuffle(p)); seq = seq.slice(0, n);
+  const types = ['listen', 'en2cn', 'cn2en'];
+  const qs = seq.map(w => {
+    const others = shuffle(unitOf(w.u).words.filter(x => x.w !== w.w && x.cn !== w.cn)).slice(0, 3);
+    return { type: types[Math.floor(Math.random() * 3)], ans: w, opts: shuffle([w, ...others]) };
+  });
+  return { qs, i: 0, correct: 0, answered: false, review };
+}
+function vQuiz(){
+  const q = G.qs[G.i], w = q.ans, n = G.qs.length;
+  let prompt = '';
+  if (q.type === 'listen') prompt = `<p class="q-label">听一听，是哪个单词？</p><button class="big-say" data-a="say" data-t="${esc(w.w)}" aria-label="再听一次">🔊</button><button class="link" data-a="say" data-t="${esc(w.w)}" data-slow="1">🐢 慢速再听</button>`;
+  if (q.type === 'en2cn') prompt = `<p class="q-label">这个单词是什么意思？</p><div class="q-word word">${esc(w.w)}</div><button class="link" data-a="say" data-t="${esc(w.w)}">🔊 再听一次</button>`;
+  if (q.type === 'cn2en') prompt = `<p class="q-label">用英语怎么说？</p><div class="q-emoji">${w.e}</div><div class="q-cn">${esc(w.cn)}</div>`;
+  const opts = q.opts.map((o, j) => {
+    let cls = 'opt';
+    if (G.answered) { if (o === w) cls += ' right'; else if (j === G.picked) cls += ' wrong'; }
+    const label = q.type === 'en2cn' ? esc(o.cn) : `<span class="word">${esc(o.w)}</span>`;
+    return `<button class="${cls}" data-a="pick" data-i="${j}" ${G.answered ? 'disabled' : ''}>${label}</button>`;
+  }).join('');
+  let fb = '<p class="feedback">&nbsp;</p>';
+  if (G.answered) fb = G.lastOk ? `<p class="feedback ok">答对了！${w.e}</p>` : `<p class="feedback no">正确答案：${esc(w.w)} — ${esc(w.cn)}，已收进错题本</p><button class="btn primary" data-a="qnext">下一题 →</button>`;
+  return `${actTop((G.i + 1) + ' / ' + n)}
+  <div class="progress"><i style="width:${G.i / n * 100}%"></i></div>
+  <div class="stage">${prompt}<div class="opts">${opts}</div>${fb}</div>`;
+}
+function nextQ(){
+  G.i++; G.answered = false; G.picked = null;
+  if (G.i >= G.qs.length) finish('quiz', ratioStars(G.correct / G.qs.length), `答对 ${G.correct} / ${G.qs.length} 题`);
+  else render();
+}
+
+/* ----- 3 拼一拼 ----- */
+function initSpell(){
+  const w = G.list[G.i];
+  const letters = [...w.w].filter(c => c !== ' ');
+  let tiles = shuffle(letters);
+  for (let k = 0; k < 6 && letters.length > 2 && tiles.join('') === letters.join(''); k++) tiles = shuffle(letters);
+  Object.assign(G, { letters, slots: letters.map(() => null), tiles: tiles.map(ch => ({ ch, used: false })), tries: 0, hint: false, state: 'play', bad: null });
+}
+function vSpell(){
+  const w = G.list[G.i];
+  let li = 0, slots = '<div class="slot-group">';
+  for (const c of w.w) {
+    if (c === ' ') { slots += '</div><div class="slot-group">'; continue; }
+    const t = G.slots[li];
+    const cls = G.state !== 'play' ? 'ok' : (G.bad && G.bad[li] ? 'bad' : '');
+    slots += `<button class="slot ${cls}" data-a="unslot" data-i="${li}" aria-label="第 ${li + 1} 个字母">${t === null ? '' : G.tiles[t].ch}</button>`;
+    li++;
+  }
+  slots += '</div>';
+  const tiles = G.tiles.map((t, i) => `<button class="tile ${t.used ? 'used' : ''}" data-a="tile" data-i="${i}" ${t.used || G.state !== 'play' ? 'tabindex="-1"' : ''}>${t.ch}</button>`).join('');
+  let ctl;
+  if (G.state === 'play') ctl = `<div class="row center"><button class="btn sm" data-a="shint">💡 提示</button><button class="btn sm" data-a="sclear">↺ 清空</button>${G.tries >= 2 ? '<button class="btn sm" data-a="sshow">看答案</button>' : ''}</div>`;
+  else ctl = `${spHtml(w)}<p class="feedback ${G.state === 'right' ? 'ok' : 'no'}">${G.state === 'right' ? (G.tries === 0 && !G.hint ? '一次就拼对，太棒了！' : '拼对啦！') : '记住它，下次一定行'}</p><button class="btn primary" data-a="snext">${G.i === G.list.length - 1 ? '完成 ★' : '下一个 →'}</button>`;
+  return `${actTop((G.i + 1) + ' / ' + G.list.length)}
+  <div class="progress"><i style="width:${G.i / G.list.length * 100}%"></i></div>
+  <div class="stage">
+    <div class="q-emoji">${w.e}</div><div class="q-cn">${esc(w.cn)}</div>
+    <div class="row center"><button class="btn sm sun" data-a="say" data-t="${esc(w.w)}">🔊 听</button><button class="btn sm" data-a="say" data-t="${esc(w.w)}" data-slow="1">🐢 慢</button></div>
+    <div class="slots">${slots}</div>
+    <div class="tiles">${tiles}</div>
+    ${ctl}
+  </div>`;
+}
+function placeTile(i){
+  if (G.state !== 'play' || G.tiles[i].used) return;
+  const j = G.slots.indexOf(null); if (j < 0) return;
+  G.slots[j] = i; G.tiles[i].used = true;
+  if (G.slots.indexOf(null) < 0) checkSpell(); else render();
+}
+function freeSlot(j){ const t = G.slots[j]; if (t === null) return; G.tiles[t].used = false; G.slots[j] = null; }
+function checkSpell(){
+  const w = G.list[G.i];
+  const guess = G.slots.map(t => G.tiles[t].ch);
+  if (guess.join('') === G.letters.join('')) {
+    G.state = 'right'; if (G.tries === 0 && !G.hint) { G.first++; okMiss(w.k); }
+    tone(true); speak(w.w); render(); return;
+  }
+  G.tries++; if (G.tries === 1) addMiss(w.k);
+  tone(false); G.bad = guess.map((c, j) => c !== G.letters[j]); render();
+  const g = G;
+  setTimeout(() => { if (G !== g || G.state !== 'play') return; G.bad.forEach((b, j) => { if (b) freeSlot(j); }); G.bad = null; render(); }, 750);
+}
+function spellHint(){
+  if (G.state !== 'play') return;
+  G.hint = true;
+  const j = G.slots.findIndex((t, k) => t === null || G.tiles[t].ch !== G.letters[k]);
+  if (j < 0) return;
+  freeSlot(j);
+  const need = G.letters[j];
+  let ti = G.tiles.findIndex(t => !t.used && t.ch === need);
+  if (ti < 0) { const k = G.slots.findIndex((t, kk) => kk !== j && t !== null && G.tiles[t].ch === need && G.letters[kk] !== need); if (k >= 0) { ti = G.slots[k]; freeSlot(k); } }
+  if (ti < 0) return;
+  G.slots[j] = ti; G.tiles[ti].used = true;
+  if (G.slots.indexOf(null) < 0) checkSpell(); else render();
+}
+function spellShow(){
+  G.tiles.forEach(t => t.used = false);
+  G.slots = G.letters.map(c => { const ti = G.tiles.findIndex(t => !t.used && t.ch === c); G.tiles[ti].used = true; return ti; });
+  G.state = 'shown'; speak(G.list[G.i].w); render();
+}
+
+/* ----- 4/5 默写 ----- */
+const norm = t => t.trim().toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ');
+function initDict(dir, p){ G = { dir, list: ord(p), i: 0, right: 0, first: 0, val: '' }; resetDict(); }
+function resetDict(){ Object.assign(G, { state: 'ask', tries: 0, hint: 0, val: '', shake: false }); }
+const dictTyping = () => G.dir === 'ce' && !S.dictPaper;
+function vDict(){
+  const w = G.list[G.i], n = G.list.length, typing = dictTyping();
+  const done = G.state === 'right' || G.state === 'wrong';
+  const prompt = G.dir === 'ce'
+    ? `<p class="q-label">写出英文</p><div class="q-cn">${esc(w.cn)}</div><span class="tag">${esc(w.pos)}</span>`
+    : `<p class="q-label">写出中文意思</p><div class="q-word word">${esc(w.w)}</div><button class="link" data-a="say" data-t="${esc(w.w)}">🔊 听一听</button>`;
+  const answer = `<div class="answer"><span class="q-emoji" style="font-size:40px">${w.e}</span><span class="word">${esc(w.w)}</span>${spHtml(w)}<span>${esc(w.cn)}</span></div>`;
+  const modeSeg = G.dir === 'ce' ? `<div class="seg" role="group" aria-label="默写方式">
+      <button class="${S.dictPaper ? '' : 'on'}" data-a="dmode" data-v="0">⌨️ 键盘输入</button>
+      <button class="${S.dictPaper ? 'on' : ''}" data-a="dmode" data-v="1">✏️ 纸上默写</button></div>` : '';
+  let body = '';
+  if (typing) {
+    const hintTxt = G.hint && !done ? [...w.w].map((c, k) => c === ' ' ? '&nbsp;' : (k < G.hint ? esc(c) : '_')).join(' ') : '';
+    body = `<form class="dict-form" id="dict-form" autocomplete="off">
+        <input id="dict-in" class="dict-in ${G.state === 'right' ? 'ok' : ''} ${G.state === 'wrong' || G.shake ? 'bad' : ''}" type="text" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="在这里输入英文" aria-label="输入英文" ${done ? 'readonly' : ''}>
+        ${done ? '' : '<button class="btn primary" type="submit">检查</button>'}</form>
+      ${hintTxt ? `<p class="hint-letters word">${hintTxt}</p>` : ''}`;
+    if (G.state === 'ask') body += `${G.tries ? '<p class="feedback no">不对哦，再试一次</p>' : '<p class="feedback">&nbsp;</p>'}
+      <div class="row center"><button class="btn sm" data-a="dhint">💡 提示一个字母</button><button class="btn sm" data-a="dgive">不会写</button></div>`;
+  } else {
+    if (G.state === 'ask') body = `<p class="tap-tip">${G.dir === 'ce' ? '先在纸上写出英文' : '先在纸上写出中文，或者大声说出来'}，再看答案</p><button class="btn primary" data-a="dreveal">写好了，看答案</button>`;
+    if (G.state === 'reveal') body = `${answer}<p class="tap-tip">${G.dir === 'ec' ? '意思对就算对，不用和答案一字不差' : '每个字母都对才算对'}</p>
+      <div class="row center"><button class="btn primary" data-a="dself" data-ok="1">✓ 写对了</button><button class="btn" data-a="dself" data-ok="0">✗ 没写对</button></div>`;
+  }
+  if (done) body += `${typing ? answer : ''}<p class="feedback ${G.state === 'right' ? 'ok' : 'no'}">${G.state === 'right' ? '写对了！' : '已收进错题本，下次再来'}</p>
+      <button class="btn primary" data-a="dnext">${G.i === n - 1 ? '完成 ★' : '下一个 →'}</button>`;
+  return `${actTop((G.i + 1) + ' / ' + n)}
+  <div class="progress"><i style="width:${G.i / n * 100}%"></i></div>
+  ${modeSeg}
+  <div class="stage">${prompt}${body}</div>`;
+}
+function dictCheck(){
+  if (G.state !== 'ask') return;
+  const inp = document.getElementById('dict-in'); if (!inp) return;
+  const w = G.list[G.i]; G.val = inp.value;
+  if (!norm(G.val)) return;
+  if (norm(G.val) === norm(w.w)) {
+    G.state = 'right'; G.right++; if (G.tries === 0 && !G.hint) { G.first++; okMiss(w.k); }
+    tone(true); speak(w.w);
+  } else {
+    G.tries++; if (G.tries === 1) addMiss(w.k); tone(false);
+    if (G.tries >= 2) { G.state = 'wrong'; speak(w.w); } else G.shake = true;
+  }
+  render();
+}
+function dictNext(){
+  G.i++;
+  if (G.i < G.list.length) { resetDict(); render(); return; }
+  const n = G.list.length;
+  const r = (G.first + 0.5 * (G.right - G.first)) / n;
+  finish(ACT, ratioStars(r), `写对 ${G.right} / ${n} 个` + (G.right > G.first ? `（其中 ${G.right - G.first} 个用了提示或第二次才对）` : ''));
+}
+
+/* ----- 5 句子跟读 ----- */
+function wordRe(u){
+  const phrases = u.words.map(w => w.w).sort((a, b) => b.length - a.length).map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  return new RegExp('\\b(' + phrases.join('|') + ')(s|es)?\\b', 'gi');
+}
+function hl(s){ return esc(s).replace(wordRe(U), '<mark>$&</mark>'); }
+function vRead(){
+  const n = U.sentences.length, done = U.sentences.filter((s, i) => S.read[U.id + ':' + i]).length;
+  return `${actTop(done + ' / ' + n)}
+  <p class="muted" style="margin:0">点句子就能听，听完跟着大声读一遍。🐢 是慢速，"中"是看这一句的中文。</p>
+  <div class="row"><button class="btn sm" data-a="rcn">${G.showCn ? '🙈 全部藏起中文' : '👀 全部显示中文'}</button><button class="btn sm sun" data-a="rall">▶ 从头连读</button></div>
+  <ul class="sents">${G.order.map(i => { const s = U.sentences[i], d = S.read[U.id + ':' + i], cn = G.showCn || !!G.cn[i];
+    return `<li class="sent ${d ? 'done' : ''}"><button class="sent-text" data-a="rsay" data-i="${i}"><span class="play" aria-hidden="true">${d ? '✓' : '▶'}</span><span class="sent-words"><span class="en">${hl(s.en)}</span>${cn ? `<span class="cn">${esc(s.cn)}</span>` : ''}</span></button>
+      <div class="sent-btns"><button class="icon-btn" data-a="rsay" data-i="${i}" data-slow="1" aria-label="慢速朗读">🐢</button><button class="icon-btn cn-btn ${cn ? 'on' : ''}" data-a="rcn1" data-i="${i}" aria-pressed="${cn}" aria-label="显示这一句的中文">中</button></div></li>`; }).join('')}</ul>
+  ${U.sampleSentences ? '<p class="note">这些是练习句，等课本对话页发来后会换成课本原句。</p>' : ''}`;
+}
+function readStar(){
+  const key = U.id + '-read';
+  if (U.mix || (S.stars[key] || 0) >= 3 || !U.sentences.every((s, k) => S.read[U.id + ':' + k])) return;
+  S.stars[key] = 3; save(); bumpStreak(); toast('每句都听过了，得到 3 颗星！'); confetti();
+}
+function readSay(i, slow){
+  speak(U.sentences[i].en, slow);
+  S.read[U.id + ':' + i] = true; save(); readStar(); render();
+}
+function readAll(){
+  if (!TTS) { speak(''); return; }
+  speechSynthesis.cancel();
+  G.order.forEach(i => { const u = new SpeechSynthesisUtterance(U.sentences[i].en); u.lang = 'en-US'; if (voice) u.voice = voice; u.rate = 0.8; speechSynthesis.speak(u); S.read[U.id + ':' + i] = true; });
+  save(); readStar(); render();
+}
+
+/* ----- 7 句子填空 ----- */
+function makeFill(){
+  const items = [];
+  U.sentences.forEach(s => {
+    const ms = [...s.en.matchAll(wordRe(U))]; if (!ms.length) return;
+    const m = ms[Math.floor(Math.random() * ms.length)];
+    const w = U.words.find(x => x.w.toLowerCase() === m[1].toLowerCase()); if (!w) return;
+    const ans = m[0], cap = /^[A-Z]/.test(ans);
+    const fix = t => cap ? t[0].toUpperCase() + t.slice(1) : t;
+    const head = w.w.split(' ')[0];
+    const others = shuffle(U.words.filter(x => x !== w && x.w.split(' ')[0] !== head)).slice(0, 3).map(x => fix(x.w));
+    items.push({ s, w, ans, before: s.en.slice(0, m.index), after: s.en.slice(m.index + ans.length), opts: shuffle([ans, ...others]) });
+  });
+  return S.shuffle ? shuffle(items) : items;
+}
+function vFill(){
+  const it = G.items[G.i], n = G.items.length;
+  const blank = G.answered ? `<span class="blank filled ok">${esc(it.ans)}</span>` : '<span class="blank">&nbsp;</span>';
+  const opts = it.opts.map((o, j) => {
+    let cls = 'opt';
+    if (G.answered) { if (o === it.ans) cls += ' right'; else if (j === G.picked) cls += ' wrong'; }
+    return `<button class="${cls}" data-a="fpick" data-i="${j}" ${G.answered ? 'disabled' : ''}><span class="word">${esc(o)}</span></button>`;
+  }).join('');
+  let fb = '<p class="feedback">&nbsp;</p>';
+  if (G.answered) fb = G.lastOk ? '<p class="feedback ok">填对了！跟着读一遍</p>'
+    : `<p class="feedback no">应该填 ${esc(it.ans)}（${esc(it.w.cn)}）</p><div class="row center"><button class="btn sun" data-a="say" data-t="${esc(it.s.en)}">🔊 听整句</button><button class="btn primary" data-a="fnext">下一题 →</button></div>`;
+  return `${actTop((G.i + 1) + ' / ' + n)}
+  <div class="progress"><i style="width:${G.i / n * 100}%"></i></div>
+  <div class="stage"><p class="q-label">选一个词填进句子</p>
+    <p class="fill-sent word">${esc(it.before)}${blank}${esc(it.after)}</p>
+    <p class="muted" style="margin:0">${esc(it.s.cn)}</p>
+    <div class="opts">${opts}</div>${fb}</div>`;
+}
+function fillNext(){
+  G.i++; G.answered = false; G.picked = null;
+  if (G.i >= G.items.length) finish('fill', ratioStars(G.correct / G.items.length), `填对 ${G.correct} / ${G.items.length} 句`);
+  else render();
+}
+
+/* ----- 8 连词成句 ----- */
+function initOrder(){
+  const s = G.list[G.i], toks = s.en.split(' ');
+  let bank = shuffle(toks);
+  for (let k = 0; k < 8 && toks.length > 2 && bank.join(' ') === s.en; k++) bank = shuffle(toks);
+  Object.assign(G, { toks, bank: bank.map(t => ({ t, used: false })), line: [], tries: 0, state: 'play', bad: null });
+}
+function vOrder(){
+  const s = G.list[G.i], n = G.list.length, paper = S.orderPaper;
+  const seg = `<div class="seg" role="group" aria-label="练习方式">
+      <button class="${paper ? '' : 'on'}" data-a="omode" data-v="0">👆 点词排序</button>
+      <button class="${paper ? 'on' : ''}" data-a="omode" data-v="1">✏️ 纸上写句子</button></div>`;
+  const nextBtn = `<button class="btn primary" data-a="onext">${G.i === n - 1 ? '完成 ★' : '下一句 →'}</button>`;
+  let main;
+  if (paper) {
+    const ref = G.bank.map(b => `<span class="wtok ref">${esc(b.t)}</span>`).join('');
+    if (G.state === 'play') main = `<p class="tap-tip">参考下面的单词，在纸上把整句话写出来</p><div class="tiles">${ref}</div><button class="btn primary" data-a="oreveal">写好了，看答案</button>`;
+    else {
+      main = `<div class="line ok"><span class="word fill-ans">${esc(s.en)}</span></div><div class="row center"><button class="btn sm sun" data-a="say" data-t="${esc(s.en)}">🔊 听一听</button></div>`;
+      main += G.state === 'reveal'
+        ? `<p class="tap-tip">单词和顺序都对才算对，别忘了句首大写和句末标点</p><div class="row center"><button class="btn primary" data-a="oself" data-ok="1">✓ 写对了</button><button class="btn" data-a="oself" data-ok="0">✗ 没写对</button></div>`
+        : `<p class="feedback ${G.state === 'right' ? 'ok' : 'no'}">${G.state === 'right' ? '写对了！' : '对照答案改一改，再读一遍'}</p>${nextBtn}`;
+    }
+  } else {
+    const line = G.line.length ? G.line.map((bi, j) => `<button class="wtok ${G.bad && G.bad[j] ? 'bad' : ''}" data-a="oline" data-i="${j}">${esc(G.bank[bi].t)}</button>`).join('') : '<span class="line-hint">点下面的单词，按顺序放到这里</span>';
+    const bank = G.bank.map((b, i) => `<button class="wtok bank ${b.used ? 'used' : ''}" data-a="obank" data-i="${i}" ${b.used ? 'tabindex="-1"' : ''}>${esc(b.t)}</button>`).join('');
+    const ctl = G.state === 'play'
+      ? `<div class="row center"><button class="btn sm" data-a="say" data-t="${esc(s.en)}">🔊 听整句</button><button class="btn sm" data-a="oclear">↺ 重来</button>${G.tries >= 2 ? '<button class="btn sm" data-a="oshow">看答案</button>' : ''}</div>`
+      : `<p class="feedback ${G.state === 'right' ? 'ok' : 'no'}">${G.state === 'right' ? '排对了！大声读一遍吧' : '照着读一遍，记住顺序'}</p>
+         <div class="row center"><button class="btn sun" data-a="say" data-t="${esc(s.en)}">🔊 再听</button>${nextBtn}</div>`;
+    main = `<div class="line ${G.state !== 'play' ? 'ok' : ''}">${line}</div><div class="tiles">${bank}</div>${ctl}`;
+  }
+  return `${actTop((G.i + 1) + ' / ' + n)}
+  <div class="progress"><i style="width:${G.i / n * 100}%"></i></div>
+  ${seg}
+  <div class="stage"><p class="q-label">${paper ? '把这句话写成英文：' : '把单词排成这句话：'}</p><div class="q-cn" style="font-size:24px">${esc(s.cn)}</div>${main}</div>`;
+}
+function checkOrder(){
+  const s = G.list[G.i], guess = G.line.map(i => G.bank[i].t);
+  if (guess.join(' ') === G.toks.join(' ')) { G.state = 'right'; if (G.tries === 0) G.first++; tone(true); speak(s.en); render(); return; }
+  G.tries++; tone(false); G.bad = guess.map((t, j) => t !== G.toks[j]); render();
+  const g = G;
+  setTimeout(() => { if (G !== g || G.state !== 'play') return;
+    let keep = 0; while (keep < G.line.length && !G.bad[keep]) keep++;
+    G.line.slice(keep).forEach(bi => G.bank[bi].used = false); G.line = G.line.slice(0, keep); G.bad = null; render(); }, 800);
+}
+function orderShow(){
+  G.bank.forEach(b => b.used = false);
+  G.line = G.toks.map(t => { const bi = G.bank.findIndex(b => !b.used && b.t === t); G.bank[bi].used = true; return bi; });
+  G.state = 'shown'; speak(G.list[G.i].en); render();
+}
+
+/* ----- 结果页 ----- */
+function vResult(){
+  const msg = ['再来一次就会更好！', '继续加油！', '不错哦！', '太棒了！'][R.stars];
+  return `<div class="topbar">${R.review ? '<button class="btn sm" data-a="miss">← 错题本</button>' : `<button class="btn sm" data-a="back">← ${uname(U)}</button>`}</div>
+  <div class="stage result">
+    <div class="big-stars">${[0,1,2].map(i => `<span class="${i < R.stars ? 'on' : 'off'}">★</span>`).join('')}</div>
+    <h2 style="font-size:34px">${msg}</h2>
+    <p class="muted" style="margin:0">${esc(R.detail || '')}</p>
+    ${R.sticker ? `<p class="new-sticker">解锁新贴纸 ${R.sticker}</p>` : ''}
+    <div class="row center">
+      ${R.review ? '<button class="btn primary" data-a="miss">回错题本</button>' : `<button class="btn" data-a="act" data-act="${R.id}">再玩一次</button><button class="btn primary" data-a="back">回到 ${uname(U)}</button>`}
+    </div>
+  </div>`;
+}
+
+/* ----- 错题本 ----- */
+function vMiss(){
+  const list = allWords().filter(w => S.miss[w.k]).sort((a, b) => S.miss[b.k].n - S.miss[a.k].n);
+  const body = list.length ? `<ul class="mlist">${list.map(w => `<li class="mitem"><span class="e">${w.e}</span>
+      <span><span class="word">${esc(w.w)}</span><small>${esc(w.cn)} · Lesson ${w.u}</small></span>
+      <span class="miss-n">错 ${S.miss[w.k].n} 次</span>
+      <button class="icon-btn" data-a="say" data-t="${esc(w.w)}" aria-label="朗读 ${esc(w.w)}">🔊</button></li>`).join('')}</ul>
+      <button class="btn primary" data-a="mreview">开始复习 ${list.length} 个单词</button>`
+    : `<div class="empty"><div class="big">🎉</div><p>错题本是空的。</p></div>`;
+  return `<div class="topbar"><button class="btn sm" data-a="home">← 营地</button><span class="title">错题本</span></div>
+  <p class="muted" style="margin:0">做题时答错的单词会自动收进来。复习时连续答对 2 次，它就会离开错题本。</p>
+  ${body}`;
+}
+
+/* ===== 点击处理 ===== */
+const H = {
+  home: () => go('home'),
+  unit: el => go('unit', unitOf(el.dataset.u)),
+  back: () => go('unit'),
+  miss: () => go('miss'),
+  act: el => startAct(el.dataset.act),
+  core: el => { S.coreOnly = el.dataset.v === '1'; save(); render(); },
+  sound: () => { S.sound = !S.sound; save(); render(); },
+  say: el => speak(el.dataset.t, el.dataset.slow === '1'),
+  setcore: () => { S.coreOnly = !S.coreOnly; save(); render(); },
+  setshuf: () => { S.shuffle = !S.shuffle; save(); render(); },
+  mixtog: el => { const id = +el.dataset.u; let sel = mixSel(); sel = sel.includes(id) ? sel.filter(x => x !== id) : sel.concat(id).sort((a, b) => a - b); S.mixSel = sel; save(); render(); },
+  mixall: () => { S.mixSel = UNITS.map(u => u.id); save(); render(); },
+  mixgo: () => { if (mixSel().length) go('unit', mixUnit()); },
+  omode: el => { S.orderPaper = el.dataset.v === '1'; save(); initOrder(); render(); },
+  oreveal: () => { G.state = 'reveal'; speak(G.list[G.i].en); render(); },
+  oself: el => { if (el.dataset.ok === '1') { G.state = 'right'; G.first++; tone(true); } else { G.state = 'wrong'; tone(false); } render(); },
+  // cards
+  flip: () => { const f = document.querySelector('.flash-inner'); if (f) f.classList.toggle('is-flipped'); },
+  cprev: () => { if (G.i > 0) { G.i--; render(); } },
+  cnext: () => { if (G.i < G.list.length - 1) { G.i++; render(); } else { const k = G.list.filter(w => S.known[w.k]).length; finish('cards', 3, `看完 ${G.list.length} 张卡片，记住了 ${k} 个`); } },
+  cknow: () => { const w = G.list[G.i]; if (S.known[w.k]) delete S.known[w.k]; else { S.known[w.k] = true; tone(true); } save(); render(); },
+  // quiz
+  pick: el => {
+    if (G.answered) return;
+    const j = +el.dataset.i, q = G.qs[G.i];
+    G.answered = true; G.picked = j; G.lastOk = q.opts[j] === q.ans;
+    if (G.lastOk) { G.correct++; okMiss(q.ans.k); tone(true); if (q.type === 'cn2en') speak(q.ans.w); }
+    else { addMiss(q.ans.k); tone(false); }
+    render();
+    if (G.lastOk) { const g = G, i = G.i; setTimeout(() => { if (G === g && G.i === i && view === 'act') nextQ(); }, 1100); }
+  },
+  qnext: () => nextQ(),
+  // spell
+  tile: el => placeTile(+el.dataset.i),
+  unslot: el => { if (G.state !== 'play') return; freeSlot(+el.dataset.i); render(); },
+  shint: () => spellHint(),
+  sclear: () => { if (G.state !== 'play') return; G.slots.forEach((t, j) => freeSlot(j)); render(); },
+  sshow: () => spellShow(),
+  snext: () => { G.i++; if (G.i >= G.list.length) finish('spell', ratioStars(G.first / G.list.length), `一次拼对 ${G.first} / ${G.list.length} 个`); else { initSpell(); render(); } },
+  // dictation
+  dhint: () => { if (G.state !== 'ask') return; const inp = document.getElementById('dict-in'); if (inp) G.val = inp.value; G.hint = Math.min(G.hint + 1, G.list[G.i].w.length); render(); },
+  dgive: () => { if (G.state !== 'ask') return; const w = G.list[G.i]; if (G.tries === 0) addMiss(w.k); G.state = 'wrong'; tone(false); speak(w.w); render(); },
+  dreveal: () => { G.state = 'reveal'; if (G.dir === 'ce') speak(G.list[G.i].w); render(); },
+  dself: el => { const w = G.list[G.i]; if (el.dataset.ok === '1') { G.state = 'right'; G.right++; G.first++; okMiss(w.k); tone(true); } else { G.state = 'wrong'; addMiss(w.k); tone(false); } render(); },
+  dnext: () => dictNext(),
+  dmode: el => { S.dictPaper = el.dataset.v === '1'; save(); resetDict(); render(); },
+  // fill
+  fpick: el => {
+    if (G.answered) return;
+    const j = +el.dataset.i, it = G.items[G.i];
+    G.answered = true; G.picked = j; G.lastOk = it.opts[j] === it.ans;
+    if (G.lastOk) { G.correct++; okMiss(it.w.k); tone(true); } else { addMiss(it.w.k); tone(false); }
+    render(); speak(it.s.en);
+    if (G.lastOk) { const g = G, i = G.i; setTimeout(() => { if (G === g && G.i === i && view === 'act') fillNext(); }, 2600); }
+  },
+  fnext: () => fillNext(),
+  // read
+  rsay: el => readSay(+el.dataset.i, el.dataset.slow === '1'),
+  rcn: () => { G.showCn = !G.showCn; G.cn = {}; render(); },
+  rcn1: el => { const i = +el.dataset.i; if (G.showCn) { G.showCn = false; U.sentences.forEach((s, k) => G.cn[k] = true); } G.cn[i] = !G.cn[i]; render(); },
+  rall: () => readAll(),
+  // order
+  obank: el => { const i = +el.dataset.i; if (G.state !== 'play' || G.bank[i].used) return; G.bank[i].used = true; G.line.push(i); if (G.line.length === G.toks.length) checkOrder(); else render(); },
+  oline: el => { if (G.state !== 'play') return; const j = +el.dataset.i; G.bank[G.line[j]].used = false; G.line.splice(j, 1); render(); },
+  oclear: () => { if (G.state !== 'play') return; G.bank.forEach(b => b.used = false); G.line = []; render(); },
+  oshow: () => orderShow(),
+  onext: () => { G.i++; if (G.i >= G.list.length) finish('order', ratioStars(G.first / G.list.length), `做对 ${G.first} / ${G.list.length} 句`); else { initOrder(); render(); } },
+  // mistakes
+  mreview: () => startAct('quiz', true),
+};
+$app.addEventListener('submit', e => { e.preventDefault(); if (e.target.id === 'dict-form') dictCheck(); });
+$app.addEventListener('click', e => { const el = e.target.closest('[data-a]'); if (!el || !$app.contains(el)) return; const f = H[el.dataset.a]; if (f) f(el); });
+
+render();
+</script>
+
+</body>
+</html>
