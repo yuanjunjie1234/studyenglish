@@ -78,13 +78,13 @@ button.chip{cursor:pointer}
 .stats{display:flex;flex-wrap:wrap;gap:8px}
 .sec{font-size:22px;display:flex;align-items:baseline;gap:8px}
 .sec small{font-family:var(--body);font-size:14px;color:var(--ink-soft);font-weight:700}
-.units{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.unit{display:grid;grid-template-columns:56px minmax(0,1fr) auto;align-items:center;gap:14px;text-align:left;padding:14px 16px;border-radius:20px;background:var(--surface);border:2px solid var(--line);box-shadow:0 5px 0 var(--line);cursor:pointer}
+.units{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:8px}
+.unit{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;padding:10px 4px 8px;border-radius:20px;background:var(--surface);border:2px solid var(--line);box-shadow:0 5px 0 var(--line);cursor:pointer}
 .unit:active{transform:translateY(3px);box-shadow:0 2px 0 var(--line)}
-.u-badge{width:56px;height:56px;border-radius:18px;background:var(--sun);color:var(--sun-ink);display:grid;place-items:center;font-family:var(--display);font-size:28px;font-weight:800;box-shadow:inset 0 -4px 0 var(--sun-deep)}
-.u-body{display:flex;flex-direction:column;gap:5px;min-width:0}
-.u-title{font-family:var(--display);font-size:22px;font-weight:800;line-height:1.1}
-.u-stars{font-weight:800;font-size:18px;white-space:nowrap}
+.u-badge{width:44px;height:44px;border-radius:14px;font-size:22px!important;background:var(--sun);color:var(--sun-ink);display:grid;place-items:center;font-family:var(--display);font-size:28px;font-weight:800;box-shadow:inset 0 -4px 0 var(--sun-deep)}
+.u-body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.u-title{font-family:var(--display);font-size:18px;font-weight:800;line-height:1.1}
+.u-stars{font-weight:800;font-size:14px;white-space:nowrap}
 .u-stars .star{color:var(--sun-deep)}
 .u-stars small{font-size:12px;color:var(--ink-soft)}
 .coming{grid-column:1/-1;padding:12px 16px;border-radius:16px;border:2px dashed var(--line);color:var(--ink-soft);font-size:14px;font-weight:700}
@@ -191,7 +191,9 @@ button.chip{cursor:pointer}
 /* spelling */
 .slots{display:flex;flex-wrap:wrap;justify-content:center;gap:14px 20px}
 .slot-group{display:flex;gap:6px}
-.slot{width:42px;height:52px;border:0;border-bottom:4px solid var(--ink-soft);background:var(--surface-2);border-radius:10px 10px 4px 4px;font-family:var(--word);font-size:30px;font-weight:700;cursor:pointer;padding:0}
+.slots{--sw:min(42px,calc((100vw - 96px) / var(--n,8) - 6px))}
+.slot{width:var(--sw);height:calc(var(--sw) * 1.24);border:0;border-bottom:4px solid var(--ink-soft);background:var(--surface-2);border-radius:10px 10px 4px 4px;font-family:var(--word);font-size:calc(var(--sw) * .7);font-weight:700;cursor:pointer;padding:0}
+.slot.fixed{display:grid;place-items:center;background:none;border-color:transparent;color:var(--ink-soft);cursor:default;width:auto;min-width:10px}
 .slot.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}
 .slot.bad{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);animation:shake .4s}
 .tiles{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
@@ -268,22 +270,85 @@ button.chip{cursor:pointer}
 .chunk.c0 b{color:var(--pine)}
 .chunk.c1 b{color:var(--chunk-b)}
 .chunk i{font-style:normal;font-size:12px;color:var(--ink-soft);font-family:"Andika","Lucida Sans Unicode","Arial Unicode MS",sans-serif}
-.settings{display:flex;flex-direction:column;gap:8px}
-.switch-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border-radius:16px;background:var(--surface);border:2px solid var(--line);cursor:pointer}
-.sw-txt{flex:1;min-width:0}
-.sw-txt b{display:block;font-size:16px}
-.sw-txt small{color:var(--ink-soft);font-size:13px}
-.switch{flex:none;width:52px;height:30px;border-radius:99px;background:var(--line);position:relative;transition:background .2s}
-.switch i{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .2s}
+.settings{display:flex;flex-direction:column;gap:6px}
+.switch-row{display:flex;width:100%;align-items:center;gap:10px;text-align:left;padding:9px 12px 9px 14px;border-radius:14px;font-weight:800;font-size:14px;background:var(--surface);border:2px solid var(--line);cursor:pointer}
+.sw-txt{white-space:nowrap;font-size:16px;font-weight:800}
+.sw-sub{flex:1;min-width:0;font-size:13px;font-weight:400;color:var(--ink-soft);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.switch{flex:none;width:38px;height:22px;border-radius:99px;background:var(--line);position:relative;transition:background .2s}
+.switch i{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .2s}
 .switch.on{background:var(--pine)}
-.switch.on i{transform:translateX(22px)}
-.mix{display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:14px;border-radius:20px;border:2px solid var(--line);background:var(--surface)}
-.mixchip{padding:8px 14px;border-radius:12px;border:2px solid var(--line);background:var(--surface-2);font-weight:800;cursor:pointer}
-.mixchip.on{background:var(--good-bg);border-color:var(--pine)}
+.switch.on i{transform:translateX(16px)}
+.mix{display:flex;flex-direction:column;align-items:stretch;gap:12px;padding:14px;border-radius:20px;border:2px solid var(--line);background:var(--surface)}
+.mix-head{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:700;color:var(--ink-soft)}
+.mix-head b{color:var(--ink);font-variant-numeric:tabular-nums}
+.mixgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px}
+.mixchip{height:40px;padding:0;border-radius:10px;border:2px solid var(--line);background:var(--surface-2);color:var(--ink-soft);font-family:var(--display);font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;cursor:pointer;transition:background .12s,color .12s,border-color .12s}
+.mixchip.on{background:var(--pine);border-color:var(--pine);color:var(--on-pine)}
+.mix-go{align-self:flex-start}
 .cn-btn{font-weight:800;font-size:17px}
 .cn-btn.on{background:var(--sun);border-color:var(--sun-deep);color:var(--sun-ink);box-shadow:0 3px 0 var(--sun-deep)}
 .wtok.ref{cursor:default;box-shadow:none;background:var(--surface-2);color:var(--ink);border-color:var(--line)}
 .fill-ans{font-size:22px;font-weight:700}
+/* lesson titles, rules */
+.u-sub{font-family:var(--word);font-size:14px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lesson-title{margin:2px 0 0;font-family:var(--word);font-weight:700;font-size:17px;color:var(--pine)}
+.rules{border-radius:16px;background:var(--surface);border:2px solid var(--line);padding:10px 14px}
+.rules summary{cursor:pointer;font-weight:800;list-style:none}
+.rules summary::-webkit-details-marker{display:none}
+.rules ul{margin:8px 0 2px;padding-left:20px;display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--ink-soft)}
+/* flashcard example */
+.ex-label{font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--pine)}
+.face .ex-en{font-size:clamp(18px,5vw,22px);font-weight:700;line-height:1.45;max-width:30ch}
+.ex-en mark,.sent mark{background:var(--sun);color:var(--sun-ink);border-radius:6px;padding:0 3px}
+.mean{display:flex;flex-direction:column;align-items:center;gap:4px}
+.mean[hidden]{display:none}
+.mean .cn{font-size:clamp(22px,6.4vw,28px)}
+.ex-cn{font-size:15px;color:var(--ink-soft)}
+.tap-more{font-size:13px;font-weight:800;color:var(--sky)}
+/* reading */
+.sec-h{font-family:var(--display);font-size:17px;font-weight:800;color:var(--pine);margin:6px 0 -2px;list-style:none}
+.sent{grid-template-columns:auto minmax(0,1fr) auto!important;align-items:start!important;padding:10px!important}
+.play-btn{width:40px;height:40px;border-radius:50%;border:0;display:grid;place-items:center;font-size:15px;background:var(--sun);color:var(--sun-ink);box-shadow:0 3px 0 var(--sun-deep);cursor:pointer;margin-top:2px}
+.play-btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--sun-deep)}
+.play-btn.done{background:var(--good);color:var(--surface);box-shadow:0 3px 0 var(--pine-deep)}
+.play-btn.q{background:var(--surface-2);color:var(--ink-soft);box-shadow:inset 0 0 0 2px var(--line);font-family:var(--display);font-weight:800;font-size:20px;cursor:default}
+.who{align-self:flex-start;font-size:12px;font-weight:800;color:var(--sky);margin-bottom:1px}
+.tk{border-radius:6px;padding:0 1px;cursor:pointer;transition:background .12s,color .12s}
+.tk.kw{background:var(--sun);color:var(--sun-ink);padding:0 3px}
+.tk.on{background:var(--pine);color:var(--on-pine)}
+.cn.big{font-size:19px;font-weight:800;color:var(--ink)!important;margin:0!important}
+.hint-say{font-size:13px;color:var(--ink-soft)}
+.sent-btns{align-self:center}
+.anchor{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;padding:16px 18px;border-radius:24px;background:var(--sky-bg)}
+.anchor .emo{font-size:clamp(40px,11vw,54px);line-height:1}
+.anchor-txt{display:flex;flex-direction:column;min-width:0}
+.anchor .word{font-size:clamp(30px,8.5vw,42px);font-weight:700;line-height:1.1;overflow-wrap:anywhere}
+.anchor .ipa{color:var(--ink-soft);font-size:15px;font-family:"Andika","Lucida Sans Unicode","Arial Unicode MS",sans-serif}
+.anchor .cn{font-weight:800;font-size:17px}
+.anchor .big-say{width:64px;height:64px;font-size:28px}
+.who.extra{color:var(--ink-soft)}
+.btn.toggle-on{background:var(--good-bg);border-color:var(--pine);box-shadow:0 4px 0 var(--pine)}
+.read-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px}
+.read-bar .tap-tip{flex:1 1 220px;text-align:left}
+.hero .stats{flex-wrap:nowrap;gap:6px}
+.hero .chip{font-size:13px;padding:5px 10px}
+.today{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:16px;background:var(--surface);border:2px solid var(--line)}
+.today.has{border-color:var(--sun-deep);box-shadow:0 3px 0 var(--sun-deep)}
+.today-ic{font-size:20px;line-height:1;flex:none}
+.today-txt{flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;font-size:14px;color:var(--ink-soft)}
+.today-txt b{font-family:var(--display);font-size:17px;color:var(--ink)}
+.today-meta{font-size:12px;opacity:.85}
+.today .btn{flex:none;min-height:38px;padding:4px 14px;font-size:14px}
+.lesson-bar{display:flex;flex-direction:column;line-height:1.15}
+.lesson-bar b{font-size:22px;overflow:hidden;text-overflow:ellipsis}
+.lesson-bar small{font-family:var(--word);font-size:13px;font-weight:700;color:var(--pine);overflow:hidden;text-overflow:ellipsis}
+.unit .u-title{display:none}
+.unit .u-body{align-items:center}
+.unit .u-stars small{font-size:11px}
+.unit .u-stars{font-size:13px}
+.unit.done .u-badge{background:var(--pine);color:var(--on-pine);box-shadow:inset 0 -4px 0 var(--pine-deep)}
+.anchor .word.long{font-size:clamp(22px,6vw,32px)}
+.q-word.long{font-size:clamp(28px,7.5vw,42px)}
 #toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:14px;font-weight:800;z-index:60;max-width:calc(100% - 32px);text-align:center}
 #fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
@@ -296,78 +361,820 @@ button.chip{cursor:pointer}
 <canvas id="fx" aria-hidden="true"></canvas>
 
 <script>
-/* ===== 课本数据：以后添加新的一课，只需在 UNITS 里照格式加一项 ===== */
+/* ===== 课本数据：以后添加新的一课，只需在 UNITS 里照格式加一项 =====
+   句子格式：["说话人", "英文", "中文", "可选：朗读用文字"]；只有一项的是小标题 */
+const UNIT_NAMES = { 3: "Unit Three" };
 const UNITS = [
-  { id: 9, sampleSentences: true,
+  { id: 9, unit: 3, title: "I Can Take Care of Myself",
     words: [
-      { w:'camp', cn:'露营；营地', ipa:'/kæmp/', pos:'n./v.', core:true, e:'⛺' },
-      { w:'trip', cn:'旅行', ipa:'/trɪp/', pos:'n.', core:true, e:'🧳' },
-      { w:'pick', cn:'采摘；挑选', ipa:'/pɪk/', pos:'v.', core:true, e:'🍓' },
-      { w:'vegetable', cn:'蔬菜', ipa:'/ˈvedʒtəbl/', pos:'n.', core:true, e:'🥕' },
-      { w:'set', cn:'放置；设置', ipa:'/set/', pos:'v.', core:true, e:'🍽️' },
-      { w:'ourselves', cn:'我们自己', ipa:'/aʊəˈselvz/', pos:'pron.', core:true, e:'👨‍👩‍👧' },
-      { w:'myself', cn:'我自己', ipa:'/maɪˈself/', pos:'pron.', core:true, e:'🙋' },
-      { w:'set up', cn:'搭建；建立', ipa:'/set ʌp/', pos:'短语动词', core:false, e:'🏕️' },
-      { w:'take care of', cn:'照顾；照料', ipa:'/teɪk keə(r) ɒv/', pos:'短语动词', core:false, e:'🫶' },
-      { w:'wash', cn:'洗；洗涤', ipa:'/wɒʃ/', pos:'v.', core:false, e:'🧼' },
-      { w:'clothes', cn:'衣服（无单数）', ipa:'/kləʊðz/', pos:'n. 复数', core:false, e:'👕' },
-      { w:'tidy up', cn:'整理；收拾', ipa:'/ˈtaɪdi ʌp/', pos:'短语动词', core:false, e:'🧹' },
-      { w:'plan', cn:'计划；打算', ipa:'/plæn/', pos:'n./v.', core:false, e:'📋' },
-      { w:'in groups', cn:'分组；以小组形式', ipa:'/ɪn ɡruːps/', pos:'介词短语', core:false, e:'👥' },
-      { w:'himself', cn:'他自己', ipa:'/hɪmˈself/', pos:'pron.', core:false, e:'👦' },
-      { w:'herself', cn:'她自己', ipa:'/hɜːˈself/', pos:'pron.', core:false, e:'👧' },
-      { w:'classmate', cn:'同班同学', ipa:'/ˈklɑːsmeɪt/', pos:'n.', core:false, e:'🧑‍🤝‍🧑' },
+      { w:"camp", cn:"露营；营地", ipa:"/kæmp/", pos:"n./v.", core:true, e:"⛺" },
+      { w:"trip", cn:"旅行", ipa:"/trɪp/", pos:"n.", core:true, e:"🧳" },
+      { w:"pick", cn:"采摘；挑选", ipa:"/pɪk/", pos:"v.", core:true, e:"🍓" },
+      { w:"vegetable", cn:"蔬菜", ipa:"/ˈvedʒtəbl/", pos:"n.", core:true, e:"🥕" },
+      { w:"set", cn:"放置；设置", ipa:"/set/", pos:"v.", core:true, e:"🍽️" },
+      { w:"ourselves", cn:"我们自己", ipa:"/aʊəˈselvz/", pos:"pron.", core:true, e:"👨‍👩‍👧" },
+      { w:"myself", cn:"我自己", ipa:"/maɪˈself/", pos:"pron.", core:true, e:"🙋" },
+      { w:"set up", cn:"搭建；建立", ipa:"/set ʌp/", pos:"短语动词", core:false, e:"🏕️" },
+      { w:"take care of", cn:"照顾；照料", ipa:"/teɪk keə(r) ɒv/", pos:"短语动词", core:false, e:"🤲" },
+      { w:"wash", cn:"洗；洗涤", ipa:"/wɒʃ/", pos:"v.", core:false, e:"🧼" },
+      { w:"clothes", cn:"衣服（无单数）", ipa:"/kləʊðz/", pos:"n. 复数", core:false, e:"👕" },
+      { w:"tidy up", cn:"整理；收拾", ipa:"/ˈtaɪdi ʌp/", pos:"短语动词", core:false, e:"🧹" },
+      { w:"plan", cn:"计划；打算", ipa:"/plæn/", pos:"n./v.", core:false, e:"📋" },
+      { w:"in groups", cn:"分组；以小组形式", ipa:"/ɪn ɡruːps/", pos:"介词短语", core:false, e:"👥" },
+      { w:"himself", cn:"他自己", ipa:"/hɪmˈself/", pos:"pron.", core:false, e:"👦" },
+      { w:"herself", cn:"她自己", ipa:"/hɜːˈself/", pos:"pron.", core:false, e:"👧" },
+      { w:"classmate", cn:"同班同学", ipa:"/ˈklɑːsmeɪt/", pos:"n.", core:false, e:"🧑‍🤝‍🧑" },
     ],
     sentences: [
-      { en:'We are going on a camping trip.', cn:'我们要去露营旅行。' },
-      { en:'Let\'s pick some vegetables.', cn:'我们去摘些蔬菜吧。' },
-      { en:'We can set up the tent ourselves.', cn:'我们可以自己搭帐篷。' },
-      { en:'I can wash my clothes myself.', cn:'我可以自己洗衣服。' },
-      { en:'Please tidy up your room.', cn:'请整理你的房间。' },
-      { en:'We work in groups.', cn:'我们分组合作。' },
-      { en:'He can take care of himself.', cn:'他能照顾好自己。' },
-      { en:'She is my classmate.', cn:'她是我的同班同学。' },
-      { en:'Let me set the table.', cn:'让我来摆餐桌。' },
-      { en:'What is your plan for the trip?', cn:'你的旅行计划是什么？' },
+      ["课文 · 第30页"],
+      ["Ms Wang", "Our class will take a two-day camping trip.", "我们班要进行一次两天的露营旅行。"],
+      ["Ms Wang", "We'll pick fruit, plant vegetables and set up camps.", "我们会摘水果、种蔬菜，还要搭建营地。"],
+      ["Students", "Great!", "太好了！"],
+      ["Ms Wang", "We also need to take care of ourselves in these two days.", "这两天我们还需要照顾好自己。"],
+      ["Ms Wang", "Who would like to go?", "谁想去？"],
+      ["Lingling", "I'd like to go.", "我想去。"],
+      ["Lingling", "I can make my bed and clean my room.", "我会整理床铺，还会打扫房间。"],
+      ["Ms Wang", "Good. Please write down your name.", "很好。请写下你的名字。"],
+      ["Lingling", "Maomao, would you like to join this camping trip?", "毛毛，你想参加这次露营旅行吗？"],
+      ["Lingling", "What can you do?", "你会做什么？"],
+      ["Maomao", "Yes! I can wash clothes and tidy up the clothes.", "想！我会洗衣服，还会整理衣服。"],
+      ["Maomao", "How about you, Guoguo?", "你呢，果果？"],
+      ["Guoguo", "I can cook.", "我会做饭。"],
+      ["Guoguo", "Baobao, what can you do?", "宝宝，你会做什么？"],
+      ["Guoguo", "Let's go together.", "我们一起去吧。"],
+      ["Baobao", "Sorry, I won't go.", "对不起，我不去了。"],
+      ["Baobao", "I need to learn how to take care of myself first.", "我需要先学会怎样照顾自己。"],
+      ["Lingling", "Oh, Baobao. Don't worry.", "哦，宝宝，别担心。"],
+      ["Lingling", "We can help you.", "我们可以帮你。"],
+      ["练一练 · 第31–32页"],
+      ["", "Who would like to join the trip?", "谁想参加这次旅行？"],
+      ["", "What can they do?", "他们会做什么？"],
+      ["", "The next day, Lingling tells Ms Wang about their plan.", "第二天，玲玲把他们的计划告诉了王老师。"],
+      ["", "Please write and share in groups.", "请写一写，再在小组里分享。"],
+      ["", "Who can take care of himself/herself best in your group?", "你们组里谁最会照顾自己？", "Who can take care of himself or herself best in your group?"],
+      ["", "Please tell your classmates.", "请告诉你的同学们。"],
     ]
   },
-  { id: 10, sampleSentences: true,
+  { id: 10, unit: 3, title: "I Can Help My Family",
     words: [
-      { w:'never', cn:'从不；不可能', ipa:'/ˈnevə(r)/', pos:'adv.', core:true, e:'🚫' },
-      { w:'before', cn:'在……之前；以前', ipa:'/bɪˈfɔː(r)/', pos:'prep./adv.', core:true, e:'⏮️' },
-      { w:'take out', cn:'拿出去', ipa:'/teɪk aʊt/', pos:'短语动词', core:true, e:'🚮' },
-      { w:'rubbish', cn:'垃圾', ipa:'/ˈrʌbɪʃ/', pos:'n.', core:true, e:'🗑️' },
-      { w:'all', cn:'全；都是', ipa:'/ɔːl/', pos:'adj./adv.', core:true, e:'💯' },
-      { w:'come in', cn:'进来', ipa:'/kʌm ɪn/', pos:'短语动词', core:false, e:'🚪' },
-      { w:'lots of', cn:'许多；大量', ipa:'/lɒts əv/', pos:'限定短语', core:false, e:'🍬' },
-      { w:'chore', cn:'家务事（复数 chores）', ipa:'/tʃɔː(r)/', pos:'n.', core:false, e:'🧽' },
-      { w:'walk the dog', cn:'遛狗', ipa:'/wɔːk ðə dɒɡ/', pos:'动词短语', core:false, e:'🐕' },
-      { w:'dinner', cn:'晚餐；正餐', ipa:'/ˈdɪnə(r)/', pos:'n.', core:false, e:'🍲' },
-      { w:'helper', cn:'帮手；助手', ipa:'/ˈhelpə(r)/', pos:'n.', core:false, e:'🦸' },
-      { w:'difference', cn:'差异；差别', ipa:'/ˈdɪfrəns/', pos:'n.', core:false, e:'🔍' },
+      { w:"never", cn:"从不；不可能", ipa:"/ˈnevə(r)/", pos:"adv.", core:true, e:"🚫" },
+      { w:"before", cn:"在……之前；以前", ipa:"/bɪˈfɔː(r)/", pos:"prep./adv.", core:true, e:"⏮️" },
+      { w:"take out", cn:"拿出去", ipa:"/teɪk aʊt/", pos:"短语动词", core:true, e:"🚮" },
+      { w:"rubbish", cn:"垃圾", ipa:"/ˈrʌbɪʃ/", pos:"n.", core:true, e:"🗑️" },
+      { w:"all", cn:"全；都是", ipa:"/ɔːl/", pos:"adj./adv.", core:true, e:"💯" },
+      { w:"come in", cn:"进来", ipa:"/kʌm ɪn/", pos:"短语动词", core:false, e:"🚪" },
+      { w:"lots of", cn:"许多；大量", ipa:"/lɒts əv/", pos:"限定短语", core:false, e:"🍬" },
+      { w:"chore", cn:"家务事（复数 chores）", ipa:"/tʃɔː(r)/", pos:"n.", core:false, e:"🧽" },
+      { w:"walk the dog", cn:"遛狗", ipa:"/wɔːk ðə dɒɡ/", pos:"动词短语", core:false, e:"🐕" },
+      { w:"dinner", cn:"晚餐；正餐", ipa:"/ˈdɪnə(r)/", pos:"n.", core:false, e:"🍲" },
+      { w:"helper", cn:"帮手；助手", ipa:"/ˈhelpə(r)/", pos:"n.", core:false, e:"🦸" },
+      { w:"difference", cn:"差异；差别", ipa:"/ˈdɪfrəns/", pos:"n.", core:false, e:"🔍" },
     ],
     sentences: [
-      { en:'I never forget to take out the rubbish.', cn:'我从不忘记倒垃圾。' },
-      { en:'Wash your hands before dinner.', cn:'晚饭前要洗手。' },
-      { en:'May I come in?', cn:'我可以进来吗？' },
-      { en:'I do lots of chores at home.', cn:'我在家做很多家务。' },
-      { en:'My dad walks the dog every day.', cn:'我爸爸每天遛狗。' },
-      { en:'I am a good helper at home.', cn:'我是家里的好帮手。' },
-      { en:'We all help with the chores.', cn:'我们都帮忙做家务。' },
-      { en:'Can you find the difference?', cn:'你能找出不同吗？' },
+      ["课文 · 第33页"],
+      ["Baobao", "Come in please.", "请进。"],
+      ["Baobao", "Welcome to my home.", "欢迎来我家。"],
+      ["Mike", "Wow, your home is so clean.", "哇，你家真干净。"],
+      ["Baobao", "Thank you.", "谢谢。"],
+      ["Baobao", "I can do lots of family chores now.", "我现在会做很多家务了。"],
+      ["Sara", "Good for you.", "你真棒。"],
+      ["Sara", "What chores do you do at home?", "你在家做什么家务？"],
+      ["Baobao", "I often tidy up the room and walk the dog.", "我经常整理房间、遛狗。"],
+      ["Baobao", "What chores do you do, Mike?", "迈克，你做什么家务？"],
+      ["Mike", "I often clean the floor and water the plants.", "我经常擦地板、浇花。"],
+      ["Mike", "How about you, Guoguo?", "你呢，果果？"],
+      ["Guoguo", "I always help my mum cook dinner.", "我总是帮妈妈做晚饭。"],
+      ["Guoguo", "I enjoy cooking.", "我喜欢做饭。"],
+      ["Sara", "I never cooked before, but I always wash the dishes and take out the rubbish.", "我以前从没做过饭，但我总是洗碗、倒垃圾。"],
+      ["Baobao", "We are all family helpers.", "我们都是家里的小帮手。"],
+      ["练一练 · 第34–35页"],
+      ["", "What chores do they do?", "他们做什么家务？"],
+      ["", "Find the differences before and after Jane doing the chores.", "找一找简做家务前后有什么不同。"],
+      ["", "What chores does Jane do to tidy up the room?", "简做了哪些家务来整理房间？"],
+      ["", "Find family helpers in your group.", "在你们组里找一找家庭小帮手。"],
+      ["", "What chores do you do?", "你做什么家务？"],
+      ["", "I often clean the floor.", "我经常擦地板。"],
+    ]
+  },
+  { id: 11, unit: 3, title: "We Need Helpers for the Community",
+    words: [
+      { w:"helper", cn:"帮手；助手", ipa:"/ˈhelpə(r)/", pos:"n.", core:true, e:"🦸" },
+      { w:"poster", cn:"海报", ipa:"/ˈpəʊstə(r)/", pos:"n.", core:true, e:"📰" },
+      { w:"ask", cn:"询问；请求", ipa:"/ɑːsk/", pos:"v.", core:true, e:"❓" },
+      { w:"service", cn:"服务", ipa:"/ˈsɜːvɪs/", pos:"n.", core:true, e:"🤝" },
+      { w:"sort", cn:"分类；整理", ipa:"/sɔːt/", pos:"v./n.", core:true, e:"♻️" },
+      { w:"wall", cn:"墙；墙壁", ipa:"/wɔːl/", pos:"n.", core:true, e:"🧱" },
+      { w:"ask for", cn:"请求；索要", ipa:"/ɑːsk fɔː(r)/", pos:"短语动词", core:false, e:"🙏" },
+      { w:"try our best", cn:"尽我们最大努力", ipa:"/traɪ ˈaʊə(r) best/", pos:"动词短语", core:false, e:"💪" },
+      { w:"problem", cn:"问题；难题", ipa:"/ˈprɒbləm/", pos:"n.", core:false, e:"🤔" },
+      { w:"tool", cn:"工具", ipa:"/tuːl/", pos:"n.", core:false, e:"🔨" },
+      { w:"stick", cn:"木棍；粘贴", ipa:"/stɪk/", pos:"n./v.", core:false, e:"📎" },
+      { w:"glue", cn:"胶水；粘贴", ipa:"/ɡluː/", pos:"n./v.", core:false, e:"🧴" },
+      { w:"cut", cn:"切；割", ipa:"/kʌt/", pos:"v./n.", core:false, e:"✂️" },
+    ],
+    sentences: [
+      ["课文 · 第36页"],
+      ["", "Baobao and Sara are reading a poster.", "宝宝和萨拉正在看一张海报。"],
+      ["", "It is asking for helpers for community service.", "海报在招募社区服务的小帮手。"],
+      ["", "They often do family chores at home.", "他们经常在家做家务。"],
+      ["", "Now, they also want to help their community.", "现在，他们也想帮助自己的社区。"],
+      ["海报", "The community is our home.", "社区是我们的家。"],
+      ["海报", "It needs everyone's help.", "它需要每个人的帮助。"],
+      ["海报", "We should try our best to keep it clean and tidy.", "我们应该尽最大努力，让它保持干净整洁。"],
+      ["海报", "Let's work together to make our community more beautiful.", "让我们一起努力，让社区更美丽。"],
+      ["海报", "Please give a helping hand.", "请伸出援手。"],
+      ["海报", "We need to pick up rubbish.", "我们需要捡垃圾。"],
+      ["海报", "We need to sweep the ground.", "我们需要扫地。"],
+      ["海报", "We need to sort the rubbish.", "我们需要给垃圾分类。"],
+      ["海报", "We need to clean the walls.", "我们需要清洁墙壁。"],
+      ["海报", "We need to make homes for birds.", "我们需要给小鸟做窝。"],
+      ["海报", "If you would like to join us, please call Ms Zhang at 12341234.", "如果你想加入我们，请打电话给张老师：12341234。", "If you would like to join us, please call Ms Zhang at one two three four, one two three four."],
+      ["海报", "Let's make our community a better place!", "让我们把社区变得更美好！"],
+      ["练一练 · 第37–38页"],
+      ["", "What are Baobao and Sara reading?", "宝宝和萨拉在看什么？"],
+      ["", "What do Baobao and Sara want to do?", "宝宝和萨拉想做什么？"],
+      ["", "What do Baobao and Sara need to do?", "宝宝和萨拉需要做什么？"],
+      ["", "Baobao and Sara find some problems in the community.", "宝宝和萨拉发现社区里有一些问题。"],
+      ["", "What do they need to do?", "他们需要做什么？"],
+      ["", "It's getting cold.", "天气变冷了。"],
+      ["", "Let's make a home for the birds.", "我们给小鸟做个窝吧。"],
+      ["", "We need wood and some tools.", "我们需要木头和一些工具。"],
+      ["", "We need to cut wood into seven pieces.", "我们需要把木头切成七块。"],
+      ["", "We need to stick them together with glue.", "我们需要用胶水把它们粘在一起。"],
+      ["", "Paint the house to make it more beautiful.", "给小房子刷上漆，让它更漂亮。"],
+      ["", "Put the house in a tree.", "把小房子放到树上。"],
+      ["", "After class, you can try making one by yourself.", "下课后，你可以试着自己做一个。"],
     ]
   },
 ];
-const COMING = [11, 12, 13];
+/* 第12–24课：先只有单词，发来课文页后再加句子 */
+UNITS.push(
+  { id: 12, title: "", words: [{"w": "helpful", "cn": "有帮助的；乐于助人的", "ipa": "/ˈhelpfl/", "pos": "adj.", "core": true, "e": "🙌"}, {"w": "recyclable", "cn": "可回收利用的", "ipa": "/ˌriːˈsaɪkləbl/", "pos": "adj.", "core": true, "e": "♻️"}, {"w": "harmful", "cn": "有害的", "ipa": "/ˈhɑːmfl/", "pos": "adj.", "core": true, "e": "☠️"}, {"w": "waste", "cn": "浪费；垃圾", "ipa": "/weɪst/", "pos": "v./n.", "core": true, "e": "🚯"}, {"w": "bag", "cn": "袋子；包", "ipa": "/bæɡ/", "pos": "n.", "core": true, "e": "👜"}, {"w": "bin", "cn": "垃圾桶", "ipa": "/bɪn/", "pos": "n.", "core": true, "e": "🗑️"}, {"w": "learn", "cn": "学习；学会", "ipa": "/lɜːn/", "pos": "v.", "core": false, "e": "📚"}, {"w": "tired", "cn": "疲惫的；疲倦的", "ipa": "/ˈtaɪəd/", "pos": "adj.", "core": false, "e": "😴"}, {"w": "as", "cn": "作为；当……时", "ipa": "/æz/", "pos": "prep./conj.", "core": false, "e": "👉"}, {"w": "below", "cn": "在……下面；低于", "ipa": "/bɪˈləʊ/", "pos": "prep./adv.", "core": false, "e": "⬇️"}, {"w": "while", "cn": "当……时候；然而", "ipa": "/waɪl/", "pos": "conj./n.", "core": false, "e": "⏳"}, {"w": "sail", "cn": "航行；起航", "ipa": "/seɪl/", "pos": "v./n.", "core": false, "e": "⛵"}], sentences: [] },
+  { id: 13, title: "", words: [{"w": "traditional", "cn": "传统的", "ipa": "/trəˈdɪʃənl/", "pos": "adj.", "core": true, "e": "🏮"}, {"w": "bake", "cn": "烘焙；烘烤", "ipa": "/beɪk/", "pos": "v./n.", "core": false, "e": "🍞"}, {"w": "filling", "cn": "馅料；填充", "ipa": "/ˈfɪlɪŋ/", "pos": "n./adj.", "core": false, "e": "🥟"}, {"w": "dough", "cn": "面团", "ipa": "/dəʊ/", "pos": "n.", "core": false, "e": "🥣"}, {"w": "close", "cn": "关闭；近的", "ipa": "/kləʊz/", "pos": "v./adj.", "core": false, "e": "🔒"}, {"w": "mix", "cn": "混合；搅拌", "ipa": "/mɪks/", "pos": "v./n.", "core": false, "e": "🥄"}, {"w": "shape", "cn": "形状；塑造", "ipa": "/ʃeɪp/", "pos": "n./v.", "core": false, "e": "🔷"}, {"w": "taste", "cn": "味道；品尝", "ipa": "/teɪst/", "pos": "n./v.", "core": false, "e": "😋"}], sentences: [] },
+  { id: 14, title: "", words: [{"w": "bring", "cn": "带来；拿来", "ipa": "/brɪŋ/", "pos": "v.", "core": true, "e": "🎁"}, {"w": "culture", "cn": "文化", "ipa": "/ˈkʌltʃə(r)/", "pos": "n.", "core": false, "e": "🎎"}, {"w": "right", "cn": "正确的；右边", "ipa": "/raɪt/", "pos": "adj./n./adv.", "core": false, "e": "✅"}, {"w": "answer", "cn": "回答；答案", "ipa": "/ˈɑːnsə(r)/", "pos": "n./v.", "core": false, "e": "💬"}, {"w": "brush", "cn": "刷子；刷", "ipa": "/brʌʃ/", "pos": "n./v.", "core": false, "e": "🖌️"}, {"w": "amazing", "cn": "令人惊奇的", "ipa": "/əˈmeɪzɪŋ/", "pos": "adj.", "core": false, "e": "🤩"}, {"w": "healthy", "cn": "健康的", "ipa": "/ˈhelθi/", "pos": "adj.", "core": false, "e": "🥗"}, {"w": "unhealthy", "cn": "不健康的", "ipa": "/ʌnˈhelθi/", "pos": "adj.", "core": false, "e": "🍟"}, {"w": "fresh", "cn": "新鲜的", "ipa": "/freʃ/", "pos": "adj.", "core": false, "e": "🍎"}, {"w": "sick", "cn": "生病的；恶心的", "ipa": "/sɪk/", "pos": "adj.", "core": false, "e": "🤒"}, {"w": "salty", "cn": "咸的", "ipa": "/ˈsɔːlti/", "pos": "adj.", "core": false, "e": "🧂"}, {"w": "fatty", "cn": "脂肪多的；油腻的", "ipa": "/ˈfæti/", "pos": "adj.", "core": false, "e": "🍔"}, {"w": "harm", "cn": "伤害；损害", "ipa": "/hɑːm/", "pos": "v./n.", "core": false, "e": "⚠️"}, {"w": "title", "cn": "标题；头衔", "ipa": "/ˈtaɪtl/", "pos": "n.", "core": false, "e": "🏷️"}, {"w": "circle", "cn": "圆圈；圈出", "ipa": "/ˈsɜːkl/", "pos": "n./v.", "core": false, "e": "⭕"}, {"w": "opposite", "cn": "相反的；对面", "ipa": "/ˈɒpəzɪt/", "pos": "adj./prep./n.", "core": false, "e": "↔️"}], sentences: [] },
+  { id: 15, title: "", words: [{"w": "will", "cn": "将要；意愿", "ipa": "/wɪl/", "pos": "modal v./n.", "core": true, "e": "🔮"}, {"w": "amazing", "cn": "令人惊喜的；了不起的", "ipa": "/əˈmeɪzɪŋ/", "pos": "adj.", "core": true, "e": "🤩"}, {"w": "famous", "cn": "著名的", "ipa": "/ˈfeɪməs/", "pos": "adj.", "core": true, "e": "🌟"}, {"w": "hometown", "cn": "家乡", "ipa": "/ˈhəʊmtaʊn/", "pos": "n.", "core": true, "e": "🏡"}, {"w": "stay", "cn": "停留；待", "ipa": "/steɪ/", "pos": "v./n.", "core": true, "e": "🏨"}, {"w": "few", "cn": "很少的；几乎没有", "ipa": "/fjuː/", "pos": "adj./pron.", "core": true, "e": "🔹"}, {"w": "by", "cn": "通过；被", "ipa": "/baɪ/", "pos": "prep./adv.", "core": true, "e": "🚌"}, {"w": "plan", "cn": "计划；打算", "ipa": "/plæn/", "pos": "n./v.", "core": false, "e": "📋"}, {"w": "Confucius Mansion", "cn": "孔府", "ipa": "/kənˈfjuːʃəs ˈmænʃn/", "pos": "n.", "core": false, "e": "🏯"}, {"w": "Confucius", "cn": "孔子", "ipa": "/kənˈfjuːʃəs/", "pos": "n.", "core": false, "e": "👴"}, {"w": "beach", "cn": "海滩；沙滩", "ipa": "/biːtʃ/", "pos": "n.", "core": false, "e": "🏖️"}], sentences: [] },
+  { id: 16, title: "", words: [{"w": "choice", "cn": "选择", "ipa": "/tʃɔɪs/", "pos": "n.", "core": true, "e": "☑️"}, {"w": "train", "cn": "火车；训练", "ipa": "/treɪn/", "pos": "n./v.", "core": true, "e": "🚆"}, {"w": "car", "cn": "汽车", "ipa": "/kɑː/", "pos": "n.", "core": true, "e": "🚗"}, {"w": "sure", "cn": "确信的；当然", "ipa": "/ʃʊə/", "pos": "adj./adv.", "core": true, "e": "👍"}, {"w": "only", "cn": "仅仅；唯一的", "ipa": "/ˈəʊnli/", "pos": "adv./adj.", "core": true, "e": "☝️"}, {"w": "hour", "cn": "小时", "ipa": "/ˈaʊə/", "pos": "n.", "core": true, "e": "🕐"}, {"w": "high-speed train", "cn": "高铁", "ipa": "/ˌhaɪ ˈspiːd treɪn/", "pos": "n. 短语", "core": true, "e": "🚄"}, {"w": "convenient", "cn": "方便的", "ipa": "/kənˈviːniənt/", "pos": "adj.", "core": true, "e": "👌"}, {"w": "more than", "cn": "超过；多于", "ipa": "/mɔː ðæn/", "pos": "短语", "core": true, "e": "➕"}, {"w": "stop", "cn": "停止；车站", "ipa": "/stɒp/", "pos": "v./n.", "core": false, "e": "🛑"}, {"w": "fastest", "cn": "最快的", "ipa": "/ˈfɑːstɪst/", "pos": "adj./adv.", "core": false, "e": "⚡"}, {"w": "go around", "cn": "四处走动；游览", "ipa": "/ɡəʊ əˈraʊnd/", "pos": "短语动词", "core": false, "e": "🚶"}, {"w": "view", "cn": "风景；观点", "ipa": "/vjuː/", "pos": "n./v.", "core": false, "e": "🏞️"}], sentences: [] },
+  { id: 17, title: "", words: [{"w": "plan", "cn": "计划；打算", "ipa": "/plæn/", "pos": "n./v.", "core": true, "e": "📋"}, {"w": "p.m.", "cn": "下午", "ipa": "/ˌpiː ˈem/", "pos": "abbr.", "core": true, "e": "🌇"}, {"w": "history", "cn": "历史", "ipa": "/ˈhɪstri/", "pos": "n.", "core": true, "e": "📜"}, {"w": "busy", "cn": "忙碌的", "ipa": "/ˈbɪzi/", "pos": "adj.", "core": true, "e": "🏃"}, {"w": "leave", "cn": "离开；留下", "ipa": "/liːv/", "pos": "v.", "core": true, "e": "👋"}, {"w": "a.m.", "cn": "上午", "ipa": "/ˌeɪ ˈem/", "pos": "abbr.", "core": true, "e": "🌅"}, {"w": "say", "cn": "说；讲", "ipa": "/seɪ/", "pos": "v.", "core": true, "e": "🗣️"}, {"w": "one-day", "cn": "一天的", "ipa": "/ˈwʌn deɪ/", "pos": "adj.", "core": false, "e": "📅"}, {"w": "come back", "cn": "回来", "ipa": "/kʌm bæk/", "pos": "短语动词", "core": false, "e": "🔙"}, {"w": "travelling", "cn": "旅行", "ipa": "/ˈtrævlɪŋ/", "pos": "v./n.", "core": false, "e": "✈️"}, {"w": "the Bund", "cn": "外滩", "ipa": "/ðə bʌnd/", "pos": "n. 专有名词", "core": false, "e": "🌃"}, {"w": "Expo Garden", "cn": "世博园", "ipa": "/ˈekspəʊ ˈɡɑːdn/", "pos": "n. 专有名词", "core": false, "e": "🌳"}, {"w": "City God Temple", "cn": "城隍庙", "ipa": "/ˈsɪti ɡɒd ˈtempl/", "pos": "n. 专有名词", "core": false, "e": "⛩️"}, {"w": "the Huangpu River", "cn": "黄浦江", "ipa": "/ðə ˌhwɑːŋˈpuː ˈrɪvə/", "pos": "n. 专有名词", "core": false, "e": "🌊"}, {"w": "the Oriental Pearl Tower", "cn": "东方明珠塔", "ipa": "/ðə ˌɔːriˈentl ˈpɜːl ˈtaʊə/", "pos": "n. 专有名词", "core": false, "e": "🗼"}], sentences: [] },
+  { id: 18, title: "", words: [{"w": "ride", "cn": "骑；乘坐", "ipa": "/raɪd/", "pos": "v./n.", "core": true, "e": "🏇"}, {"w": "bike", "cn": "自行车", "ipa": "/baɪk/", "pos": "n.", "core": true, "e": "🚲"}, {"w": "east", "cn": "东方；东方的", "ipa": "/iːst/", "pos": "n./adj.", "core": true, "e": "➡️"}, {"w": "west", "cn": "西方；西方的", "ipa": "/west/", "pos": "n./adj.", "core": true, "e": "⬅️"}, {"w": "view", "cn": "风景；观点", "ipa": "/vjuː/", "pos": "n./v.", "core": true, "e": "🏞️"}, {"w": "dear", "cn": "亲爱的；昂贵的", "ipa": "/dɪə/", "pos": "adj./int.", "core": true, "e": "💌"}, {"w": "slow", "cn": "慢的；放慢", "ipa": "/sləʊ/", "pos": "adj./v.", "core": true, "e": "🐢"}, {"w": "old Town", "cn": "古镇", "ipa": "/əʊld taʊn/", "pos": "n.", "core": false, "e": "🏘️"}, {"w": "waterfall", "cn": "瀑布", "ipa": "/ˈwɔːtəfɔːl/", "pos": "n.", "core": false, "e": "💦"}, {"w": "Potala Palace", "cn": "布达拉宫", "ipa": "/pəʊˈtɑːlə ˈpælɪs/", "pos": "n. 专有名词", "core": false, "e": "🏯"}, {"w": "reason", "cn": "原因；理由", "ipa": "/ˈriːzn/", "pos": "n./v.", "core": false, "e": "❔"}, {"w": "clock", "cn": "时钟", "ipa": "/klɒk/", "pos": "n.", "core": false, "e": "🕰️"}, {"w": "cloudy", "cn": "多云的", "ipa": "/ˈklaʊdi/", "pos": "adj.", "core": false, "e": "☁️"}], sentences: [] },
+  { id: 19, title: "", words: [{"w": "map", "cn": "地图", "ipa": "/mæp/", "pos": "n./v.", "core": true, "e": "🗺️"}, {"w": "China", "cn": "中国", "ipa": "/ˈtʃaɪnə/", "pos": "n. 专有名词", "core": true, "e": "🐼"}, {"w": "Asia", "cn": "亚洲", "ipa": "/ˈeɪʒə/", "pos": "n. 专有名词", "core": true, "e": "🌏"}, {"w": "rooster", "cn": "公鸡", "ipa": "/ˈruːstə/", "pos": "n.", "core": true, "e": "🐓"}, {"w": "Canada", "cn": "加拿大", "ipa": "/ˈkænədə/", "pos": "n. 专有名词", "core": true, "e": "🍁"}, {"w": "North America", "cn": "北美洲", "ipa": "/nɔːθ əˈmerɪkə/", "pos": "n. 专有名词", "core": true, "e": "🌎"}, {"w": "UK", "cn": "英国", "ipa": "/ˌjuː ˈkeɪ/", "pos": "abbr. 专有名词", "core": true, "e": "💂"}, {"w": "Europe", "cn": "欧洲", "ipa": "/ˈjʊərəp/", "pos": "n. 专有名词", "core": true, "e": "🌍"}, {"w": "world", "cn": "世界", "ipa": "/wɜːld/", "pos": "n.", "core": false, "e": "🌐"}, {"w": "hard", "cn": "硬的；困难的；努力地", "ipa": "/hɑːd/", "pos": "adj./adv.", "core": false, "e": "😣"}, {"w": "country", "cn": "国家；乡村", "ipa": "/ˈkʌntri/", "pos": "n.", "core": false, "e": "🌄"}, {"w": "easier", "cn": "更容易的", "ipa": "/ˈiːziə/", "pos": "adj.", "core": false, "e": "😌"}, {"w": "France", "cn": "法国", "ipa": "/frɑːns/", "pos": "n. 专有名词", "core": false, "e": "🥖"}, {"w": "Italy", "cn": "意大利", "ipa": "/ˈɪtəli/", "pos": "n. 专有名词", "core": false, "e": "🍕"}, {"w": "Singapore", "cn": "新加坡", "ipa": "/ˌsɪŋəˈpɔː/", "pos": "n. 专有名词", "core": false, "e": "🦁"}, {"w": "E.g.", "cn": "例如", "ipa": "/ˌiː ˈdʒiː/", "pos": "abbr.", "core": false, "e": "✏️"}, {"w": "amazing", "cn": "令人惊奇的", "ipa": "/əˈmeɪzɪŋ/", "pos": "adj.", "core": false, "e": "🤩"}, {"w": "wait", "cn": "等待", "ipa": "/weɪt/", "pos": "v./n.", "core": false, "e": "⌛"}], sentences: [] },
+  { id: 20, title: "", words: [{"w": "capital", "cn": "首都；资本", "ipa": "/ˈkæpɪtl/", "pos": "n./adj.", "core": true, "e": "🏛️"}, {"w": "city", "cn": "城市", "ipa": "/ˈsɪti/", "pos": "n.", "core": true, "e": "🏙️"}, {"w": "France", "cn": "法国", "ipa": "/frɑːns/", "pos": "n. 专有名词", "core": true, "e": "🥖"}, {"w": "Paris", "cn": "巴黎", "ipa": "/ˈpærɪs/", "pos": "n. 专有名词", "core": true, "e": "🗼"}, {"w": "speak", "cn": "说；讲", "ipa": "/spiːk/", "pos": "v.", "core": true, "e": "🗣️"}, {"w": "French", "cn": "法语；法国的", "ipa": "/frentʃ/", "pos": "n./adj.", "core": true, "e": "🥐"}, {"w": "Canadian", "cn": "加拿大人；加拿大的", "ipa": "/kəˈneɪdiən/", "pos": "n./adj.", "core": true, "e": "🍁"}, {"w": "London", "cn": "伦敦", "ipa": "/ˈlʌndən/", "pos": "n. 专有名词", "core": false, "e": "💂"}, {"w": "location", "cn": "位置；地点", "ipa": "/ləʊˈkeɪʃn/", "pos": "n.", "core": false, "e": "📍"}, {"w": "language", "cn": "语言", "ipa": "/ˈlæŋɡwɪdʒ/", "pos": "n.", "core": false, "e": "🔤"}, {"w": "Ottawa", "cn": "渥太华", "ipa": "/ˈɒtəwə/", "pos": "n. 专有名词", "core": false, "e": "🌲"}, {"w": "card", "cn": "卡片", "ipa": "/kɑːd/", "pos": "n.", "core": false, "e": "🃏"}], sentences: [] },
+  { id: 21, title: "", words: [{"w": "River Thames", "cn": "泰晤士河", "ipa": "/ˈrɪvə temz/", "pos": "n. 专有名词", "core": true, "e": "🌉"}, {"w": "other", "cn": "其他的", "ipa": "/ˈʌðə/", "pos": "adj./pron.", "core": true, "e": "👉"}, {"w": "Big Ben", "cn": "大本钟", "ipa": "/bɪɡ ben/", "pos": "n. 专有名词", "core": true, "e": "🕰️"}, {"w": "clock", "cn": "钟，钟表", "ipa": "/klɒk/", "pos": "n./v.", "core": true, "e": "⏰"}, {"w": "heavy", "cn": "重的；沉重的", "ipa": "/ˈhevi/", "pos": "adj.", "core": true, "e": "🏋️"}, {"w": "tower", "cn": "塔", "ipa": "/ˈtaʊə/", "pos": "n.", "core": true, "e": "🗼"}, {"w": "wheel", "cn": "轮子", "ipa": "/wiːl/", "pos": "n./v.", "core": true, "e": "⚙️"}, {"w": "sky wheel", "cn": "摩天轮", "ipa": "/skaɪ wiːl/", "pos": "n. 短语", "core": true, "e": "🎡"}, {"w": "bank", "cn": "银行；河岸", "ipa": "/bæŋk/", "pos": "n.", "core": true, "e": "🏦"}, {"w": "top", "cn": "顶部；最高的", "ipa": "/tɒp/", "pos": "n./adj.", "core": true, "e": "🔝"}, {"w": "famous", "cn": "著名的", "ipa": "/ˈfeɪməs/", "pos": "adj.", "core": false, "e": "🌟"}, {"w": "longest", "cn": "最长的", "ipa": "/ˈlɒŋɡɪst/", "pos": "adj./adv.", "core": false, "e": "📏"}, {"w": "the Great Bell", "cn": "大钟（钟楼大钟）", "ipa": "/ðə ɡreɪt bel/", "pos": "n. 短语", "core": false, "e": "🔔"}, {"w": "through", "cn": "通过；穿过", "ipa": "/θruː/", "pos": "prep./adv.", "core": false, "e": "🚇"}, {"w": "poster", "cn": "海报", "ipa": "/ˈpəʊstə/", "pos": "n.", "core": false, "e": "📰"}, {"w": "finish", "cn": "完成；结束", "ipa": "/ˈfɪnɪʃ/", "pos": "v./n.", "core": false, "e": "🏁"}, {"w": "Toronto", "cn": "多伦多", "ipa": "/təˈrɒntəʊ/", "pos": "n. 专有名词", "core": false, "e": "🏙️"}, {"w": "CN Tower", "cn": "加拿大国家电视塔", "ipa": "/ˌsiː ˈen ˈtaʊə/", "pos": "n. 专有名词", "core": false, "e": "📡"}], sentences: [] },
+  { id: 22, title: "", words: [{"w": "New Delhi", "cn": "新德里", "ipa": "/njuː ˈdeli/", "pos": "n. 专有名词", "core": true, "e": "🐘"}, {"w": "Taj Mahal", "cn": "泰姬陵", "ipa": "/tɑːdʒ məˈhɑːl/", "pos": "n. 专有名词", "core": true, "e": "🕌"}, {"w": "most", "cn": "大多数；最", "ipa": "/məʊst/", "pos": "pron./adv.", "core": true, "e": "💯"}, {"w": "wonder", "cn": "奇迹；想知道", "ipa": "/ˈwʌndə/", "pos": "n./v.", "core": true, "e": "✨"}, {"w": "Italy", "cn": "意大利", "ipa": "/ˈɪtəli/", "pos": "n. 专有名词", "core": true, "e": "🍕"}, {"w": "Rome", "cn": "罗马", "ipa": "/rəʊm/", "pos": "n. 专有名词", "core": true, "e": "🏛️"}, {"w": "Venice", "cn": "威尼斯", "ipa": "/ˈvenɪs/", "pos": "n. 专有名词", "core": true, "e": "🛶"}, {"w": "taxi", "cn": "出租车", "ipa": "/ˈtæksi/", "pos": "n./v.", "core": true, "e": "🚕"}, {"w": "Washington, D.C.", "cn": "华盛顿特区", "ipa": "/ˈwɒʃɪŋtən ˌdiː ˈsiː/", "pos": "n. 专有名词", "core": true, "e": "🦅"}, {"w": "UN", "cn": "联合国", "ipa": "/ˌjuː ˈen/", "pos": "abbr. 专有名词", "core": true, "e": "🌐"}, {"w": "New York", "cn": "纽约", "ipa": "/njuː jɔːk/", "pos": "n. 专有名词", "core": true, "e": "🗽"}, {"w": "work", "cn": "工作；作品", "ipa": "/wɜːk/", "pos": "v./n.", "core": true, "e": "💼"}, {"w": "report", "cn": "报告；报道", "ipa": "/rɪˈpɔːt/", "pos": "n./v.", "core": false, "e": "📝"}, {"w": "whose", "cn": "谁的", "ipa": "/huːz/", "pos": "pron.", "core": false, "e": "❓"}, {"w": "information", "cn": "信息", "ipa": "/ˌɪnfəˈmeɪʃn/", "pos": "n.", "core": false, "e": "ℹ️"}, {"w": "mind map", "cn": "思维导图", "ipa": "/maɪnd mæp/", "pos": "n. 短语", "core": false, "e": "🧠"}, {"w": "unit", "cn": "单元；单位", "ipa": "/ˈjuːnɪt/", "pos": "n.", "core": false, "e": "📘"}, {"w": "page", "cn": "页；页面", "ipa": "/peɪdʒ/", "pos": "n.", "core": false, "e": "📄"}, {"w": "glue", "cn": "胶水；粘贴", "ipa": "/ɡluː/", "pos": "n./v.", "core": false, "e": "🧴"}, {"w": "free", "cn": "自由的；免费的", "ipa": "/friː/", "pos": "adj./v.", "core": false, "e": "🆓"}, {"w": "letter", "cn": "信；字母", "ipa": "/ˈletə/", "pos": "n.", "core": false, "e": "✉️"}], sentences: [] },
+  { id: 23, title: "", words: [{"w": "popular", "cn": "流行的；受欢迎的", "ipa": "/ˈpɒpjələ/", "pos": "adj.", "core": true, "e": "🔥"}, {"w": "badminton", "cn": "羽毛球", "ipa": "/ˈbædmɪntən/", "pos": "n.", "core": true, "e": "🏸"}, {"w": "hit", "cn": "击打；击中", "ipa": "/hɪt/", "pos": "v./n.", "core": true, "e": "💥"}, {"w": "miss", "cn": "错过；想念", "ipa": "/mɪs/", "pos": "v./n.", "core": true, "e": "💭"}, {"w": "another", "cn": "另一个", "ipa": "/əˈnʌðə/", "pos": "pron./adj.", "core": true, "e": "🔁"}, {"w": "practice", "cn": "练习", "ipa": "/ˈpræktɪs/", "pos": "n./v.", "core": false, "e": "🏋️"}, {"w": "bat", "cn": "球拍；蝙蝠", "ipa": "/bæt/", "pos": "n./v.", "core": false, "e": "🏏"}, {"w": "team", "cn": "队；团队", "ipa": "/tiːm/", "pos": "n./v.", "core": false, "e": "👥"}], sentences: [] },
+  { id: 24, title: "", words: [{"w": "British", "cn": "英国的；英国人", "ipa": "/ˈbrɪtɪʃ/", "pos": "adj./n.", "core": true, "e": "💂"}, {"w": "much", "cn": "许多；大量", "ipa": "/mʌtʃ/", "pos": "adj./pron.", "core": true, "e": "📦"}, {"w": "tennis", "cn": "网球", "ipa": "/ˈtenɪs/", "pos": "n.", "core": true, "e": "🎾"}, {"w": "rugby", "cn": "橄榄球", "ipa": "/ˈrʌɡbi/", "pos": "n.", "core": true, "e": "🏉"}, {"w": "lesson", "cn": "课；课程", "ipa": "/ˈlesn/", "pos": "n.", "core": true, "e": "📖"}, {"w": "team", "cn": "队；团队", "ipa": "/tiːm/", "pos": "n./v.", "core": true, "e": "👥"}, {"w": "really", "cn": "真正地；非常", "ipa": "/ˈriːəli/", "pos": "adv.", "core": true, "e": "‼️"}, {"w": "lover", "cn": "爱好者；爱人", "ipa": "/ˈlʌvə/", "pos": "n.", "core": false, "e": "❤️"}, {"w": "of course", "cn": "当然", "ipa": "/ɒv kɔːs/", "pos": "短语", "core": false, "e": "👌"}, {"w": "skiing", "cn": "滑雪", "ipa": "/ˈskiːɪŋ/", "pos": "v./n.", "core": false, "e": "⛷️"}, {"w": "future", "cn": "未来；将来", "ipa": "/ˈfjuːtʃə/", "pos": "n./adj.", "core": false, "e": "🚀"}], sentences: [] },
+  { id: 25, title: "", words: [{"w": "news", "cn": "新闻", "ipa": "/njuːz/", "pos": "n.", "core": true, "e": "📺"}, {"w": "skiing", "cn": "滑雪", "ipa": "/ˈskiːɪŋ/", "pos": "v./n.", "core": true, "e": "⛷️"}, {"w": "ice hockey", "cn": "冰球", "ipa": "/aɪs ˈhɒki/", "pos": "n. 短语", "core": true, "e": "🏒"}, {"w": "age", "cn": "年龄；时代", "ipa": "/eɪdʒ/", "pos": "n./v.", "core": true, "e": "🎂"}, {"w": "medal", "cn": "奖牌；勋章", "ipa": "/ˈmedl/", "pos": "n.", "core": true, "e": "🏅"}, {"w": "Olympics", "cn": "奥运会", "ipa": "/əˈlɪmpɪks/", "pos": "n. 专有名词", "core": true, "e": "🏟️"}, {"w": "exciting", "cn": "令人兴奋的", "ipa": "/ɪkˈsaɪtɪŋ/", "pos": "adj.", "core": true, "e": "🎉"}, {"w": "skating", "cn": "滑冰", "ipa": "/ˈskeɪtɪŋ/", "pos": "v./n.", "core": false, "e": "⛸️"}, {"w": "example", "cn": "例子；榜样", "ipa": "/ɪɡˈzɑːmpl/", "pos": "n.", "core": false, "e": "💡"}, {"w": "Russian", "cn": "俄罗斯的；俄语；俄罗斯人", "ipa": "/ˈrʌʃn/", "pos": "adj./n.", "core": false, "e": "❄️"}, {"w": "figure", "cn": "数字；人物；体型", "ipa": "/ˈfɪɡə/", "pos": "n./v.", "core": false, "e": "🔢"}, {"w": "Olympic Games", "cn": "奥运会", "ipa": "/əˈlɪmpɪk ɡeɪmz/", "pos": "n. 专有名词", "core": false, "e": "🥇"}, {"w": "rider", "cn": "骑手；骑行者", "ipa": "/ˈraɪdə/", "pos": "n.", "core": false, "e": "🏇"}], sentences: [] },
+  { id: 26, title: "", words: [{"w": "single", "cn": "单一的；单人的", "ipa": "/ˈsɪŋɡl/", "pos": "adj./n.", "core": true, "e": "👤"}, {"w": "double", "cn": "双倍的；双人的", "ipa": "/ˈdʌbl/", "pos": "adj./v./n.", "core": true, "e": "👥"}, {"w": "guess", "cn": "猜测；猜想", "ipa": "/ɡes/", "pos": "v./n.", "core": false, "e": "🤔"}, {"w": "else", "cn": "其他的；别的", "ipa": "/els/", "pos": "adj./adv.", "core": false, "e": "🔀"}, {"w": "video", "cn": "视频；录像", "ipa": "/ˈvɪdiəʊ/", "pos": "n./v.", "core": false, "e": "📹"}, {"w": "own", "cn": "自己的；拥有", "ipa": "/əʊn/", "pos": "adj./v.", "core": false, "e": "🙋"}, {"w": "station", "cn": "车站；站", "ipa": "/ˈsteɪʃn/", "pos": "n.", "core": false, "e": "🚉"}], sentences: [] },
+  { id: 27, title: "", words: [{"w": "side", "cn": "边；侧面", "ipa": "/saɪd/", "pos": "n./adj.", "core": true, "e": "📐"}, {"w": "South Africa", "cn": "南非", "ipa": "/saʊθ ˈæfrɪkə/", "pos": "n. 专有名词", "core": false, "e": "🦒"}, {"w": "official", "cn": "官方的；官员", "ipa": "/əˈfɪʃl/", "pos": "adj./n.", "core": false, "e": "👮"}, {"w": "Cape Town", "cn": "开普敦", "ipa": "/keɪp taʊn/", "pos": "n. 专有名词", "core": false, "e": "⚓"}, {"w": "Table Mountain", "cn": "桌山", "ipa": "/ˈteɪbl ˈmaʊntən/", "pos": "n. 专有名词", "core": false, "e": "⛰️"}, {"w": "tops", "cn": "顶部；上衣", "ipa": "/tɒps/", "pos": "n. 复数", "core": false, "e": "👚"}, {"w": "flat", "cn": "平的；公寓", "ipa": "/flæt/", "pos": "adj./n.", "core": false, "e": "🏢"}, {"w": "hike", "cn": "远足；徒步旅行", "ipa": "/haɪk/", "pos": "v./n.", "core": false, "e": "🥾"}, {"w": "camp", "cn": "露营；营地", "ipa": "/kæmp/", "pos": "v./n.", "core": false, "e": "⛺"}, {"w": "and so on", "cn": "等等", "ipa": "/ænd səʊ ɒn/", "pos": "短语", "core": false, "e": "✳️"}], sentences: [] },
+  { id: 28, title: "", words: [{"w": "fill", "cn": "填写；装满", "ipa": "/fɪl/", "pos": "v./n.", "core": true, "e": "🖊️"}, {"w": "speed", "cn": "速度；加速", "ipa": "/spiːd/", "pos": "n./v.", "core": false, "e": "🏎️"}, {"w": "convenient", "cn": "方便的", "ipa": "/kənˈviːniənt/", "pos": "adj.", "core": false, "e": "👌"}, {"w": "Disneyland", "cn": "迪士尼乐园", "ipa": "/ˈdɪznɪlænd/", "pos": "n. 专有名词", "core": false, "e": "🏰"}, {"w": "Oriental Pearl Tower", "cn": "东方明珠塔", "ipa": "/ˌɔːriˈentl ˈpɜːl ˈtaʊə/", "pos": "n. 专有名词", "core": false, "e": "🗼"}, {"w": "subway", "cn": "地铁", "ipa": "/ˈsʌbweɪ/", "pos": "n.", "core": false, "e": "🚇"}, {"w": "modern", "cn": "现代的", "ipa": "/ˈmɒdn/", "pos": "adj.", "core": false, "e": "🏙️"}, {"w": "Athens", "cn": "雅典", "ipa": "/ˈæθɪnz/", "pos": "n. 专有名词", "core": false, "e": "🏛️"}, {"w": "costume", "cn": "服装；戏服", "ipa": "/ˈkɒstjuːm/", "pos": "n./v.", "core": false, "e": "🎭"}, {"w": "Greece", "cn": "希腊", "ipa": "/ɡriːs/", "pos": "n. 专有名词", "core": false, "e": "🏺"}, {"w": "hold", "cn": "举办；握住；持有", "ipa": "/həʊld/", "pos": "v./n.", "core": false, "e": "✊"}, {"w": "motto", "cn": "座右铭；格言", "ipa": "/ˈmɒtəʊ/", "pos": "n.", "core": false, "e": "💬"}, {"w": "success", "cn": "成功", "ipa": "/səkˈses/", "pos": "n.", "core": false, "e": "🏆"}, {"w": "dual", "cn": "双重的；双的", "ipa": "/ˈdjuːəl/", "pos": "adj./n.", "core": false, "e": "✌️"}, {"w": "proud", "cn": "骄傲的；自豪的", "ipa": "/praʊd/", "pos": "adj.", "core": false, "e": "😊"}, {"w": "part", "cn": "部分；角色；分开", "ipa": "/pɑːt/", "pos": "n./v.", "core": false, "e": "🧩"}, {"w": "island", "cn": "岛屿", "ipa": "/ˈaɪlənd/", "pos": "n.", "core": false, "e": "🏝️"}, {"w": "Empire State Building", "cn": "帝国大厦", "ipa": "/ˈempaɪə steɪt ˈbɪldɪŋ/", "pos": "n. 专有名词", "core": false, "e": "🏢"}, {"w": "Wall Street", "cn": "华尔街", "ipa": "/wɔːl striːt/", "pos": "n. 专有名词", "core": false, "e": "💵"}, {"w": "centre", "cn": "中心；中央", "ipa": "/ˈsentə/", "pos": "n./v.", "core": false, "e": "🎯"}, {"w": "Central Park", "cn": "中央公园", "ipa": "/ˈsentrəl pɑːk/", "pos": "n. 专有名词", "core": false, "e": "🌳"}, {"w": "appear", "cn": "出现；显得", "ipa": "/əˈpɪə/", "pos": "v.", "core": false, "e": "👀"}, {"w": "immigrant", "cn": "移民", "ipa": "/ˈɪmɪɡrənt/", "pos": "n./adj.", "core": false, "e": "🧳"}, {"w": "taste", "cn": "品尝；味道", "ipa": "/teɪst/", "pos": "v./n.", "core": false, "e": "😋"}, {"w": "Notting Hill", "cn": "诺丁山", "ipa": "/ˈnɒtɪŋ hɪl/", "pos": "n. 专有名词", "core": false, "e": "🏘️"}, {"w": "West Indies", "cn": "西印度群岛", "ipa": "/west ˈɪndiz/", "pos": "n. 专有名词", "core": false, "e": "🏝️"}, {"w": "carnival", "cn": "狂欢节；嘉年华（专有名词时首字母大写：Carnival）", "ipa": "/ˈkɑːnɪvl/", "pos": "n.", "core": false, "e": "🎊"}, {"w": "million", "cn": "百万", "ipa": "/ˈmɪljən/", "pos": "num./n.", "core": false, "e": "💰"}, {"w": "drum", "cn": "鼓；击鼓", "ipa": "/drʌm/", "pos": "n./v.", "core": false, "e": "🥁"}], sentences: [] }
+);
+/* 第1–8课：先只有单词 */
+UNITS.unshift(
+  { id: 1, title: "", words: [{"w": "which", "cn": "哪一个；哪一些", "ipa": "/wɪtʃ/", "pos": "pron./adj.", "core": true, "e": "🤷"}, {"w": "journey", "cn": "旅行；行程", "ipa": "/ˈdʒɜːni/", "pos": "n.", "core": true, "e": "🧭"}, {"w": "difficult", "cn": "困难的", "ipa": "/ˈdɪfɪkəlt/", "pos": "adj.", "core": true, "e": "🧗"}, {"w": "ancient", "cn": "古老的；古代的", "ipa": "/ˈeɪnʃənt/", "pos": "adj.", "core": true, "e": "🏺"}, {"w": "India", "cn": "印度", "ipa": "/ˈɪndiə/", "pos": "n.", "core": true, "e": "🐘"}, {"w": "Pigsy", "cn": "猪八戒（西游记角色）", "ipa": "/ˈpɪɡzi/", "pos": "n.", "core": true, "e": "🐷"}, {"w": "better", "cn": "更好的（good/well的比较级）", "ipa": "/ˈbetə(r)/", "pos": "adj./adv.", "core": false, "e": "📈"}, {"w": "west", "cn": "西方；西部；西方的；向西", "ipa": "/west/", "pos": "n./adj./adv.", "core": false, "e": "⬅️"}, {"w": "famous", "cn": "著名的", "ipa": "/ˈfeɪməs/", "pos": "adj.", "core": false, "e": "🌟"}, {"w": "story", "cn": "故事", "ipa": "/ˈstɔːri/", "pos": "n.", "core": false, "e": "📖"}, {"w": "sound", "cn": "听起来；声音", "ipa": "/saʊnd/", "pos": "v./n.", "core": false, "e": "🔊"}, {"w": "travel", "cn": "旅行", "ipa": "/ˈtrævl/", "pos": "v./n.", "core": false, "e": "✈️"}, {"w": "part", "cn": "部分；角色；分开", "ipa": "/pɑːt/", "pos": "n./v.", "core": false, "e": "🧩"}], sentences: [] },
+  { id: 2, title: "", words: [{"w": "subject", "cn": "科目；主题", "ipa": "/ˈsʌbdʒɪkt/", "pos": "n.", "core": true, "e": "📚"}, {"w": "maths", "cn": "数学（= mathematics）", "ipa": "/mæθs/", "pos": "n.", "core": true, "e": "➗"}, {"w": "music", "cn": "音乐", "ipa": "/ˈmjuːzɪk/", "pos": "n.", "core": true, "e": "🎵"}, {"w": "calligraphy", "cn": "书法", "ipa": "/kəˈlɪɡrəfi/", "pos": "n.", "core": true, "e": "🖌️"}, {"w": "PE", "cn": "体育（= Physical Education）", "ipa": "/ˌpiː ˈiː/", "pos": "n.", "core": true, "e": "🤸"}, {"w": "important", "cn": "重要的", "ipa": "/ɪmˈpɔːtnt/", "pos": "adj.", "core": true, "e": "❗"}, {"w": "over", "cn": "在……上方；结束；超过", "ipa": "/ˈəʊvə(r)/", "pos": "prep./adv./adj.", "core": true, "e": "🔚"}, {"w": "art", "cn": "美术；艺术", "ipa": "/ɑːt/", "pos": "n.", "core": false, "e": "🎨"}, {"w": "best", "cn": "最好的（good/well的最高级）", "ipa": "/best/", "pos": "adj./adv.", "core": false, "e": "🥇"}, {"w": "useful", "cn": "有用的", "ipa": "/ˈjuːsfl/", "pos": "adj.", "core": false, "e": "🛠️"}, {"w": "reason", "cn": "原因；理由", "ipa": "/ˈriːzn/", "pos": "n.", "core": false, "e": "❔"}, {"w": "problem", "cn": "问题；难题", "ipa": "/ˈprɒbləm/", "pos": "n.", "core": false, "e": "🤔"}], sentences: [] },
+  { id: 3, title: "", words: [{"w": "quiet", "cn": "安静的", "ipa": "/ˈkwaɪət/", "pos": "adj.", "core": true, "e": "🤫"}, {"w": "place", "cn": "地方；放置", "ipa": "/pleɪs/", "pos": "n./v.", "core": true, "e": "📍"}, {"w": "hill", "cn": "小山；山丘", "ipa": "/hɪl/", "pos": "n.", "core": true, "e": "⛰️"}, {"w": "take", "cn": "拿；乘坐；花费", "ipa": "/teɪk/", "pos": "v.", "core": true, "e": "✋"}, {"w": "some", "cn": "一些；某些；大约", "ipa": "/sʌm/", "pos": "det./pron./adv.", "core": true, "e": "🍬"}, {"w": "delicious", "cn": "美味的；可口的", "ipa": "/dɪˈlɪʃəs/", "pos": "adj.", "core": true, "e": "😋"}, {"w": "us", "cn": "我们（宾格）", "ipa": "/ʌs/", "pos": "pron.", "core": true, "e": "👫"}, {"w": "plant", "cn": "植物；种植", "ipa": "/plɑːnt/", "pos": "n./v.", "core": false, "e": "🌱"}, {"w": "smile", "cn": "微笑", "ipa": "/smaɪl/", "pos": "v./n.", "core": false, "e": "😊"}, {"w": "nature", "cn": "自然；自然界", "ipa": "/ˈneɪtʃə(r)/", "pos": "n.", "core": false, "e": "🌿"}], sentences: [] },
+  { id: 4, title: "", words: [{"w": "practice", "cn": "练习；实践", "ipa": "/ˈpræktɪs/", "pos": "v./n.", "core": true, "e": "🏋️"}, {"w": "every", "cn": "每一个", "ipa": "/ˈevri/", "pos": "det.", "core": true, "e": "📆"}, {"w": "write", "cn": "写；书写", "ipa": "/raɪt/", "pos": "v.", "core": true, "e": "✍️"}, {"w": "character", "cn": "角色；字符；性格", "ipa": "/ˈkærəktə(r)/", "pos": "n.", "core": true, "e": "🀄"}, {"w": "match", "cn": "比赛；匹配；相配", "ipa": "/mætʃ/", "pos": "n./v.", "core": false, "e": "🆚"}, {"w": "video", "cn": "视频；录像", "ipa": "/ˈvɪdiəʊ/", "pos": "n.", "core": false, "e": "📹"}, {"w": "train", "cn": "火车；训练", "ipa": "/treɪn/", "pos": "n./v.", "core": false, "e": "🚆"}, {"w": "away", "cn": "离开；远离", "ipa": "/əˈweɪ/", "pos": "adv.", "core": false, "e": "🏃"}], sentences: [] },
+  { id: 5, title: "", words: [{"w": "Mid-Autumn Festival", "cn": "中秋节", "ipa": "/ˌmɪd ˈɔːtəm ˈfestɪvl/", "pos": "n.", "core": true, "e": "🎑"}, {"w": "fifteenth", "cn": "第十五", "ipa": "/ˌfɪfˈtiːnθ/", "pos": "ordinal num.", "core": true, "e": "🔢"}, {"w": "eighth", "cn": "第八", "ipa": "/eɪtθ/", "pos": "ordinal num.", "core": true, "e": "8️⃣"}, {"w": "month", "cn": "月份", "ipa": "/mʌnθ/", "pos": "n.", "core": true, "e": "🗓️"}, {"w": "lunar calendar", "cn": "农历；阴历", "ipa": "/ˌluːnə(r) ˈkælɪndə(r)/", "pos": "n.", "core": true, "e": "🌙"}, {"w": "usually", "cn": "通常；平常", "ipa": "/ˈjuːʒuəli/", "pos": "adv.", "core": true, "e": "🔄"}, {"w": "middle", "cn": "中间；中间的", "ipa": "/ˈmɪdl/", "pos": "n./adj.", "core": true, "e": "↕️"}, {"w": "moon", "cn": "月亮", "ipa": "/muːn/", "pos": "n.", "core": true, "e": "🌕"}, {"w": "cake", "cn": "蛋糕", "ipa": "/keɪk/", "pos": "n.", "core": true, "e": "🍰"}, {"w": "any", "cn": "任何；一些（用于否定/疑问句）", "ipa": "/ˈeni/", "pos": "det./pron./adv.", "core": true, "e": "🎲"}, {"w": "fall", "cn": "落下；来临；秋天（美式）", "ipa": "/fɔːl/", "pos": "v./n.", "core": false, "e": "🍂"}, {"w": "autumn", "cn": "秋天（英式）", "ipa": "/ˈɔːtəm/", "pos": "n.", "core": false, "e": "🍁"}, {"w": "full", "cn": "满的；饱的", "ipa": "/fʊl/", "pos": "adj.", "core": false, "e": "🔋"}, {"w": "date", "cn": "日期；约会", "ipa": "/deɪt/", "pos": "n./v.", "core": false, "e": "📆"}, {"w": "Dragon Boat Festival", "cn": "端午节", "ipa": "/ˌdræɡən bəʊt ˈfestɪvl/", "pos": "n.", "core": false, "e": "🐉"}, {"w": "Lantern Festival", "cn": "元宵节", "ipa": "/ˈlæntən ˈfestɪvl/", "pos": "n.", "core": false, "e": "🏮"}], sentences: [] },
+  { id: 6, title: "", words: [{"w": "Double Ninth Festival", "cn": "重阳节", "ipa": "/ˌdʌbl naɪnθ ˈfestɪvl/", "pos": "n.", "core": true, "e": "🌼"}, {"w": "ninth", "cn": "第九", "ipa": "/naɪnθ/", "pos": "ordinal num.", "core": true, "e": "9️⃣"}, {"w": "elder", "cn": "年长的；长辈", "ipa": "/ˈeldə(r)/", "pos": "adj./n.", "core": true, "e": "👵"}, {"w": "here", "cn": "这里", "ipa": "/hɪə(r)/", "pos": "adv.", "core": true, "e": "👇"}, {"w": "life", "cn": "生命；生活（复数：lives）", "ipa": "/laɪf/", "pos": "n.", "core": true, "e": "🌳"}, {"w": "something", "cn": "某事；某物", "ipa": "/ˈsʌmθɪŋ/", "pos": "pron.", "core": true, "e": "📦"}, {"w": "care", "cn": "关心；在意；照顾", "ipa": "/keə(r)/", "pos": "v./n.", "core": true, "e": "💗"}, {"w": "visit", "cn": "参观；拜访", "ipa": "/ˈvɪzɪt/", "pos": "v./n.", "core": false, "e": "🏠"}, {"w": "special", "cn": "特别的；特殊的", "ipa": "/ˈspeʃl/", "pos": "adj.", "core": false, "e": "✨"}, {"w": "meaning", "cn": "意思；含义", "ipa": "/ˈmiːnɪŋ/", "pos": "n.", "core": false, "e": "💡"}, {"w": "mean", "cn": "意思是；意味着；刻薄的", "ipa": "/miːn/", "pos": "v./adj.", "core": false, "e": "💭"}, {"w": "wish", "cn": "希望；祝愿", "ipa": "/wɪʃ/", "pos": "v./n.", "core": false, "e": "🌠"}, {"w": "always", "cn": "总是；一直", "ipa": "/ˈɔːlweɪz/", "pos": "adv.", "core": false, "e": "♾️"}, {"w": "choose", "cn": "选择；挑选", "ipa": "/tʃuːz/", "pos": "v.", "core": false, "e": "👆"}, {"w": "choice", "cn": "选择；抉择", "ipa": "/tʃɔɪs/", "pos": "n.", "core": false, "e": "☑️"}, {"w": "take care of", "cn": "照顾；照料（= look after）", "ipa": "/teɪk keə ɒv/", "pos": "短语", "core": false, "e": "🤲"}], sentences: [] },
+  { id: 7, title: "", words: [{"w": "Tomb-Sweeping Day", "cn": "清明节", "ipa": "/tuːm ˈswiːpɪŋ deɪ/", "pos": "n.", "core": true, "e": "🌧️"}, {"w": "traditional", "cn": "传统的", "ipa": "/trəˈdɪʃənl/", "pos": "adj.", "core": true, "e": "🏮"}, {"w": "mostly", "cn": "主要地；通常", "ipa": "/ˈməʊstli/", "pos": "adv.", "core": true, "e": "📊"}, {"w": "tomb", "cn": "坟墓；墓穴", "ipa": "/tuːm/", "pos": "n.", "core": true, "e": "⚱️"}, {"w": "their", "cn": "他们的；她们的；它们的", "ipa": "/ðeə(r)/", "pos": "det.", "core": true, "e": "👪"}, {"w": "national", "cn": "国家的；民族的", "ipa": "/ˈnæʃnəl/", "pos": "adj.", "core": true, "e": "🎖️"}, {"w": "hero", "cn": "英雄（复数：heroes）", "ipa": "/ˈhɪərəʊ/", "pos": "n.", "core": true, "e": "🦸"}, {"w": "public", "cn": "公共的；公众", "ipa": "/ˈpʌblɪk/", "pos": "adj./n.", "core": true, "e": "🚏"}, {"w": "south", "cn": "南方；南部；南方的；向南", "ipa": "/saʊθ/", "pos": "n./adj./adv.", "core": true, "e": "⬇️"}, {"w": "ball", "cn": "球；舞会", "ipa": "/bɔːl/", "pos": "n.", "core": true, "e": "⚽"}, {"w": "email", "cn": "电子邮件；发邮件", "ipa": "/ˈiːmeɪl/", "pos": "n./v.", "core": true, "e": "📧"}, {"w": "memory", "cn": "记忆，记忆力；回忆，往事", "ipa": "/ˈmemri/", "pos": "n.", "core": false, "e": "🧠"}, {"w": "dead", "cn": "死的；去世的", "ipa": "/ded/", "pos": "adj.", "core": false, "e": "🥀"}, {"w": "sweep", "cn": "打扫；清扫", "ipa": "/swiːp/", "pos": "v./n.", "core": false, "e": "🧹"}, {"w": "member", "cn": "成员；会员", "ipa": "/ˈmembə(r)/", "pos": "n.", "core": false, "e": "🙋"}], sentences: [] },
+  { id: 8, title: "", words: [{"w": "solar term", "cn": "节气", "ipa": "/ˈsəʊlə(r) tɜːm/", "pos": "n.", "core": true, "e": "☀️"}, {"w": "crop", "cn": "庄稼；作物；收割", "ipa": "/krɒp/", "pos": "n./v.", "core": true, "e": "🌾"}, {"w": "north", "cn": "北方；北部；北方的；向北", "ipa": "/nɔːθ/", "pos": "n./adj./adv.", "core": true, "e": "⬆️"}, {"w": "grow", "cn": "生长；种植；成长", "ipa": "/ɡrəʊ/", "pos": "v.", "core": true, "e": "🌱"}, {"w": "thing", "cn": "东西；事情", "ipa": "/θɪŋ/", "pos": "n.", "core": true, "e": "📦"}, {"w": "harvest", "cn": "收获；收割；收成", "ipa": "/ˈhɑːvɪst/", "pos": "v./n.", "core": true, "e": "🌽"}, {"w": "keep", "cn": "保持；保留；饲养", "ipa": "/kiːp/", "pos": "v.", "core": true, "e": "🔐"}, {"w": "store up", "cn": "储存；储备", "ipa": "/stɔː(r) ʌp/", "pos": "短语", "core": true, "e": "🥫"}, {"w": "begin", "cn": "开始（过去式：began）", "ipa": "/bɪˈɡɪn/", "pos": "v.", "core": false, "e": "▶️"}, {"w": "front", "cn": "前面；前部；前面的；向前", "ipa": "/frʌnt/", "pos": "n./adj./adv.", "core": false, "e": "⏭️"}, {"w": "back", "cn": "后面；背部；后面的；向后；后退", "ipa": "/bæk/", "pos": "n./adj./adv./v.", "core": false, "e": "🔙"}, {"w": "page", "cn": "页；页码", "ipa": "/peɪdʒ/", "pos": "n.", "core": false, "e": "📄"}, {"w": "temperature", "cn": "温度", "ipa": "/ˈtemprətʃə(r)/", "pos": "n.", "core": false, "e": "🌡️"}, {"w": "highest", "cn": "最高的（high的最高级）", "ipa": "/ˈhaɪɪst/", "pos": "adj.", "core": false, "e": "🔝"}, {"w": "lowest", "cn": "最低的（low的最高级）", "ipa": "/ˈləʊɪst/", "pos": "adj.", "core": false, "e": "📉"}, {"w": "chart", "cn": "图表；曲线图", "ipa": "/tʃɑːt/", "pos": "n.", "core": false, "e": "📊"}], sentences: [] }
+);
+/* 第12–15课课本内容 */
+const TEXTS = {
+"6":{"title": "Double Ninth Festival for Elders", "sentences": [["课文 · 第19页"], ["Sara", "Hello, Lingling! What's in your hands?", "你好，玲玲！你手里拿的是什么？"], ["Lingling", "Hi, Sara! Here are some Chongyang cakes for my grandparents.", "你好，萨拉！这是给我爷爷奶奶的重阳糕。"], ["Lingling", "I'm going to visit them.", "我要去看望他们。"], ["Lingling", "Today is the Double Ninth Festival.", "今天是重阳节。"], ["Sara", "What is the Double Ninth Festival for?", "重阳节是为了什么？"], ["Lingling", "It's a festival for elders.", "它是老人的节日。"], ["Lingling", "It's on the ninth day of the ninth month in the Chinese calendar.", "在农历九月初九。"], ["Lingling", "We also call it Chongyang Festival.", "我们也叫它重阳节。"], ["Sara", "Is there any special meaning?", "有什么特别的含义吗？"], ["Lingling", "Yes. In Chinese, the number \"nine\" sounds like the word \"long time\".", "有。在汉语里，“九”听起来像“久”。"], ["Lingling", "So \"double ninth\" here means a wish of long life for elders.", "所以“重九”在这里表示祝愿老人长寿。"], ["Sara", "What do you do on the Double Ninth Festival?", "重阳节你们做什么？"], ["Lingling", "Young people always do something for elders to show love and care.", "年轻人总会为老人做些事，表达爱和关心。"], ["Sara", "Sounds interesting.", "听起来很有意思。"], ["练一练 · 第20–21页"], ["", "What can they do on the Double Ninth Festival?", "重阳节他们可以做什么？"], ["", "Please choose the best choice.", "请选出最好的选项。"], ["", "Lily's grandma can't wash her clothes, so Lily can wash clothes for her.", "莉莉的奶奶没法洗衣服，所以莉莉可以帮她洗。"], ["", "Lucy's grandma is old, so Lucy takes care of her.", "露西的奶奶年纪大了，所以露西照顾她。"], ["", "Tom's grandpa likes eating cakes, so Tom buys cakes for him.", "汤姆的爷爷喜欢吃蛋糕，所以汤姆给他买蛋糕。"], ["", "Cici's grandpa likes playing chess, so Cici plays chess with him.", "茜茜的爷爷喜欢下棋，所以茜茜陪他下棋。"], ["", "What do you do on the Double Ninth Festival?", "重阳节你做什么？"], ["", "This is the Double Ninth Festival.", "这是重阳节。"], ["", "It's on the ninth day of the ninth month in the Chinese calendar.", "在农历九月初九。"]]},
+"7":{"title": "Tomb-sweeping Day for Memory", "sentences": [["课文 · 第22页"], ["Sara", "Dear Lucy, I'm learning about traditional Chinese festivals.", "亲爱的露西，我正在学习中国传统节日。"], ["Sara", "Let me tell you a special one: Tomb-sweeping Day.", "我给你讲一个特别的节日：清明节。"], ["Sara", "It mostly falls on the 4th or 5th in April.", "它大多在四月四日或五日。", "It mostly falls on the fourth or fifth in April."], ["Sara", "It's a festival to remember the dead.", "它是纪念逝者的节日。"], ["Sara", "On that day, people usually sweep tombs of their family members and national heroes.", "那一天，人们通常为家人和民族英雄扫墓。"], ["Sara", "Now Tomb-sweeping Day is a public holiday.", "现在清明节是公共假日。"], ["Sara", "People like to go outing on this day.", "人们喜欢在这一天去郊游。"], ["Sara", "In the south of China, people like to eat qingtuan on that day.", "在中国南方，人们喜欢在这一天吃青团。"], ["Sara", "Qingtuan is a kind of sweet green rice ball.", "青团是一种甜甜的绿色米团。"], ["Sara", "Would you like to know more about traditional Chinese festivals?", "你想多了解中国传统节日吗？"], ["Sara", "Please write me an email! Best wishes, Sara.", "请给我写邮件！祝好，萨拉。"], ["练一练 · 第23–24页"], ["", "When is it? What's it for? What do people do?", "它在什么时候？为了什么？人们做什么？"], ["", "Tomb-sweeping Day mostly falls on the 4th or 5th in April each year.", "清明节大多在每年四月四日或五日。", "Tomb-sweeping Day mostly falls on the fourth or fifth in April each year."], ["", "Choose a festival and talk about it.", "选一个节日说一说。"], ["", "Please write an email about a traditional Chinese festival to Lucy.", "请给露西写一封关于中国传统节日的邮件。"], ["", "Let me tell you a traditional Chinese festival.", "我给你讲一个中国传统节日。"], ["", "Would you like to know more about it? Please write me an email.", "你想多了解一些吗？请给我写邮件。"]]},
+"8":{"title": "Solar Terms and Our Life", "sentences": [["课文 · 第25页"], ["", "There are 24 solar terms in the traditional Chinese calendar.", "中国传统历法中有二十四个节气。", "There are twenty-four solar terms in the traditional Chinese calendar."], ["", "Here are the beginning solar terms of each season.", "这里是每个季节开始的节气。"], ["立春", "Beginning of Spring: It is getting warm.", "立春：天气变暖了。"], ["立春", "It's time to plant crops in many places.", "很多地方到了种庄稼的时候。"], ["立春", "On that day, people in North China like to eat chunbing.", "那一天，北方人喜欢吃春饼。"], ["立夏", "Beginning of Summer: After that day, it gets hot quickly.", "立夏：这天以后，天气很快变热。"], ["立夏", "It's time for crops to grow.", "庄稼开始生长了。"], ["立夏", "People in different parts of China eat different food for good luck.", "中国各地的人吃不同的食物，祈求好运。"], ["立秋", "Beginning of Autumn: It is getting cool.", "立秋：天气变凉了。"], ["立秋", "It's time to harvest crops.", "到了收庄稼的时候。"], ["立秋", "People like to eat meat to keep strong.", "人们喜欢吃肉，让身体强壮。"], ["立冬", "Beginning of Winter: After that day, it gets cold quickly.", "立冬：这天以后，天气很快变冷。"], ["立冬", "It's time to store up crops.", "到了储存粮食的时候。"], ["立冬", "People eat jiaozi on that day.", "那一天人们吃饺子。"], ["练一练 · 第26–27页"], ["", "Write about the beginning of the four seasons and the weather.", "写一写四季的开始和天气。"], ["", "Make a card about a solar term.", "做一张关于节气的卡片。"], ["", "Talk about the solar term on the back of the card.", "在卡片背面介绍这个节气。"], ["", "Make a report about a solar term.", "做一个关于节气的报告。"], ["", "What solar term is it in this chart?", "这张图表里是哪个节气？"], ["", "What's the weather like?", "天气怎么样？"], ["", "What can people do in this solar term?", "这个节气人们可以做什么？"], ["", "Write down the temperature of a solar term.", "写下一个节气的温度。"], ["", "I can say the names of solar terms.", "我能说出节气的名称。"], ["", "I can talk about one of the solar terms.", "我能介绍其中一个节气。"], ["歌谣 · 第28页"], ["", "I see a sheep. I see a tree.", "我看见一只羊，我看见一棵树。"], ["", "The sheep is sleeping under the tree.", "羊在树下睡觉。"], ["", "I see three bees. I see my feet.", "我看见三只蜜蜂，我看见我的脚。"], ["", "The bees are dancing by my feet.", "蜜蜂在我脚边跳舞。"], ["", "I like to eat some meat.", "我喜欢吃点肉。"], ["", "My father likes to read.", "我爸爸喜欢读书。"], ["", "Come and drink some tea,", "来喝点茶吧，"], ["", "To feel the sand and sea!", "感受沙滩和大海！"]]},
+
+"1":{"title": "Which One Do You Like Better?", "sentences": [["课文 · 第2页"], ["Sara", "What are you reading, Lingling?", "玲玲，你在读什么？"], ["Lingling", "I'm reading Journey to the West.", "我在读《西游记》。"], ["Lingling", "It's very famous in China.", "它在中国非常有名。"], ["Sara", "Really? What is it about?", "真的吗？它讲的是什么？"], ["Lingling", "It tells about a long and difficult journey to ancient India.", "它讲的是一次去古印度的漫长而艰难的旅程。"], ["Lingling", "I like Wukong the Monkey and Bajie the Pigsy in the story.", "我喜欢故事里的孙悟空和猪八戒。"], ["Sara", "It sounds interesting.", "听起来很有趣。"], ["Sara", "The Monkey or the Pigsy, who do you like better?", "猴子和猪八戒，你更喜欢谁？"], ["Lingling", "I like the Monkey better.", "我更喜欢猴子。"], ["Lingling", "He always has good ideas.", "他总是有好主意。"], ["Lingling", "What books do you like to read, Sara?", "萨拉，你喜欢读什么书？"], ["Sara", "I like Snow White and Around the World in Eighty Days.", "我喜欢《白雪公主》和《八十天环游地球》。"], ["Lingling", "Which one do you like better?", "你更喜欢哪一本？"], ["Sara", "I like Around the World in Eighty Days better because I like travelling.", "我更喜欢《八十天环游地球》，因为我喜欢旅行。"], ["Lingling", "I like it, too. It's a good book for children.", "我也喜欢，它是一本适合孩子的好书。"], ["练一练 · 第3页"], ["", "Lingling is reading Journey to the West.", "玲玲在读《西游记》。"], ["", "She likes the Monkey better in the book.", "她更喜欢书里的猴子。"], ["", "She likes him because he always has good ideas.", "她喜欢他，因为他总是有好主意。"], ["", "She likes this book because she likes travelling.", "她喜欢这本书，因为她喜欢旅行。"], ["", "I like Animal World better because it's interesting.", "我更喜欢《动物世界》，因为它很有趣。"], ["读书分享 · 第4页"], ["", "What books do you like to read?", "你喜欢读什么书？"], ["", "Please share your reading with your friends.", "请和朋友分享你读的书。"], ["", "How many books do you have?", "你有多少本书？"], ["", "How often do you read books?", "你多久读一次书？"], ["", "Story book or science book, which kind of book do you like to read better?", "故事书和科普书，你更喜欢读哪一种？"], ["", "What is your favourite book?", "你最喜欢的书是什么？"]]},
+"2":{"title": "My Favourite Subject Is Maths", "sentences": [["课文 · 第5页"], ["Lingling", "Come and look. We have so many subjects.", "快来看，我们有这么多科目。"], ["Lingling", "They are Chinese, Maths, English, PE, Art, Music, Science and Calligraphy.", "有语文、数学、英语、体育、美术、音乐、科学和书法。"], ["Sara", "Great! Which subject do you like best, Lingling?", "太好了！玲玲，你最喜欢哪一科？"], ["Lingling", "I like Chinese best. It's beautiful and important.", "我最喜欢语文，它优美又重要。"], ["Sara", "What about you, Yangyang?", "洋洋，你呢？"], ["Yangyang", "I like PE best. I love sports.", "我最喜欢体育，我爱运动。"], ["Lingling", "What's your favourite subject, Sara?", "萨拉，你最喜欢的科目是什么？"], ["Sara", "My favourite subject is Maths. It's interesting and useful.", "我最喜欢的科目是数学，它有趣又有用。"], ["Yangyang", "Maths is difficult for me.", "数学对我来说很难。"], ["Sara", "Don't worry. We can study Maths together.", "别担心，我们可以一起学数学。"], ["Sara", "Look! Maomao is drawing over there.", "看！毛毛在那边画画。"], ["Lingling", "He likes drawing very much. And he does best in Art.", "他非常喜欢画画，而且他美术学得最好。"], ["练一练 · 第6–7页"], ["", "Which subject do you like best? Why?", "你最喜欢哪一科？为什么？"], ["", "Which subject do you do best in?", "你哪一科学得最好？"], ["", "Which subject do you have problems with?", "你哪一科有困难？"], ["", "I do best in it. I can help my friends with it.", "我这一科学得最好，我可以帮助朋友学它。"]]},
+"3":{"title": "My Hobby Is Drawing", "sentences": [["课文 · 第8页"], ["Maomao", "Hi, I'm Maomao. My hobby is drawing.", "你好，我是毛毛。我的爱好是画画。"], ["Maomao", "I like drawing everything: plants, animals, my family and friends.", "我什么都喜欢画：植物、动物、我的家人和朋友。"], ["Maomao", "It helps me to see the beautiful world.", "它让我看到美丽的世界。"], ["Maomao", "I like drawing animals with big eyes.", "我喜欢画大眼睛的动物。"], ["Maomao", "I also like drawing children with smiling faces.", "我也喜欢画笑脸的孩子。"], ["Maomao", "Drawing makes me feel happy.", "画画让我感到快乐。"], ["Maomao", "At the weekend, I like to find a quiet place in the park and draw there.", "周末，我喜欢在公园里找个安静的地方画画。"], ["Maomao", "I like drawing trees, flowers, rivers and hills.", "我喜欢画树、花、河流和小山。"], ["Maomao", "In this way I get to know the beautiful nature.", "这样我就认识了美丽的大自然。"], ["Maomao", "I really enjoy drawing.", "我真的很喜欢画画。"], ["Maomao", "My mum's hobby is travelling.", "我妈妈的爱好是旅行。"], ["Maomao", "She always takes me to some interesting places.", "她总是带我去一些有趣的地方。"], ["Maomao", "My dad's hobby is cooking.", "我爸爸的爱好是做饭。"], ["Maomao", "He cooks delicious food for us every day.", "他每天给我们做好吃的。"], ["Maomao", "My friend Baobao likes watching films.", "我的朋友宝宝喜欢看电影。"], ["Maomao", "We often go to the cinema together.", "我们经常一起去电影院。"], ["练一练 · 第9–10页"], ["", "What are their hobbies?", "他们的爱好是什么？"], ["", "I like to go to parks to draw pictures of nature.", "我喜欢去公园画大自然。"], ["", "My mum likes travelling best.", "我妈妈最喜欢旅行。"], ["", "Which club do you like?", "你喜欢哪个俱乐部？"], ["", "I like the Art Club because I can draw in the club.", "我喜欢美术俱乐部，因为我可以在那里画画。"], ["", "Drawing is my hobby.", "画画是我的爱好。"]]},
+"4":{"title": "I Like Chinese Kung Fu Best", "sentences": [["课文 · 第11页"], ["", "There is a Show and Tell in the class.", "班上有一次展示和讲述活动。"], ["Dongdong", "Hello! I'm Dongdong. I like cooking.", "你好！我是东东，我喜欢做饭。"], ["Dongdong", "I can cook chicken with potatoes.", "我会做土豆炖鸡。"], ["Dongdong", "I can also cook noodles.", "我还会煮面条。"], ["Yangyang", "Hi! I'm Yangyang. My favourite subject is PE.", "你好！我是洋洋，我最喜欢的科目是体育。"], ["Yangyang", "I like Chinese kung fu best. It makes me strong.", "我最喜欢中国功夫，它让我强壮。"], ["Yangyang", "Let me show you now.", "现在我来给你们表演。"], ["Tiantian", "Hello! I'm Tiantian. My hobby is dancing.", "你好！我是甜甜，我的爱好是跳舞。"], ["Tiantian", "I always have a good time when I dance.", "跳舞的时候我总是很开心。"], ["Tiantian", "I like folk dance best. It's beautiful.", "我最喜欢民族舞，它很美。"], ["Tiantian", "Now I will dance for you.", "现在我来为你们跳舞。"], ["Baobao", "Hi! I'm Baobao. I like calligraphy.", "你好！我是宝宝，我喜欢书法。"], ["Baobao", "I practice it every day.", "我每天都练习。"], ["Baobao", "Let me show you how to write the Chinese character Fu.", "我来给你们演示怎么写“福”字。"], ["练一练 · 第12–13页"], ["", "Dongdong can cook food by himself.", "东东会自己做饭。"], ["", "Baobao can write beautiful Chinese characters.", "宝宝会写漂亮的汉字。"], ["", "Yangyang does best in Chinese kung fu.", "洋洋中国功夫最好。"], ["", "Tiantian's folk dance is very beautiful.", "甜甜的民族舞非常美。"], ["", "Do a Show and Tell about your likes and hobbies.", "做一次关于你的喜好和爱好的展示。"], ["", "What are your hobbies?", "你的爱好是什么？"], ["", "How can you show your likes or hobbies to others?", "你怎样向别人展示你的喜好和爱好？"], ["", "Hello, everyone! I hope you'll like it. Thank you.", "大家好！希望你们喜欢，谢谢。"], ["", "I can say my hobbies and tell why I like them.", "我能说出我的爱好，并说明为什么喜欢。"], ["", "I can name my favourite book and subject, and tell the reasons.", "我能说出最喜欢的书和科目，并说明原因。"], ["歌谣 · 第14页"], ["", "I am May, and I want to say,", "我是梅，我想说，"], ["", "I always have a wonderful day.", "我每天都过得很精彩。"], ["", "I play the piano every day.", "我每天弹钢琴。"], ["", "It makes me happy all the way.", "它让我一路都很开心。"], ["", "I also like running on Saturday.", "我也喜欢星期六去跑步。"], ["", "I see some trains on my way.", "路上我看到一些火车。"], ["", "Sometimes here comes the rain.", "有时候下起雨来。"], ["", "I wait for a minute and run away.", "我等一会儿，然后跑开。"]]},
+"5":{"title": "Mid-Autumn Festival for Getting Together", "sentences": [["课文 · 第16页"], ["Maomao", "Look at this Tang poem.", "看这首唐诗。"], ["Maomao", "It's about the Mid-Autumn Festival.", "它是关于中秋节的。"], ["Sara", "When is the Mid-Autumn Festival?", "中秋节是什么时候？"], ["Maomao", "It's on the fifteenth day of the eighth month in the Chinese calendar.", "在农历八月十五。"], ["Maomao", "It usually falls in the middle of autumn.", "它通常在秋天的中间。"], ["Sara", "What is the Mid-Autumn Festival for?", "中秋节是为了什么？"], ["Maomao", "It's a festival for families to get together.", "它是家人团聚的节日。"], ["Sara", "What do you do on this day?", "这一天你们做什么？"], ["Maomao", "We eat moon cakes and fruit, and we enjoy the full moon at night.", "我们吃月饼和水果，晚上赏圆月。"], ["Sara", "Are there any stories about this festival?", "这个节日有什么故事吗？"], ["Maomao", "Yes, the story of Chang'e Flying to the Moon is interesting.", "有，嫦娥奔月的故事很有趣。"], ["Maomao", "I'll tell you about it after school.", "放学后我讲给你听。"], ["练一练 · 第17页"], ["", "Sara wants to know the dates of some more Chinese festivals.", "萨拉想知道更多中国节日的日期。"], ["", "The Spring Festival is on the first day of the first month.", "春节在正月初一。"], ["", "The Lantern Festival is on the fifteenth day of the first month.", "元宵节在正月十五。"], ["", "The Dragon Boat Festival is on the fifth day of the fifth month.", "端午节在五月初五。"], ["写一写 · 第18页"], ["", "Write down the date of the Mid-Autumn Festival on the calendar.", "在日历上写下中秋节的日期。"], ["", "Tick the activities you want to do on the festival.", "勾出你在节日里想做的事。"], ["", "Have a big dinner and get together with the family.", "吃一顿大餐，和家人团聚。"], ["", "Make moon cakes and enjoy the full moon.", "做月饼，赏圆月。"], ["", "Make a festival card.", "做一张节日卡片。"]]},
+
+"12": {
+"title": "",
+"sentences": [
+[
+"练一练 · 第40页"
+],
+[
+"",
+"Read and talk about Baobao's work as a helper.",
+"读一读，说一说宝宝当小帮手做的事。"
+],
+[
+"",
+"Look at the rubbish in the picture.",
+"看看图中的垃圾。"
+],
+[
+"",
+"Please sort them into the right bins.",
+"请把它们分类放进正确的垃圾桶。"
+],
+[
+"Baobao",
+"I pick up A, and put it in the rubbish bin for recyclable waste.",
+"我捡起A，把它放进可回收垃圾桶。"
+],
+[
+"项目 · 第41页"
+],
+[
+"",
+"Make a report about how to be a good helper.",
+"做一个关于怎样当好帮手的报告。"
+],
+[
+"",
+"Are you a good helper at home, at school or in the community?",
+"你在家里、学校或社区里是个好帮手吗？"
+],
+[
+"",
+"If not, how can you be a good helper?",
+"如果不是，你怎样才能成为好帮手？"
+],
+[
+"",
+"What chores do you do every week?",
+"你每周做哪些家务？"
+],
+[
+"",
+"What chores would you learn to do next week?",
+"下周你想学做哪些家务？"
+],
+[
+"",
+"Share how to be a good helper.",
+"分享一下怎样当个好帮手。"
+],
+[
+"",
+"I'm a good helper at home.",
+"我在家是个好帮手。"
+],
+[
+"",
+"I do a lot of chores every week.",
+"我每周做很多家务。"
+],
+[
+"",
+"I am not a good helper at home.",
+"我在家还不是个好帮手。"
+],
+[
+"",
+"But next week I'd learn to do some chores.",
+"但下周我想学做一些家务。"
+],
+[
+"",
+"I can talk about what I can do as a helper.",
+"我能说说作为小帮手我会做什么。"
+],
+[
+"",
+"I can talk about what I am going to do as a helper.",
+"我能说说作为小帮手我打算做什么。"
+],
+[
+"歌谣 · 第42页"
+],
+[
+"",
+"Look at the boy in a yellow coat,",
+"看那个穿黄外套的男孩，"
+],
+[
+"",
+"Playing with his toy on the boat.",
+"在船上玩着他的玩具。"
+],
+[
+"",
+"A man is standing to his right,",
+"一个男人站在他的右边，"
+],
+[
+"",
+"Holding a light in a cold night.",
+"在寒冷的夜里提着一盏灯。"
+],
+[
+"",
+"Close the window before you go,",
+"走之前关好窗，"
+],
+[
+"",
+"I will show you all you need to know.",
+"我会告诉你需要知道的一切。"
+],
+[
+"",
+"Tomorrow we will see falling snow,",
+"明天我们会看到飘落的雪，"
+],
+[
+"",
+"Stay below while we sail slow!",
+"我们慢慢航行时，待在船舱里！"
+]
+]
+},
+"13": {
+"title": "Revision A",
+"sentences": [
+[
+"复习 · 第44页"
+],
+[
+"",
+"Our traditional festivals",
+"我们的传统节日"
+],
+[
+"",
+"Which festival do you like best?",
+"你最喜欢哪个节日？"
+],
+[
+"",
+"What is the festival for?",
+"这个节日是为了什么？"
+],
+[
+"",
+"What do you do on this festival?",
+"这个节日你们做什么？"
+],
+[
+"",
+"Can you tell me more about it?",
+"你能再给我讲讲吗？"
+],
+[
+"做月饼 · 第45页"
+],
+[
+"",
+"Mix them together.",
+"把它们混合在一起。"
+],
+[
+"",
+"Make a dough.",
+"和一个面团。"
+],
+[
+"",
+"Cut the dough into small ones.",
+"把面团切成小块。"
+],
+[
+"",
+"Put some filling on the dough and close it up.",
+"在面团上放些馅，然后包起来。"
+],
+[
+"",
+"Shape the moon cakes.",
+"给月饼压出形状。"
+],
+[
+"",
+"Bake the moon cakes.",
+"烤月饼。"
+],
+[
+"",
+"How many kinds of fillings do you know?",
+"你知道几种馅？"
+],
+[
+"",
+"What kind of filling do you like best?",
+"你最喜欢哪种馅？"
+],
+[
+"",
+"What does it taste like?",
+"它尝起来是什么味道？"
+]
+]
+},
+"14": {
+"title": "Revision B",
+"sentences": [
+[
+"阅读 · 第46页"
+],
+[
+"",
+"Grandpa Zhang and Grandma Zhang are old teachers.",
+"张爷爷和张奶奶是老教师。"
+],
+[
+"",
+"They love children very much.",
+"他们非常喜欢孩子。"
+],
+[
+"",
+"They often play with us in the community.",
+"他们经常在社区里和我们一起玩。"
+],
+[
+"",
+"Sometimes they help us with our maths.",
+"有时候他们帮我们学数学。"
+],
+[
+"",
+"But these days, Grandpa Zhang is ill.",
+"但这些天张爷爷病了。"
+],
+[
+"",
+"He stays in bed and can't take care of himself.",
+"他躺在床上，没法照顾自己。"
+],
+[
+"",
+"So my friends and I go to their home to help them.",
+"所以我和朋友们去他们家帮忙。"
+],
+[
+"",
+"Grandpa Zhang's hobby is taking photos.",
+"张爷爷的爱好是拍照。"
+],
+[
+"",
+"Look at this photo.",
+"看这张照片。"
+],
+[
+"",
+"I am watering the plants.",
+"我在给植物浇水。"
+],
+[
+"",
+"Baobao is cleaning the window.",
+"宝宝在擦窗户。"
+],
+[
+"",
+"Feifei and Grandma Zhang are washing dishes.",
+"菲菲和张奶奶在洗碗。"
+],
+[
+"",
+"We also bring a new helper, a robot.",
+"我们还带来了一个新帮手——机器人。"
+],
+[
+"",
+"Look, he is sweeping the floor.",
+"看，它在扫地。"
+],
+[
+"",
+"He can sweep for a long time.",
+"它能扫很长时间。"
+],
+[
+"",
+"Grandpa Zhang and Grandma Zhang are happy.",
+"张爷爷和张奶奶很高兴。"
+],
+[
+"",
+"They say we are good helpers.",
+"他们说我们是好帮手。"
+],
+[
+"",
+"We are happy, too.",
+"我们也很高兴。"
+],
+[
+"",
+"What a wonderful weekend!",
+"多么美好的周末啊！"
+],
+[
+"俱乐部 · 第47页"
+],
+[
+"",
+"There are five clubs of traditional Chinese culture.",
+"这里有五个中国传统文化俱乐部。"
+],
+[
+"",
+"Think and write the right answer for each club.",
+"想一想，为每个俱乐部写出正确答案。"
+],
+[
+"",
+"Which club would you like to join?",
+"你想参加哪个俱乐部？"
+],
+[
+"",
+"Talk in groups.",
+"分小组说一说。"
+],
+[
+"学习小贴士 · 第48页"
+],
+[
+"",
+"An old saying goes, \"You are what you eat.\"",
+"老话说：“吃什么，像什么。”"
+],
+[
+"",
+"If you often eat healthy food, you will be healthy.",
+"如果你经常吃健康的食物，你就会健康。"
+],
+[
+"",
+"If you always eat unhealthy food, like potato chips, you will not be healthy.",
+"如果你总是吃不健康的食物，比如薯条，你就不会健康。"
+],
+[
+"",
+"Fresh vegetables will do you good and so will fruit.",
+"新鲜蔬菜对你有好处，水果也一样。"
+],
+[
+"",
+"You should eat more tomatoes, cabbages, apples and other healthy food.",
+"你应该多吃西红柿、卷心菜、苹果和其他健康食物。"
+],
+[
+"",
+"Unhealthy food will not always make you sick, but you should not eat them often.",
+"不健康的食物不一定会让你生病，但你不应该经常吃。"
+],
+[
+"",
+"Too many cakes, drinks, salty food and fatty food will do you harm.",
+"吃太多蛋糕、饮料、咸的和油腻的食物会对你有害。"
+],
+[
+"",
+"Circle the healthy food and unhealthy food.",
+"圈出健康食物和不健康食物。"
+]
+]
+},
+"15": {
+"title": "We Will See the Pandas in Chengdu",
+"sentences": [
+[
+"课文 · 第50页"
+],
+[
+"Maomao",
+"You look so excited, Lingling!",
+"玲玲，你看起来好兴奋！"
+],
+[
+"Maomao",
+"What's up?",
+"怎么了？"
+],
+[
+"Lingling",
+"Yes! I'm so happy these days.",
+"是啊！这些天我特别开心。"
+],
+[
+"Lingling",
+"My parents, my brother and I will go to Chengdu next week.",
+"下周我和爸爸妈妈、哥哥要去成都。"
+],
+[
+"Maomao",
+"Lucky you!",
+"你真幸运！"
+],
+[
+"Maomao",
+"Chengdu is an amazing city.",
+"成都是个很棒的城市。"
+],
+[
+"Lingling",
+"Yes. There are many famous places.",
+"是的，那里有很多有名的地方。"
+],
+[
+"Maomao",
+"Why do you want to go to Chengdu?",
+"你为什么想去成都？"
+],
+[
+"Lingling",
+"Because it's my dad's hometown.",
+"因为那是我爸爸的家乡。"
+],
+[
+"Lingling",
+"My grandparents live there.",
+"我的爷爷奶奶住在那里。"
+],
+[
+"Lingling",
+"We'd like to stay with them for a few days.",
+"我们想和他们一起住几天。"
+],
+[
+"Maomao",
+"Wow! What will you do there?",
+"哇！你们在那儿要做什么？"
+],
+[
+"Lingling",
+"We will see the pandas.",
+"我们会去看大熊猫。"
+],
+[
+"Lingling",
+"Then we will travel around Chengdu, and we will visit Dujiangyan.",
+"然后我们会在成都四处游玩，还要去都江堰。"
+],
+[
+"Maomao",
+"That's great! Will you go there by plane?",
+"太好了！你们坐飞机去吗？"
+],
+[
+"Lingling",
+"I don't know. I will talk with my parents.",
+"我不知道，我会和爸爸妈妈商量一下。"
+],
+[
+"练一练 · 第51页"
+],
+[
+"",
+"Where will Lingling's family go next week?",
+"玲玲一家下周要去哪里？"
+],
+[
+"",
+"They will go to Chengdu.",
+"他们要去成都。"
+],
+[
+"",
+"Why will they go there?",
+"他们为什么要去那里？"
+],
+[
+"",
+"Because it is Lingling's dad's hometown.",
+"因为那是玲玲爸爸的家乡。"
+],
+[
+"",
+"What will they do there?",
+"他们在那里要做什么？"
+],
+[
+"",
+"They will see the pandas.",
+"他们要去看大熊猫。"
+],
+[
+"",
+"How will they go there?",
+"他们怎么去？"
+],
+[
+"",
+"They will talk about it.",
+"他们会商量一下。"
+],
+[
+"",
+"Maomao is telling Guoguo about Lingling's travel plan to Chengdu.",
+"毛毛正在给果果讲玲玲的成都旅行计划。"
+],
+[
+"阅读 · 第52页"
+],
+[
+"Yuanyuan",
+"I will go to Shandong with my family next holiday.",
+"下个假期我要和家人去山东。"
+],
+[
+"Yuanyuan",
+"This is my travel plan.",
+"这是我的旅行计划。"
+],
+[
+"Yuanyuan",
+"We will go to Tai'an to climb Mount Taishan because my father likes climbing mountains.",
+"我们要去泰安爬泰山，因为我爸爸喜欢爬山。"
+],
+[
+"Yuanyuan",
+"We will visit Confucius Mansion in Qufu because we want to know more about Confucius.",
+"我们要去曲阜参观孔府，因为我们想多了解孔子。"
+],
+[
+"Yuanyuan",
+"My mother and I enjoy the beach very much, so we will go to Liugong Island.",
+"我和妈妈非常喜欢海滩，所以我们要去刘公岛。"
+],
+[
+"",
+"Please make your travel plan and share it in class.",
+"请制订你的旅行计划，并在班上分享。"
+]
+]
+}
+};
+UNITS.forEach(u => { if (TEXTS[u.id]) Object.assign(u, TEXTS[u.id]); });
+UNITS.forEach(u => { let sec = ""; const out = [];
+  u.sentences.forEach(r => { if (r.length === 1) { sec = r[0]; return; } out.push({ who: r[0], en: r[1], cn: r[2], tts: r[3] || null, sec, u: u.id }); });
+  u.sentences = out; });
+
+/* 补充例句：课本里用到这个词的句子不到 2 句时才会出现 */
+const EXTRA = {
+  "memory": ["Tomb-sweeping Day is a day for memory.", "清明节是一个纪念的日子。"],
+  "thing": ["There are many things to do in spring.", "春天有很多事情可以做。"],
+  "begin": ["Spring begins in February.", "春天从二月开始。"],
+  "front": ["Draw a picture on the front of the card.", "在卡片正面画一幅画。"],
+  "page": ["Write about the solar term on the back page.", "在背面那页写写这个节气。"],
+  "highest": ["The highest temperature is thirty-three degrees.", "最高温度是三十三度。"],
+  "lowest": ["The lowest temperature is twelve degrees.", "最低温度是十二度。"],
+  "part": ["My favourite part of the book is the end.", "我最喜欢这本书的结尾部分。"],
+  "smile": ["The children in my picture smile.", "我画里的孩子们在微笑。"],
+  "match": ["We watch a football match on TV.", "我们在电视上看足球比赛。"],
+  "video": ["Yangyang shows a kung fu video.", "洋洋展示了一段功夫视频。"],
+  "lunar calendar": ["The Mid-Autumn Festival is in the lunar calendar.", "中秋节是按农历算的。"],
+  "helpful": ["Baobao is helpful at home.", "宝宝在家很能帮忙。"],
+  "bag": ["Put the rubbish into the bag.", "把垃圾放进袋子里。"],
+  "tired": ["We are tired but happy.", "我们很累，但很开心。"],
+  "harmful": ["Batteries are harmful waste.", "电池是有害垃圾。"],
+  "brush": ["I write with a Chinese brush.", "我用毛笔写字。"],
+  "title": ["What is the title of this story?", "这个故事的标题是什么？"],
+  "opposite": ["The opposite word of \"healthy\" is \"unhealthy\".", "healthy 的反义词是 unhealthy。"],
+  "pick": ["We can pick apples on the farm.", "我们可以在农场摘苹果。"],
+  "vegetable": ["I like to eat vegetables.", "我喜欢吃蔬菜。"],
+  "set": ["Please help me set the table.", "请帮我摆好餐桌。"],
+  "ourselves": ["We can do it ourselves.", "我们可以自己做。"],
+  "myself": ["I can make my bed by myself.", "我能自己整理床铺。"],
+  "set up": ["Let's set up the tent.", "我们来搭帐篷吧。"],
+  "wash": ["I can wash my clothes.", "我会洗自己的衣服。"],
+  "clothes": ["I can wash my clothes.", "我会洗自己的衣服。"],
+  "plan": ["What is your plan for the trip?", "你的旅行计划是什么？"],
+  "in groups": ["We work in groups.", "我们分组合作。"],
+  "himself": ["He can take care of himself.", "他能照顾好自己。"],
+  "herself": ["She can take care of herself.", "她能照顾好自己。"],
+  "classmate": ["Lingling is my classmate.", "玲玲是我的同学。"],
+  "never": ["I never get up late.", "我从不起晚。"],
+  "take out": ["I take out the rubbish every day.", "我每天倒垃圾。"],
+  "all": ["We all like camping.", "我们都喜欢露营。"],
+  "come in": ["May I come in?", "我可以进来吗？"],
+  "lots of": ["There are lots of books in my room.", "我的房间里有很多书。"],
+  "walk the dog": ["I walk the dog every morning.", "我每天早上遛狗。"],
+  "dinner": ["We have dinner at six.", "我们六点吃晚饭。"],
+  "difference": ["Can you find the difference?", "你能找出不同吗？"],
+  "poster": ["Let's make a poster.", "我们来做一张海报吧。"],
+  "ask": ["You can ask your teacher.", "你可以问问老师。"],
+  "service": ["We do community service on Saturday.", "我们星期六做社区服务。"],
+  "sort": ["Let's sort the books.", "我们来给书分分类吧。"],
+  "wall": ["There is a picture on the wall.", "墙上有一幅画。"],
+  "ask for": ["You can ask for help.", "你可以请求帮助。"],
+  "try our best": ["We will try our best.", "我们会尽最大努力。"],
+  "problem": ["No problem!", "没问题！"],
+  "tool": ["These are my tools.", "这些是我的工具。"],
+  "stick": ["Stick the picture on the wall.", "把画贴到墙上。"],
+  "glue": ["We need some glue.", "我们需要一些胶水。"],
+  "cut": ["Cut the paper into two pieces.", "把纸剪成两半。"],
+};
+const SENT = [];
+UNITS.forEach(u => u.sentences.forEach(x => { x.id = SENT.length; SENT.push(x); }));
 const ACTS = [
   { id:'cards', name:'认识单词', desc:'看图、听发音、翻卡片', ic:'🃏', kind:'word' },
   { id:'quiz',  name:'听一听 选一选', desc:'快问快答，答错的进错题本', ic:'🎧', kind:'word' },
   { id:'spell', name:'拼一拼', desc:'把字母放回原位', ic:'🔤', kind:'word' },
   { id:'dictCE', name:'默写：汉译英', desc:'看中文，写出英文单词', ic:'✍️', kind:'word' },
   { id:'dictEC', name:'默写：英译汉', desc:'看英文，写出中文意思', ic:'📝', kind:'word' },
-  { id:'read',  name:'句子跟读', desc:'听一句，大声读一句', ic:'📣', kind:'sent' },
+  { id:'read',  name:'句子跟读', desc:'一个单词配几句课文句子，逐句跟读', ic:'📣', kind:'sent' },
   { id:'fill',  name:'句子填空', desc:'把单词填回句子里', ic:'🎯', kind:'sent' },
-  { id:'order', name:'连词成句', desc:'把单词排成正确的句子', ic:'🧩', kind:'sent' },
+  { id:'order', name:'连词成句', desc:'排一排，或看中文说出整句', ic:'🧩', kind:'sent' },
 ];
 const STICKERS = ['🐼','🎋','⛺','🔥','🌟','🦊','🐿️','🦉','🌈','🚀','🏆','👑'];
 const PER = 4; // 每 4 颗星解锁一张贴纸
@@ -382,14 +1189,340 @@ const SPLIT = {
   'all':'all:ɔːl', 'come in':'come:kʌm | in:ɪn', 'lots of':'lots:lɒts | of:əv', 'chore':'ch:tʃ ore:ɔː',
   'walk the dog':'walk:wɔːk | the:ðə | dog:dɒɡ', 'dinner':'di:dɪ nn:n er:ə', 'helper':'help:help er:ə',
   'difference':'di:dɪ ffe:f rence:rəns',
+  'poster':'po:pəʊ ster:stə', 'ask':'a:ɑː sk:sk', 'service':'ser:sɜː vice:vɪs', 'sort':'s:s or:ɔː t:t',
+  'wall':'w:w all:ɔːl', 'ask for':'a:ɑː sk:sk | for:fɔː', 'try our best':'tr:tr y:aɪ | our:aʊə | b:b e:e st:st',
+  'problem':'pro:prɒ blem:bləm',
+  "helpful":"help:help ful:fl",
+  "recyclable":"re:riː cy:saɪ cla:klə ble:bl",
+  "harmful":"harm:hɑːm ful:fl",
+  "waste":"wa:weɪ ste:st",
+  "bag":"b:b a:æ g:ɡ",
+  "bin":"b:b i:ɪ n:n",
+  "learn":"l:l ear:ɜː n:n",
+  "tired":"ti:taɪ red:əd",
+  "as":"a:æ s:z",
+  "below":"be:bɪ low:ləʊ",
+  "while":"wh:w i:aɪ le:l",
+  "sail":"s:s ai:eɪ l:l",
+  "traditional":"tra:trə di:dɪ tio:ʃə nal:nl",
+  "bake":"ba:beɪ ke:k",
+  "filling":"fil:fɪl ling:lɪŋ",
+  "dough":"d:d ough:əʊ",
+  "close":"cl:kl o:əʊ se:z",
+  "shape":"sh:ʃ a:eɪ pe:p",
+  "taste":"t:t a:eɪ ste:st",
+  "bring":"br:br ing:ɪŋ",
+  "culture":"cul:kʌl ture:tʃə",
+  "answer":"an:ɑːn swer:sə",
+  "brush":"br:br u:ʌ sh:ʃ",
+  "amazing":"a:ə ma:meɪ zing:zɪŋ",
+  "healthy":"h:h ea:e l:l th:θ y:i",
+  "unhealthy":"un:ʌn h:h ea:e l:l th:θ y:i",
+  "fresh":"fr:fr e:e sh:ʃ",
+  "sick":"s:s i:ɪ ck:k",
+  "salty":"s:s al:ɔːl t:t y:i",
+  "fatty":"f:f a:æ tt:t y:i",
+  "harm":"h:h ar:ɑː m:m",
+  "title":"ti:taɪ tle:tl",
+  "circle":"cir:sɜː cle:kl",
+  "opposite":"o:ɒ ppo:pə site:zɪt",
+  "will":"w:w i:ɪ ll:l",
+  "famous":"fa:feɪ mous:məs",
+  "hometown":"home:həʊm town:taʊn",
+  "stay":"st:st ay:eɪ",
+  "few":"f:f ew:juː",
+  "by":"b:b y:aɪ",
+  "Confucius":"Con:kən fu:fjuː cius:ʃəs",
+  "beach":"b:b ea:iː ch:tʃ",
+  "choice":"ch:tʃ oi:ɔɪ ce:s",
+  "train":"tr:tr ai:eɪ n:n",
+  "car":"c:k ar:ɑː",
+  "sure":"s:ʃ ure:ʊə",
+  "only":"on:əʊn ly:li",
+  "hour":"h: our:aʊə",
+  "high-speed train":"high-:haɪ speed:spiːd | train:treɪn",
+  "convenient":"con:kən ve:viː ni:ni ent:ənt",
+  "more than":"more:mɔː | than:ðæn",
+  "stop":"st:st o:ɒ p:p",
+  "fastest":"fa:fɑː st:st est:ɪst",
+  "go around":"go:ɡəʊ | a:ə round:raʊnd",
+  "view":"v:v iew:juː",
+  "p.m.":"p.:piː m.:em",
+  "history":"his:hɪs to:t ry:ri",
+  "busy":"b:b u:ɪ s:z y:i",
+  "leave":"l:l ea:iː ve:v",
+  "a.m.":"a.:eɪ m.:em",
+  "say":"s:s ay:eɪ",
+  "one-day":"one-:wʌn day:deɪ",
+  "come back":"come:kʌm | back:bæk",
+  "travelling":"tra:træ vel:v ling:lɪŋ",
+  "the Bund":"the:ðə | Bund:bʌnd",
+  "ride":"r:r i:aɪ de:d",
+  "bike":"b:b i:aɪ ke:k",
+  "east":"ea:iː st:st",
+  "west":"w:w e:e st:st",
+  "dear":"d:d ear:ɪə",
+  "slow":"sl:sl ow:əʊ",
+  "old Town":"old:əʊld | Town:taʊn",
+  "waterfall":"wa:wɔː ter:tə fall:fɔːl",
+  "reason":"rea:riː son:zn",
+  "clock":"cl:kl o:ɒ ck:k",
+  "cloudy":"cl:kl ou:aʊ dy:di",
+  "map":"m:m a:æ p:p",
+  "China":"Chi:tʃaɪ na:nə",
+  "Asia":"A:eɪ sia:ʒə",
+  "rooster":"roo:ruː ster:stə",
+  "Canada":"Ca:kæ na:nə da:də",
+  "North America":"North:nɔːθ | A:ə me:me ri:rɪ ca:kə",
+  "UK":"U:juː K:keɪ",
+  "Europe":"Eu:jʊə rope:rəp",
+  "world":"w:w or:ɜː ld:ld",
+  "hard":"h:h ar:ɑː d:d",
+  "country":"coun:kʌn try:tri",
+  "easier":"ea:iː si:zi er:ə",
+  "France":"Fr:fr an:ɑːn ce:s",
+  "Italy":"I:ɪ ta:tə ly:li",
+  "Singapore":"Sing:sɪŋ a:ə pore:pɔː",
+  "E.g.":"E.:iː g.:dʒiː",
+  "wait":"w:w ai:eɪ t:t",
+  "capital":"ca:kæ pi:pɪ tal:tl",
+  "city":"ci:sɪ ty:ti",
+  "Paris":"Pa:pæ ris:rɪs",
+  "speak":"sp:sp ea:iː k:k",
+  "French":"Fr:fr e:e nch:ntʃ",
+  "Canadian":"Ca:kə na:neɪ di:di an:ən",
+  "London":"Lon:lʌn don:dən",
+  "location":"lo:ləʊ ca:keɪ tion:ʃn",
+  "language":"lan:læŋ gua:ɡwɪ ge:dʒ",
+  "Ottawa":"O:ɒ tta:tə wa:wə",
+  "card":"c:k ar:ɑː d:d",
+  "River Thames":"Ri:rɪ ver:və | Th:t a:e mes:mz",
+  "other":"o:ʌ ther:ðə",
+  "Big Ben":"Big:bɪɡ | Ben:ben",
+  "heavy":"h:h ea:e vy:vi",
+  "tower":"tow:taʊ er:ə",
+  "wheel":"wh:w ee:iː l:l",
+  "sky wheel":"sky:skaɪ | wh:w ee:iː l:l",
+  "bank":"b:b a:æ nk:ŋk",
+  "top":"t:t o:ɒ p:p",
+  "longest":"long:lɒŋ est:ɡɪst",
+  "mix":"m:m i:ɪ x:ks", "right":"r:r igh:aɪ t:t", "unit":"u:juː nit:nɪt", "miss":"m:m i:ɪ ss:s",
+  "the Great Bell":"the:ðə | Great:ɡreɪt | Bell:bel",
+  "through":"thr:θr ough:uː",
+  "finish":"fi:fɪ nish:nɪʃ",
+  "Toronto":"To:tə ron:rɒn to:təʊ",
+  "CN Tower":"C:siː N:en | Tow:taʊ er:ə",
+  "New Delhi":"New:njuː | Del:del hi:i",
+  "most":"m:m o:əʊ st:st",
+  "wonder":"won:wʌn der:də",
+  "Rome":"R:r o:əʊ me:m",
+  "Venice":"Ve:ve nice:nɪs",
+  "taxi":"ta:tæ xi:ksi",
+  "UN":"U:juː N:en",
+  "New York":"New:njuː | York:jɔːk",
+  "work":"w:w or:ɜː k:k",
+  "report":"re:rɪ port:pɔːt",
+  "whose":"wh:h o:uː se:z",
+  "information":"in:ɪn for:fə ma:meɪ tion:ʃn",
+  "mind map":"mind:maɪnd | map:mæp",
+  "page":"p:p a:eɪ ge:dʒ",
+  "free":"fr:fr ee:iː",
+  "letter":"le:le tt:t er:ə",
+  "popular":"po:pɒ pu:pjə lar:lə",
+  "badminton":"bad:bæd min:mɪn ton:tən",
+  "hit":"h:h i:ɪ t:t",
+  "another":"a:ə no:nʌ ther:ðə",
+  "practice":"prac:præk tice:tɪs",
+  "bat":"b:b a:æ t:t",
+  "team":"t:t ea:iː m:m",
+  "British":"Bri:brɪ tish:tɪʃ",
+  "much":"m:m u:ʌ ch:tʃ",
+  "tennis":"te:te nn:n is:ɪs",
+  "rugby":"rug:rʌɡ by:bi",
+  "lesson":"le:le sson:sn",
+  "really":"rea:riːə lly:li",
+  "lover":"lo:lʌ ver:və",
+  "of course":"of:ɒv | course:kɔːs",
+  "skiing":"ski:skiː ing:ɪŋ",
+  "future":"fu:fjuː ture:tʃə", 'tool':'t:t oo:uː l:l', 'stick':'st:st i:ɪ ck:k', 'glue':'gl:ɡl ue:uː', 'cut':'c:k u:ʌ t:t',
+  "news":"n:n ew:juː s:z",
+  "ice hockey":"i:aɪ ce:s | ho:hɒ ckey:ki",
+  "age":"a:eɪ ge:dʒ",
+  "medal":"me:me dal:dl",
+  "Olympics":"O:ə lym:lɪm pics:pɪks",
+  "exciting":"ex:ɪk ci:saɪ ting:tɪŋ",
+  "skating":"ska:skeɪ ting:tɪŋ",
+  "example":"ex:ɪɡz am:ɑːm ple:pl",
+  "Russian":"Ru:rʌ ssian:ʃn",
+  "figure":"fi:fɪ gure:ɡə",
+  "Olympic Games":"O:ə lym:lɪm pic:pɪk | Games:ɡeɪmz",
+  "rider":"ri:raɪ der:də",
+  "single":"sin:sɪŋ gle:ɡl",
+  "double":"dou:dʌ ble:bl",
+  "guess":"gu:ɡ e:e ss:s",
+  "else":"e:e l:l se:s",
+  "video":"vi:vɪ de:di o:əʊ",
+  "own":"ow:əʊ n:n",
+  "station":"sta:steɪ tion:ʃn",
+  "side":"s:s i:aɪ de:d",
+  "South Africa":"South:saʊθ | A:æ fri:frɪ ca:kə",
+  "official":"o:ə ffi:fɪ cial:ʃl",
+  "Cape Town":"Cape:keɪp | Town:taʊn",
+  "Table Mountain":"Ta:teɪ ble:bl | Moun:maʊn tain:tən",
+  "tops":"t:t o:ɒ ps:ps",
+  "flat":"fl:fl a:æ t:t",
+  "hike":"h:h i:aɪ ke:k",
+  "and so on":"and:ænd | so:səʊ | on:ɒn",
+  "fill":"f:f i:ɪ ll:l",
+  "speed":"sp:sp ee:iː d:d",
+  "Disneyland":"Dis:dɪz ney:ni land:lænd",
+  "subway":"sub:sʌb way:weɪ",
+  "modern":"mo:mɒ dern:dn",
+  "Athens":"A:æ th:θ ens:ɪnz",
+  "costume":"cos:kɒs tume:tjuːm",
+  "Greece":"Gr:ɡr ee:iː ce:s",
+  "hold":"h:h o:əʊ ld:ld",
+  "motto":"mo:mɒ tto:təʊ",
+  "success":"suc:sək cess:ses",
+  "dual":"du:djuː al:əl",
+  "proud":"pr:pr ou:aʊ d:d",
+  "part":"p:p ar:ɑː t:t",
+  "island":"is:aɪ land:lənd",
+  "Wall Street":"Wall:wɔːl | Street:striːt",
+  "centre":"cen:sen tre:tə",
+  "Central Park":"Cen:sen tral:trəl | Park:pɑːk",
+  "appear":"a:ə ppear:pɪə",
+  "immigrant":"i:ɪ mmi:mɪ grant:ɡrənt",
+  "Notting Hill":"No:nɒ tting:tɪŋ | Hill:hɪl",
+  "West Indies":"West:west | In:ɪn dies:diz",
+  "carnival":"car:kɑː ni:nɪ val:vl",
+  "million":"mi:mɪ llion:ljən",
+  "drum":"dr:dr u:ʌ m:m",
+  "which":"wh:w i:ɪ ch:tʃ",
+  "journey":"jour:dʒɜː ney:ni",
+  "difficult":"di:dɪ ffi:fɪ cult:kəlt",
+  "ancient":"an:eɪn cient:ʃənt",
+  "India":"In:ɪn di:di a:ə",
+  "Pigsy":"Pig:pɪɡ sy:zi",
+  "better":"be:be tt:t er:ə",
+  "story":"sto:stɔː ry:ri",
+  "sound":"s:s ou:aʊ nd:nd",
+  "travel":"tra:træ vel:vl",
+  "subject":"sub:sʌb ject:dʒɪkt",
+  "maths":"m:m a:æ th:θ s:s",
+  "music":"mu:mjuː sic:zɪk",
+  "calligraphy":"ca:kə lli:lɪ gra:ɡrə phy:fi",
+  "PE":"P:piː E:iː",
+  "important":"im:ɪm por:pɔː tant:tnt",
+  "over":"o:əʊ ver:və",
+  "art":"ar:ɑː t:t",
+  "best":"b:b e:e st:st",
+  "useful":"use:juːs ful:fl",
+  "quiet":"qui:kwaɪ et:ət",
+  "place":"pl:pl a:eɪ ce:s",
+  "hill":"h:h i:ɪ ll:l",
+  "take":"t:t a:eɪ ke:k",
+  "some":"s:s o:ʌ me:m",
+  "delicious":"de:dɪ li:lɪ cious:ʃəs",
+  "us":"u:ʌ s:s",
+  "plant":"pl:pl an:ɑːn t:t",
+  "smile":"sm:sm i:aɪ le:l",
+  "nature":"na:neɪ ture:tʃə",
+  "every":"e:e ve:v ry:ri",
+  "write":"w: r:r i:aɪ te:t",
+  "character":"cha:kæ rac:rək ter:tə",
+  "match":"m:m a:æ tch:tʃ",
+  "away":"a:ə way:weɪ",
+  "Mid-Autumn Festival":"Mid-:mɪd Au:ɔː tumn:təm | Fes:fes ti:tɪ val:vl",
+  "fifteenth":"fif:fɪf teen:tiːn th:θ",
+  "eighth":"eigh:eɪ th:tθ",
+  "month":"m:m o:ʌ n:n th:θ",
+  "lunar calendar":"lu:luː nar:nə | ca:kæ len:lɪn dar:də",
+  "usually":"u:juː su:ʒu a:ə lly:li",
+  "middle":"mi:mɪ ddle:dl",
+  "moon":"m:m oo:uː n:n",
+  "cake":"c:k a:eɪ ke:k",
+  "any":"a:e ny:ni",
+  "fall":"f:f all:ɔːl",
+  "autumn":"au:ɔː tumn:təm",
+  "full":"f:f u:ʊ ll:l",
+  "date":"d:d a:eɪ te:t",
+  "Dragon Boat Festival":"Dra:dræ gon:ɡən | Boat:bəʊt | Fes:fes ti:tɪ val:vl",
+  "Lantern Festival":"Lan:læn tern:tən | Fes:fes ti:tɪ val:vl",
+  "Double Ninth Festival":"Dou:dʌ ble:bl | Ninth:naɪnθ | Fes:fes ti:tɪ val:vl",
+  "ninth":"n:n i:aɪ n:n th:θ",
+  "elder":"el:el der:də",
+  "here":"h:h ere:ɪə",
+  "life":"l:l i:aɪ fe:f",
+  "something":"some:sʌm thing:θɪŋ",
+  "care":"c:k are:eə",
+  "visit":"vi:vɪ sit:zɪt",
+  "special":"spe:spe cial:ʃl",
+  "meaning":"mean:miːn ing:ɪŋ",
+  "mean":"m:m ea:iː n:n",
+  "wish":"w:w i:ɪ sh:ʃ",
+  "always":"al:ɔːl ways:weɪz",
+  "choose":"ch:tʃ oo:uː se:z",
+  "Tomb-Sweeping Day":"Tomb-:tuːm Swee:swiː ping:pɪŋ | Day:deɪ",
+  "mostly":"most:məʊst ly:li",
+  "tomb":"t:t o:uː mb:m",
+  "their":"th:ð eir:eə",
+  "national":"na:næ tio:ʃə nal:nl",
+  "hero":"he:hɪə ro:rəʊ",
+  "public":"pub:pʌb lic:lɪk",
+  "south":"s:s ou:aʊ th:θ",
+  "ball":"b:b all:ɔːl",
+  "email":"e:iː mail:meɪl",
+  "memory":"me:me mo:m ry:ri",
+  "dead":"d:d ea:e d:d",
+  "sweep":"sw:sw ee:iː p:p",
+  "member":"mem:mem ber:bə",
+  "solar term":"so:səʊ lar:lə | t:t er:ɜː m:m",
+  "crop":"cr:kr o:ɒ p:p",
+  "north":"n:n or:ɔː th:θ",
+  "grow":"gr:ɡr ow:əʊ",
+  "thing":"th:θ ing:ɪŋ",
+  "harvest":"har:hɑː vest:vɪst",
+  "keep":"k:k ee:iː p:p",
+  "store up":"st:st ore:ɔː | up:ʌp",
+  "begin":"be:bɪ gin:ɡɪn",
+  "front":"fr:fr o:ʌ nt:nt",
+  "back":"b:b a:æ ck:k",
+  "temperature":"tem:tem pera:prə ture:tʃə",
+  "highest":"high:haɪ est:ɪst",
+  "lowest":"low:ləʊ est:ɪst",
+  "chart":"ch:tʃ ar:ɑː t:t"
 };
 UNITS.forEach(u => u.words.forEach(w => { w.u = u.id; w.k = u.id + ':' + w.w;
   if (SPLIT[w.w]) w.sp = SPLIT[w.w].split(' | ').map(x => x.split(' ').map(c => c.split(':'))); }));
 
+/* 匹配单词（含 -s / -es / -ing / -ed 变形）和找例句 */
+function escRe(t){ return t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+function wpat(w){ const p = w.split(' ').map(escRe); p[0] += '(?:s|es|ing|ed)?'; return p.join('\\s+'); }
+function toks(s){ const out = [], re = /\S+/g; let m; while ((m = re.exec(s.en))) out.push({ t: m[0], a: m.index, b: m.index + m[0].length }); return out; }
+UNITS.forEach(u => u.words.forEach(w => {
+  const re = new RegExp('\\b' + wpat(w.w) + '\\b', 'i');
+  const c = u.sentences.filter(x => re.test(x.en));
+  w.exS = c.find(x => toks(x).length <= 12) || c[0] || null;
+}));
+/* 每个单词的跟读句：本课 → 其他课 → 补充例句，最多 3 句 */
+UNITS.forEach(u => u.words.forEach(w => {
+  const re = new RegExp('\\b' + wpat(w.w) + '\\b', 'i'), out = [];
+  const key = x => toks(x).slice(0, 3).map(t => t.t.toLowerCase()).join(' ');
+  const cand = u.sentences.filter(x => re.test(x.en)).concat(UNITS.filter(v => v !== u).flatMap(v => v.sentences).filter(x => re.test(x.en)));
+  for (const x of cand) { if (out.length >= 3) break; if (!out.some(y => key(y) === key(x))) out.push(x); }
+  if (out.length < 2 && EXTRA[w.w]) {
+    const e = EXTRA[w.w]; let o = SENT.find(x => x.extra && x.en === e[0]);
+    if (!o) { o = { who: '', en: e[0], cn: e[1], tts: null, sec: '', u: u.id, extra: true, id: SENT.length }; SENT.push(o); }
+    out.push(o);
+  }
+  w.rs = out;
+}));
+
 /* ===== 存档（只保存在本设备浏览器里） ===== */
 const SKEY = 'wordcamp-v1';
-const DEF = { stars:{}, known:{}, miss:{}, read:{}, coreOnly:false, sound:true, dictPaper:false, orderPaper:false, shuffle:false, mixSel:null, streak:{d:'', n:0} };
-let S = (() => { try { const s = JSON.parse(localStorage.getItem(SKEY)); return Object.assign(structuredClone(DEF), s || {}); } catch (e) { return structuredClone(DEF); } })();
+const DEF = { ver:3, pos:{}, srs:{}, revDone:'', stars:{}, known:{}, miss:{}, read:{}, coreOnly:false, sound:true, dictPaper:false, orderPaper:false, shuffle:false, mixSel:null, streak:{d:'', n:0} };
+let S = (() => { try { const s = JSON.parse(localStorage.getItem(SKEY)); if (s && (s.ver || 0) < 3) { s.read = {}; s.ver = 3; } return Object.assign(structuredClone(DEF), s || {}); } catch (e) { return structuredClone(DEF); } })();
 Object.keys(S.stars).forEach(k => { if (k.endsWith('-match')) delete S.stars[k]; });
 function save(){ try { localStorage.setItem(SKEY, JSON.stringify(S)); } catch (e) {} }
 
@@ -401,12 +1534,20 @@ const unitOf = id => UNITS.find(u => u.id == id);
 const allWords = () => UNITS.flatMap(u => u.words);
 const pool = u => S.coreOnly ? u.words.filter(w => w.core) : u.words;
 const ord = a => S.shuffle ? shuffle(a) : a.slice();
+const ROUND = 8;
+function batch(key, arr, n = ROUND){
+  if (arr.length <= n) return ord(arr);
+  if (S.shuffle) return shuffle(arr).slice(0, n);
+  const st = (S.pos[key] || 0) % arr.length, out = [];
+  for (let k = 0; k < n; k++) out.push(arr[(st + k) % arr.length]);
+  S.pos[key] = (st + n) % arr.length; save(); return out;
+}
 const uname = u => u.mix ? '综合练习' : 'Lesson ' + u.id;
 const mixSel = () => (S.mixSel || UNITS.map(u => u.id)).filter(id => UNITS.some(u => u.id === id));
 function mixUnit(){
   const ids = mixSel(), us = UNITS.filter(u => ids.includes(u.id)), seen = new Set(), words = [];
   us.forEach(u => u.words.forEach(w => { if (!seen.has(w.w)) { seen.add(w.w); words.push(w); } }));
-  return { id: 'mix', mix: true, lessons: ids, words, sentences: us.flatMap(u => u.sentences), sampleSentences: us.some(u => u.sampleSentences) };
+  return { id: 'mix', mix: true, lessons: ids, words, sentences: us.flatMap(u => u.sentences) };
 }
 function spHtml(w){
   if (!w.sp) return '';
@@ -414,11 +1555,23 @@ function spHtml(w){
     `<span class="chunk c${j % 2}"><b>${esc(c[0])}</b><i>${c[1] ? '/' + esc(c[1]) + '/' : '不发音'}</i></span>`).join('') + '</span>').join('') + '</span>';
 }
 const totalStars = () => Object.values(S.stars).reduce((a, b) => a + b, 0);
-const unitStars = u => ACTS.reduce((a, x) => a + (S.stars[u.id + '-' + x.id] || 0), 0);
+const actsFor = u => u && u.sentences.length ? ACTS : ACTS.filter(a => a.kind === 'word');
+const unitStars = u => actsFor(u).reduce((a, x) => a + (S.stars[u.id + '-' + x.id] || 0), 0);
 const starsHtml = n => '<span class="stars" aria-label="' + n + ' 颗星">' + [0,1,2].map(i => `<span class="${i < n ? 'on' : 'off'}">★</span>`).join('') + '</span>';
 const today = () => { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
 function bumpStreak(){ const t = today(); if (S.streak.d === t) return; const y = new Date(); y.setDate(y.getDate() - 1); const ys = y.getFullYear() + '-' + (y.getMonth() + 1) + '-' + y.getDate(); S.streak = { d:t, n: S.streak.d === ys ? S.streak.n + 1 : 1 }; save(); }
-function addMiss(k){ S.miss[k] = { n:(S.miss[k] ? S.miss[k].n : 0) + 1, ok:0 }; save(); }
+/* 每日复习：学过的单词在第 1、2、4、7 天各复习一次；答错就从头再来 */
+const GAP = [1, 1, 2, 3];
+function dayKey(off){ const d = new Date(); d.setDate(d.getDate() + (off || 0)); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+function learn(w){ if (!w || S.srs[w.k]) return; S.srs[w.k] = { lv: 0, due: dayKey(1) }; save(); }
+function srsUp(k){ const r = S.srs[k] || { lv: 0 }; r.lv++; if (r.lv >= GAP.length) { r.done = true; r.due = ''; } else r.due = dayKey(GAP[r.lv]); S.srs[k] = r; save(); }
+function srsReset(k){ S.srs[k] = { lv: 0, due: dayKey(1) }; save(); }
+function dueList(){
+  const t = dayKey(0);
+  return allWords().filter(w => S.miss[w.k] || (S.srs[w.k] && !S.srs[w.k].done && S.srs[w.k].due <= t))
+    .sort((a, b) => (S.miss[b.k] ? S.miss[b.k].n : 0) - (S.miss[a.k] ? S.miss[a.k].n : 0) || ((S.srs[a.k] || {}).due || '').localeCompare((S.srs[b.k] || {}).due || ''));
+}
+function addMiss(k){ S.miss[k] = { n:(S.miss[k] ? S.miss[k].n : 0) + 1, ok:0 }; srsReset(k); }
 function okMiss(k){ if (!S.miss[k]) return; S.miss[k].ok++; if (S.miss[k].ok >= 2) delete S.miss[k]; save(); }
 let toastT;
 function toast(msg){ const t = document.getElementById('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2200); }
@@ -461,7 +1614,7 @@ function confetti(){
 
 /* ===== 视图状态 ===== */
 let view = 'home', U = null, ACT = null, G = null, R = null;
-function go(v, u){ view = v; if (u !== undefined) U = u; if (TTS) speechSynthesis.cancel(); render(); scrollTo(0, 0); }
+function go(v, u){ view = v; if (u !== undefined) U = u; if (TTS) { speechSynthesis.cancel(); K.gen++; } render(); scrollTo(0, 0); }
 
 function render(){
   const html = ({ home:vHome, unit:vUnit, act:vAct, result:vResult, miss:vMiss })[view]();
@@ -470,6 +1623,7 @@ function render(){
 }
 function afterRender(){
   if (view !== 'act' || !G) return;
+  if (ACT === 'read' && G.wl.length) { const k = 'rw:' + G.wl[G.wi].k; if (G.spoke !== k) { G.spoke = k; speak(G.wl[G.wi].w); } return; }
   const inp = document.getElementById('dict-in');
   if (inp) { inp.value = G.val || ''; G.shake = false; const fk = G.i + ':' + G.tries + ':' + G.hint; if (G.state === 'ask' && G.focused !== fk) { G.focused = fk; inp.focus(); } }
   const sayKey = ACT + ':' + (G.i ?? 0);
@@ -480,6 +1634,12 @@ function afterRender(){
 }
 
 /* ----- 首页 ----- */
+const RULES = `<details class="rules"><summary>⭐ 星星怎么得？</summary><ul>
+  <li>每一站最多 3 颗星，再玩一次会保留最好成绩，星星只多不少。</li>
+  <li>答题的站：答对 9 成及以上 ★★★，7 成以上 ★★，4 成以上 ★。</li>
+  <li>拼一拼、默写、连词成句：第一次就做对才算数，用了提示算一半。</li>
+  <li>认识单词：卡片全部看完 ★★★。句子跟读：每句都听过 ★★★。</li>
+  <li>每得 ${PER} 颗星，解锁一张贴纸。</li></ul></details>`;
 const TENT = `<svg class="hero-art" viewBox="0 0 170 120" aria-hidden="true">
   <circle cx="140" cy="26" r="15" style="fill:var(--sun)"/>
   <path d="M22 100 L38 56 L54 100Z" style="fill:var(--pine)"/>
@@ -490,12 +1650,24 @@ const TENT = `<svg class="hero-art" viewBox="0 0 170 120" aria-hidden="true">
   <path d="M152 104 L160 84 L168 104Z" style="fill:var(--pine)"/>
   <rect x="0" y="103" width="170" height="4" rx="2" style="fill:var(--line)"/>
 </svg>`;
+function todayCard(){
+  const due = dueList(), learned = Object.keys(S.srs).length, mastered = Object.values(S.srs).filter(r => r.done).length;
+  const tmr = allWords().filter(w => S.srs[w.k] && !S.srs[w.k].done && S.srs[w.k].due === dayKey(1)).length;
+  let sub, btn = '';
+  if (!learned) sub = '学过的词会按第 1、2、4、7 天自动复习';
+  else if (due.length) { const n = Math.min(due.length, 12); sub = `${due.length} 个词待复习`; btn = `<button class="btn primary" data-a="daily">复习 ${n} 个</button>`; }
+  else sub = (S.revDone === dayKey(0) ? '今天已完成 ✓' : '今天没有要复习的') + (tmr ? `，明天 ${tmr} 个` : '');
+  return `<section class="today ${due.length ? 'has' : ''}">
+    <div class="today-ic" aria-hidden="true">${due.length ? '📅' : '✅'}</div>
+    <div class="today-txt"><b>今日复习</b><span>${sub}</span>${learned ? `<span class="today-meta">学过 ${learned} · 记住 ${mastered}</span>` : ''}</div>
+    ${btn}</section>`;
+}
 function vHome(){
-  const tot = totalStars(), max = UNITS.length * ACTS.length * 3;
+  const tot = totalStars(), max = UNITS.reduce((a, u) => a + actsFor(u).length * 3, 0);
   const missN = Object.keys(S.miss).length, got = Math.floor(tot / PER);
   const sel = mixSel(), mixN = (() => { const m = mixUnit(); return pool(m).length; })();
   const sw = (a, on, label, sub) => `<button class="switch-row" role="switch" aria-checked="${on}" data-a="${a}">
-      <span class="sw-txt"><b>${label}</b><small>${sub}</small></span><span class="switch ${on ? 'on' : ''}" aria-hidden="true"><i></i></span></button>`;
+      <span class="sw-txt">${label}</span><small class="sw-sub">${sub}</small><span class="switch ${on ? 'on' : ''}" aria-hidden="true"><i></i></span></button>`;
   return `
   <header class="hero panel">
     <div class="hero-text">
@@ -504,46 +1676,46 @@ function vHome(){
       <p class="lede">每天走一小站<br>单词句子一起记</p>
     </div>${TENT}
     <div class="stats">
-      <span class="chip"><span class="star">★</span> ${tot} / ${max}</span>
-      <span class="chip">🔥 连续 ${S.streak.n} 天</span>
-      <button class="chip" data-a="miss">📒 错题本 ${missN}</button>
+      <span class="chip"><span class="star">★</span> ${tot}/${max}</span>
+      <span class="chip">🔥 ${S.streak.n} 天</span>
+      <button class="chip" data-a="miss">📒 错题 ${missN}</button>
     </div>
   </header>
+  ${todayCard()}
   ${TTS ? '' : '<p class="note">这个浏览器不支持英语朗读，建议用 Safari、Chrome 或 Edge 打开。</p>'}
-  <h2 class="sec">练习设置</h2>
-  <div class="settings">
-    ${sw('setcore', S.coreOnly, '只练必会单词', S.coreOnly ? '书上带 * 的拓展词已隐藏' : '现在包含书上带 * 的拓展词')}
-    ${sw('setshuf', S.shuffle, '打乱顺序', S.shuffle ? '单词和句子随机出现' : '按课本顺序出现')}
-  </div>
   <h2 class="sec">选择课文</h2>
   <div class="units">
-    ${UNITS.map(u => { const st = unitStars(u), m = ACTS.length * 3;
-      return `<button class="unit" data-a="unit" data-u="${u.id}">
+    ${UNITS.map(u => { const st = unitStars(u), m = actsFor(u).length * 3;
+      return `<button class="unit ${st >= m ? 'done' : ''}" data-a="unit" data-u="${u.id}" title="${esc(u.title || 'Lesson ' + u.id)}" aria-label="Lesson ${u.id}，${st} 颗星">
         <span class="u-badge">${u.id}</span>
         <span class="u-body"><span class="u-title">Lesson ${u.id}</span>
-          <span class="u-meta">${pool(u).length} 个单词 · ${u.sentences.length} 个句子</span>
-          <span class="bar"><i style="width:${Math.round(st / m * 100)}%"></i></span></span>
-        <span class="u-stars"><span class="star">★</span> ${st}<small>/${m}</small></span>
+          <span class="u-stars"><span class="star">★</span> ${st}<small> / ${m}</small></span></span>
       </button>`; }).join('')}
-    ${COMING.length ? `<div class="coming">${COMING.map(n => 'Lesson ' + n).join('、')}：发来课本内容后添加</div>` : ''}
   </div>
   <h2 class="sec">综合练习 <small>几课混在一起练</small></h2>
   <div class="mix">
-    <div class="wordchips">${UNITS.map(u => { const on = sel.includes(u.id);
-      return `<button class="mixchip ${on ? 'on' : ''}" data-a="mixtog" data-u="${u.id}" aria-pressed="${on}">${on ? '✓ ' : ''}Lesson ${u.id}</button>`; }).join('')}
-      <button class="btn sm" data-a="mixall">全选（整本书）</button></div>
-    <button class="btn primary" data-a="mixgo" ${sel.length ? '' : 'disabled'}>开始综合练习（${sel.length ? mixN : 0} 个单词）</button>
+    <div class="mix-head"><span>已选 <b>${sel.length}</b> / ${UNITS.length} 课</span>
+      <button class="btn sm" data-a="mixall">${sel.length === UNITS.length ? '取消全选' : '全选'}</button></div>
+    <div class="mixgrid">${UNITS.map(u => { const on = sel.includes(u.id);
+      return `<button class="mixchip ${on ? 'on' : ''}" data-a="mixtog" data-u="${u.id}" aria-pressed="${on}" aria-label="Lesson ${u.id}">${u.id}</button>`; }).join('')}</div>
+    <button class="btn primary mix-go" data-a="mixgo" ${sel.length ? '' : 'disabled'}>${sel.length ? `开始综合练习（${mixN} 个单词）` : '先选几课'}</button>
+  </div>
+  <h2 class="sec">练习设置</h2>
+  <div class="settings">
+    ${sw('setcore', S.coreOnly, '只练必会单词', S.coreOnly ? '已隐藏带 * 的拓展词' : '包含带 * 的拓展词')}
+    ${sw('setshuf', S.shuffle, '打乱顺序', S.shuffle ? '单词和句子随机出现' : '按课本顺序')}
   </div>
   <h2 class="sec">贴纸收藏 <small>${Math.min(got, STICKERS.length)} / ${STICKERS.length}</small></h2>
   <div class="stickers">${STICKERS.map((s, i) => `<div class="sticker ${i < got ? '' : 'off'}" title="${i < got ? '已获得' : '还差 ' + ((i + 1) * PER - tot) + ' 颗星'}">${s}</div>`).join('')}</div>
+  ${RULES}
   <div class="foot"><span>每得 ${PER} 颗星解锁一张贴纸。进度保存在这台设备上。</span>
     <button class="btn sm" data-a="sound">${S.sound ? '🔔 音效开' : '🔕 音效关'}</button></div>`;
 }
 
 /* ----- 课文页 ----- */
 function vUnit(){
-  const u = U, p = pool(u), st = unitStars(u), max = ACTS.length * 3;
-  const nextId = u.mix ? null : (ACTS.find(a => !S.stars[u.id + '-' + a.id]) || {}).id;
+  const u = U, p = pool(u), st = unitStars(u), max = actsFor(u).length * 3, AS = actsFor(u);
+  const nextId = u.mix ? null : (AS.find(a => !S.stars[u.id + '-' + a.id]) || {}).id;
   const row = a => { const n = ACTS.indexOf(a) + 1, got = u.mix ? 0 : (S.stars[u.id + '-' + a.id] || 0);
     const cls = got ? 'done' : a.id === nextId ? 'next' : '';
     return `<li class="station ${cls}"><button class="act-row" data-a="act" data-act="${a.id}">
@@ -552,95 +1724,102 @@ function vUnit(){
   const C = 2 * Math.PI * 30, pct = st / max;
   const ring = u.mix ? '' : `<div class="ring" aria-label="已得 ${st} 颗星，共 ${max} 颗"><svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="30" class="ring-bg"/>${st ? `<circle cx="36" cy="36" r="30" class="ring-fg" stroke-dasharray="${(C * pct).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 36 36)"/>` : ''}</svg><span><b>${st}</b><small>/ ${max} ★</small></span></div>`;
   return `
-  <div class="topbar"><button class="btn sm" data-a="home">← 营地</button></div>
-  <header class="lesson-head panel">
-    <div class="hero-text"><p class="eyebrow">${u.mix ? '综合练习 · ' + u.lessons.map(x => 'L' + x).join(' + ') : '北京版 · 五年级上册'}</p><h1>${uname(u)}</h1>
-      <p class="lede">${p.length} 个单词 · ${u.sentences.length} 个句子</p></div>${ring}
-  </header>
+  <div class="topbar"><button class="btn sm" data-a="home">← 营地</button>
+    <span class="title lesson-bar"><b>${uname(u)}</b>${u.mix ? `<small>${u.lessons.map(x => 'Lesson ' + x).join(' + ')}</small>` : u.title ? `<small>${esc(u.title)}</small>` : ''}</span>
+    ${u.mix ? '' : `<span class="chip"><span class="star">★</span> ${st} / ${max}</span>`}</div>
   <details class="words" open><summary>本课单词 <small>点一下听发音</small></summary>
     <div class="wordchips">${p.map(w => `<button class="wchip" data-a="say" data-t="${esc(w.w)}">${w.e} ${esc(w.w)}</button>`).join('')}</div></details>
-  <p class="group-label">单词关</p>
-  <ul class="acts">${ACTS.filter(a => a.kind === 'word').map(row).join('')}</ul>
-  <p class="group-label">句子关</p>
-  <ul class="acts">${ACTS.filter(a => a.kind === 'sent').map(row).join('')}</ul>
+  <ul class="acts">${AS.map(row).join('')}</ul>
+  ${u.sentences.length ? '' : '<p class="note">这一课还没有课文句子，先练单词。把课本的课文页拍照发来，就能加上句子跟读、填空和连词成句。</p>'}
   ${u.mix ? '<p class="note">综合练习不计星星，答错的单词一样会进错题本。</p>' : ''}
-  ${u.sampleSentences ? '<p class="note">现在的句子是用本课单词编的练习句。把课本对话页拍照发来后，会换成课本原句。</p>' : ''}`;
+`;
 }
 
 /* ----- 活动入口 ----- */
 function startAct(id, review){
   ACT = id; R = null;
-  const p = review ? allWords().filter(w => S.miss[w.k]) : pool(U);
-  if (id === 'cards') G = { list: ord(p), i: 0 };
-  if (id === 'quiz')  G = makeQuiz(p, !!review);
+  /* 综合练习单词多，每轮最多 12 个，下次接着往后练 */
+  const p0 = review === 'daily' ? dueList().slice(0, 12) : review ? allWords().filter(w => S.miss[w.k]) : pool(U);
+  const p = !review && U.mix && id !== 'quiz' ? batch('mix-' + id, p0, 12) : p0;
+  if (id === 'cards') G = { list: U.mix ? p : ord(p), i: 0 };
+  if (id === 'quiz')  { G = makeQuiz(p, !!review, review === 'daily'); }
   if (id === 'spell') { G = { list: ord(p), i: 0, first: 0 }; initSpell(); }
   if (id === 'dictCE') initDict('ce', p);
   if (id === 'dictEC') initDict('ec', p);
-  if (id === 'read')  G = { showCn: false, cn: {}, order: ord(U.sentences.map((s, i) => i)) };
-  if (id === 'fill')  G = { items: makeFill(), i: 0, correct: 0, answered: false };
-  if (id === 'order') { G = { list: ord(U.sentences), i: 0, first: 0 }; initOrder(); }
+  if (id === 'read')  G = { mode: 'word', wl: ord(p.filter(w => w.rs.length)), wi: 0, showCn: false, cn: {}, say: false, rev: {}, order: ord(U.sentences) };
+  if (id === 'fill')  { const f = makeFill(); G = { items: f.items, more: f.more, i: 0, correct: 0, answered: false }; }
+  if (id === 'order') { const el = U.sentences.filter(x => { const n = toks(x).length; return n >= 3 && n <= 10 && !/[\d/]/.test(x.en); }); G = { list: batch(U.id + '-order', el), more: el.length > ROUND, i: 0, first: 0 }; initOrder(); }
   view = 'act'; render(); scrollTo(0, 0);
 }
 function actTop(progress){
   const a = ACTS.find(x => x.id === ACT);
-  const back = G && G.review ? `<button class="btn sm" data-a="miss">← 错题本</button>` : `<button class="btn sm" data-a="back">← ${uname(U)}</button>`;
-  return `<div class="topbar">${back}<span class="title">${G && G.review ? '错题复习' : a.name}</span>${progress != null ? `<span class="chip">${progress}</span>` : ''}</div>`;
+  const back = G && G.daily ? `<button class="btn sm" data-a="home">← 营地</button>` : G && G.review ? `<button class="btn sm" data-a="miss">← 错题本</button>` : `<button class="btn sm" data-a="back">← ${uname(U)}</button>`;
+  return `<div class="topbar">${back}<span class="title">${G && G.daily ? '今日复习' : G && G.review ? '错题复习' : a.name}</span>${progress != null ? `<span class="chip">${progress}</span>` : ''}</div>`;
 }
 function vAct(){ return ({ cards:vCards, quiz:vQuiz, spell:vSpell, dictCE:vDict, dictEC:vDict, read:vRead, fill:vFill, order:vOrder })[ACT](); }
 
 function finish(id, stars, detail){
   const before = Math.floor(totalStars() / PER);
-  if (!G.review && !U.mix) { const k = U.id + '-' + id; S.stars[k] = Math.max(S.stars[k] || 0, stars); save(); }
+  if (G.daily) S.revDone = dayKey(0);
+  if (!G.review && U && !U.mix) { const k = U.id + '-' + id; S.stars[k] = Math.max(S.stars[k] || 0, stars); save(); }
   bumpStreak();
   const after = Math.floor(totalStars() / PER);
-  R = { id, stars, detail, review: G.review, sticker: after > before && before < STICKERS.length ? STICKERS[Math.min(after, STICKERS.length) - 1] : null };
+  R = { id, stars, detail, review: G.review, daily: G.daily, sticker: after > before && before < STICKERS.length ? STICKERS[Math.min(after, STICKERS.length) - 1] : null };
   view = 'result'; render(); scrollTo(0, 0);
   if (stars >= 2) confetti();
 }
 const ratioStars = r => r >= 0.9 ? 3 : r >= 0.7 ? 2 : r >= 0.4 ? 1 : 0;
 
 /* ----- 1 认识单词 ----- */
+function exHtml(w){
+  const x = w.exS; if (!x) return '';
+  const m = x.en.match(new RegExp('\\b' + wpat(w.w) + '\\b', 'i'));
+  return m ? esc(x.en.slice(0, m.index)) + '<mark>' + esc(m[0]) + '</mark>' + esc(x.en.slice(m.index + m[0].length)) : esc(x.en);
+}
 function vCards(){
-  const w = G.list[G.i], n = G.list.length, known = !!S.known[w.k];
+  const w = G.list[G.i], n = G.list.length, ex = w.exS; learn(w);
+  G.face = 0;
   return `${actTop((G.i + 1) + ' / ' + n)}
   <div class="stage bare">
     <button class="flash" data-a="flip" aria-label="翻转卡片">
       <span class="flash-inner">
         <span class="face front"><span class="emo">${w.e}</span><span class="word">${esc(w.w)}</span><span class="ipa">${esc(w.ipa)}</span>
           ${spHtml(w)}<span class="tags"><span class="tag">${esc(w.pos)}</span></span></span>
-        <span class="face back"><span class="emo">${w.e}</span><span class="cn">${esc(w.cn)}</span><span class="word" style="font-size:26px">${esc(w.w)}</span></span>
+        <span class="face back">${ex ? `<span class="ex-label">课文例句${ex.who ? ' · ' + esc(ex.who) : ''}</span><span class="ex-en word">${exHtml(w)}</span>
+            <span class="tap-more">再点一下，看中文意思</span>` : ''}
+          <span class="mean" ${ex ? 'hidden' : ''}><span class="cn">${w.e} ${esc(w.cn)}</span>${ex ? `<span class="ex-cn">${esc(ex.cn)}</span>` : `<span class="word" style="font-size:26px">${esc(w.w)}</span>`}</span></span>
       </span>
     </button>
-    <p class="tap-tip">点卡片翻面看中文</p>
+    <p class="tap-tip">${ex ? '点卡片：先看课文例句，再看中文意思' : '点卡片翻面看中文'}</p>
     <div class="row center">
       <button class="btn sun" data-a="say" data-t="${esc(w.w)}">🔊 读一读</button>
       <button class="btn" data-a="say" data-t="${esc(w.w)}" data-slow="1">🐢 慢一点</button>
+      ${ex ? `<button class="btn" data-a="say" data-t="${esc(ex.tts || ex.en)}">💬 听例句</button>` : ''}
     </div>
-    <div class="dots">${G.list.map((x, i) => `<i class="${S.known[x.k] ? 'k' : ''} ${i === G.i ? 'cur' : ''}"></i>`).join('')}</div>
+    <div class="dots">${G.list.map((x, i) => `<i class="${i < G.i ? 'k' : ''} ${i === G.i ? 'cur' : ''}"></i>`).join('')}</div>
   </div>
   <div class="row center">
     <button class="btn" data-a="cprev" ${G.i === 0 ? 'disabled' : ''}>← 上一个</button>
-    <button class="btn ${known ? 'known-on' : ''}" data-a="cknow">${known ? '✓ 记住了' : '记住了？'}</button>
     <button class="btn primary" data-a="cnext">${G.i === n - 1 ? '完成 ★' : '下一个 →'}</button>
   </div>`;
 }
 
 /* ----- 2 听一听 选一选 ----- */
-function makeQuiz(p, review){
-  const n = review ? Math.min(p.length * 2, 12) : Math.min(10, Math.max(p.length, 6));
+function makeQuiz(p, review, daily){
+  const n = daily ? p.length : review ? Math.min(p.length * 2, 12) : Math.min(10, Math.max(p.length, 6));
   let seq = []; while (seq.length < n) seq = seq.concat(shuffle(p)); seq = seq.slice(0, n);
   const types = ['listen', 'en2cn', 'cn2en'];
   const qs = seq.map(w => {
     const others = shuffle(unitOf(w.u).words.filter(x => x.w !== w.w && x.cn !== w.cn)).slice(0, 3);
     return { type: types[Math.floor(Math.random() * 3)], ans: w, opts: shuffle([w, ...others]) };
   });
-  return { qs, i: 0, correct: 0, answered: false, review };
+  return { qs, i: 0, correct: 0, answered: false, review, daily };
 }
 function vQuiz(){
-  const q = G.qs[G.i], w = q.ans, n = G.qs.length;
+  const q = G.qs[G.i], w = q.ans, n = G.qs.length; learn(w);
   let prompt = '';
   if (q.type === 'listen') prompt = `<p class="q-label">听一听，是哪个单词？</p><button class="big-say" data-a="say" data-t="${esc(w.w)}" aria-label="再听一次">🔊</button><button class="link" data-a="say" data-t="${esc(w.w)}" data-slow="1">🐢 慢速再听</button>`;
-  if (q.type === 'en2cn') prompt = `<p class="q-label">这个单词是什么意思？</p><div class="q-word word">${esc(w.w)}</div><button class="link" data-a="say" data-t="${esc(w.w)}">🔊 再听一次</button>`;
+  if (q.type === 'en2cn') prompt = `<p class="q-label">这个单词是什么意思？</p><div class="q-word word ${w.w.length > 11 ? 'long' : ''}">${esc(w.w)}</div><button class="link" data-a="say" data-t="${esc(w.w)}">🔊 再听一次</button>`;
   if (q.type === 'cn2en') prompt = `<p class="q-label">用英语怎么说？</p><div class="q-emoji">${w.e}</div><div class="q-cn">${esc(w.cn)}</div>`;
   const opts = q.opts.map((o, j) => {
     let cls = 'opt';
@@ -663,22 +1842,24 @@ function nextQ(){
 /* ----- 3 拼一拼 ----- */
 function initSpell(){
   const w = G.list[G.i];
-  const letters = [...w.w].filter(c => c !== ' ');
+  const letters = [...w.w].filter(c => /[A-Za-z0-9]/.test(c));
   let tiles = shuffle(letters);
   for (let k = 0; k < 6 && letters.length > 2 && tiles.join('') === letters.join(''); k++) tiles = shuffle(letters);
   Object.assign(G, { letters, slots: letters.map(() => null), tiles: tiles.map(ch => ({ ch, used: false })), tries: 0, hint: false, state: 'play', bad: null });
 }
 function vSpell(){
-  const w = G.list[G.i];
-  let li = 0, slots = '<div class="slot-group">';
+  const w = G.list[G.i]; learn(w);
+  const longest = Math.max(...w.w.split(' ').map(x => x.length));
+  let li = 0, slots = `<div class="slots" style="--n:${longest}"><div class="slot-group">`;
   for (const c of w.w) {
     if (c === ' ') { slots += '</div><div class="slot-group">'; continue; }
+    if (!/[A-Za-z0-9]/.test(c)) { slots += `<span class="slot fixed">${esc(c)}</span>`; continue; }
     const t = G.slots[li];
     const cls = G.state !== 'play' ? 'ok' : (G.bad && G.bad[li] ? 'bad' : '');
     slots += `<button class="slot ${cls}" data-a="unslot" data-i="${li}" aria-label="第 ${li + 1} 个字母">${t === null ? '' : G.tiles[t].ch}</button>`;
     li++;
   }
-  slots += '</div>';
+  slots += '</div></div>';
   const tiles = G.tiles.map((t, i) => `<button class="tile ${t.used ? 'used' : ''}" data-a="tile" data-i="${i}" ${t.used || G.state !== 'play' ? 'tabindex="-1"' : ''}>${t.ch}</button>`).join('');
   let ctl;
   if (G.state === 'play') ctl = `<div class="row center"><button class="btn sm" data-a="shint">💡 提示</button><button class="btn sm" data-a="sclear">↺ 清空</button>${G.tries >= 2 ? '<button class="btn sm" data-a="sshow">看答案</button>' : ''}</div>`;
@@ -688,8 +1869,8 @@ function vSpell(){
   <div class="stage">
     <div class="q-emoji">${w.e}</div><div class="q-cn">${esc(w.cn)}</div>
     <div class="row center"><button class="btn sm sun" data-a="say" data-t="${esc(w.w)}">🔊 听</button><button class="btn sm" data-a="say" data-t="${esc(w.w)}" data-slow="1">🐢 慢</button></div>
-    <div class="slots">${slots}</div>
-    <div class="tiles">${tiles}</div>
+    ${slots}
+    ${G.state === 'play' ? `<div class="tiles">${tiles}</div>` : ''}
     ${ctl}
   </div>`;
 }
@@ -737,11 +1918,11 @@ function initDict(dir, p){ G = { dir, list: ord(p), i: 0, right: 0, first: 0, va
 function resetDict(){ Object.assign(G, { state: 'ask', tries: 0, hint: 0, val: '', shake: false }); }
 const dictTyping = () => G.dir === 'ce' && !S.dictPaper;
 function vDict(){
-  const w = G.list[G.i], n = G.list.length, typing = dictTyping();
+  const w = G.list[G.i], n = G.list.length, typing = dictTyping(); learn(w);
   const done = G.state === 'right' || G.state === 'wrong';
   const prompt = G.dir === 'ce'
     ? `<p class="q-label">写出英文</p><div class="q-cn">${esc(w.cn)}</div><span class="tag">${esc(w.pos)}</span>`
-    : `<p class="q-label">写出中文意思</p><div class="q-word word">${esc(w.w)}</div><button class="link" data-a="say" data-t="${esc(w.w)}">🔊 听一听</button>`;
+    : `<p class="q-label">写出中文意思</p><div class="q-word word ${w.w.length > 11 ? 'long' : ''}">${esc(w.w)}</div><button class="link" data-a="say" data-t="${esc(w.w)}">🔊 听一听</button>`;
   const answer = `<div class="answer"><span class="q-emoji" style="font-size:40px">${w.e}</span><span class="word">${esc(w.w)}</span>${spHtml(w)}<span>${esc(w.cn)}</span></div>`;
   const modeSeg = G.dir === 'ce' ? `<div class="seg" role="group" aria-label="默写方式">
       <button class="${S.dictPaper ? '' : 'on'}" data-a="dmode" data-v="0">⌨️ 键盘输入</button>
@@ -789,52 +1970,135 @@ function dictNext(){
   finish(ACT, ratioStars(r), `写对 ${G.right} / ${n} 个` + (G.right > G.first ? `（其中 ${G.right - G.first} 个用了提示或第二次才对）` : ''));
 }
 
-/* ----- 5 句子跟读 ----- */
-function wordRe(u){
-  const phrases = u.words.map(w => w.w).sort((a, b) => b.length - a.length).map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-  return new RegExp('\\b(' + phrases.join('|') + ')(s|es)?\\b', 'gi');
+/* ----- 6 课文跟读 ----- */
+function wordRe(u){ return new RegExp('\\b(?:' + u.words.map(w => w.w).sort((a, b) => b.length - a.length).map(wpat).join('|') + ')\\b', 'gi'); }
+function baseOf(t, u){ return u.words.find(w => new RegExp('^' + wpat(w.w) + '$', 'i').test(t)); }
+function tokHtml(s, w){
+  const re = w ? new RegExp('\\b' + wpat(w.w) + '\\b', 'gi') : wordRe(U);
+  const rs = [...s.en.matchAll(re)].map(m => [m.index, m.index + m[0].length]);
+  return toks(s).map((t, j) => `<span class="tk ${rs.some(r => t.a < r[1] && t.b > r[0]) ? 'kw' : ''}" data-a="rword" data-i="${s.id}" data-ti="${j}">${esc(t.t)}</span>`).join(' ');
 }
-function hl(s){ return esc(s).replace(wordRe(U), '<mark>$&</mark>'); }
+function srcLabel(s){
+  if (s.extra) return '补充例句';
+  const p = []; if (s.who) p.push(s.who); if (U.mix || s.u !== U.id) p.push('第' + s.u + '课'); else if (!s.who) p.push('课文');
+  return p.join(' · ');
+}
+function sentRow(s, w){
+  const d = S.read['s' + s.id], hide = G.say && !G.rev[s.id], cn = G.say || G.showCn || !!G.cn[s.id];
+  const left = hide ? '<span class="play-btn q" aria-hidden="true">?</span>' : `<button class="play-btn ${d ? 'done' : ''}" data-a="rsay" data-i="${s.id}" aria-label="朗读这一句">▶</button>`;
+  const body = hide
+    ? `<span class="cn big">${esc(s.cn)}</span><span class="hint-say">先大声说出英文，再点 👀 看答案</span>`
+    : `<span class="en">${tokHtml(s, w)}</span>${cn ? `<span class="cn">${esc(s.cn)}</span>` : ''}`;
+  const right = hide
+    ? `<button class="icon-btn" data-a="rrev" data-i="${s.id}" aria-label="看英文答案">👀</button>`
+    : `<button class="icon-btn" data-a="rsay" data-i="${s.id}" data-slow="1" aria-label="一个词一个词地读">🐢</button>${G.say ? '' : `<button class="icon-btn cn-btn ${cn ? 'on' : ''}" data-a="rcn1" data-i="${s.id}" aria-pressed="${cn}" aria-label="显示这一句的中文">中</button>`}`;
+  const lab = srcLabel(s);
+  return `<li class="sent ${d ? 'done' : ''}">${left}<div class="sent-words">${lab ? `<span class="who ${s.extra ? 'extra' : ''}">${esc(lab)}</span>` : ''}${body}</div><div class="sent-btns">${right}</div></li>`;
+}
 function vRead(){
-  const n = U.sentences.length, done = U.sentences.filter((s, i) => S.read[U.id + ':' + i]).length;
-  return `${actTop(done + ' / ' + n)}
-  <p class="muted" style="margin:0">点句子就能听，听完跟着大声读一遍。🐢 是慢速，"中"是看这一句的中文。</p>
-  <div class="row"><button class="btn sm" data-a="rcn">${G.showCn ? '🙈 全部藏起中文' : '👀 全部显示中文'}</button><button class="btn sm sun" data-a="rall">▶ 从头连读</button></div>
-  <ul class="sents">${G.order.map(i => { const s = U.sentences[i], d = S.read[U.id + ':' + i], cn = G.showCn || !!G.cn[i];
-    return `<li class="sent ${d ? 'done' : ''}"><button class="sent-text" data-a="rsay" data-i="${i}"><span class="play" aria-hidden="true">${d ? '✓' : '▶'}</span><span class="sent-words"><span class="en">${hl(s.en)}</span>${cn ? `<span class="cn">${esc(s.cn)}</span>` : ''}</span></button>
-      <div class="sent-btns"><button class="icon-btn" data-a="rsay" data-i="${i}" data-slow="1" aria-label="慢速朗读">🐢</button><button class="icon-btn cn-btn ${cn ? 'on' : ''}" data-a="rcn1" data-i="${i}" aria-pressed="${cn}" aria-label="显示这一句的中文">中</button></div></li>`; }).join('')}</ul>
-  ${U.sampleSentences ? '<p class="note">这些是练习句，等课本对话页发来后会换成课本原句。</p>' : ''}`;
+  if (!G.wl.length) return `${actTop(null)}<p class="note">这里还没有课文句子。把课本的课文页拍照发来，就能加上。</p>`;
+  const w = G.wl[G.wi], n = G.wl.length, last = G.wi === n - 1; learn(w);
+  const tip = G.say ? '看中文先说英文，再点 👀 对答案'
+    : '▶ 读整句 · 🐢 逐词慢读 · 中 看中文 · 点任意单词单独听';
+  return `${actTop((G.wi + 1) + ' / ' + n)}
+  <div class="anchor">
+    <span class="emo" aria-hidden="true">${w.e}</span>
+    <div class="anchor-txt"><span class="word ${w.w.length > 11 ? 'long' : ''}">${esc(w.w)}</span><span class="ipa">${esc(w.ipa)}</span><span class="cn">${esc(w.cn)}</span></div>
+    <button class="big-say" data-a="say" data-t="${esc(w.w)}" aria-label="读这个单词">🔊</button>
+  </div>
+  <div class="read-bar"><p class="tap-tip">${tip}</p>
+    <button class="btn sm ${G.say ? 'toggle-on' : ''}" data-a="rsaytog" aria-pressed="${G.say}">🗣️ 看中文说英文${G.say ? ' ✓' : ''}</button></div>
+  <ul class="sents">${w.rs.map(x => sentRow(x, w)).join('')}</ul>
+  <div class="dots">${G.wl.map((x, i) => `<i class="${x.rs.every(y => S.read['s' + y.id]) ? 'k' : ''} ${i === G.wi ? 'cur' : ''}"></i>`).join('')}</div>
+  <div class="row center">
+    <button class="btn" data-a="wprev" ${G.wi === 0 ? 'disabled' : ''}>← 上一个</button>
+    <button class="btn primary" data-a="wnext">${last ? '完成 ★' : '下一个 →'}</button>
+  </div>`;
 }
 function readStar(){
   const key = U.id + '-read';
-  if (U.mix || (S.stars[key] || 0) >= 3 || !U.sentences.every((s, k) => S.read[U.id + ':' + k])) return;
-  S.stars[key] = 3; save(); bumpStreak(); toast('每句都听过了，得到 3 颗星！'); confetti();
+  if (U.mix || (S.stars[key] || 0) >= 3 || !U.sentences.every(x => S.read['s' + x.id])) return;
+  S.stars[key] = 3; save(); bumpStreak(); toast('整篇课文都听过了，得到 3 颗星！'); confetti();
 }
-function readSay(i, slow){
-  speak(U.sentences[i].en, slow);
-  S.read[U.id + ':' + i] = true; save(); readStar(); render();
+/* 朗读时逐词变色 */
+const K = { gen: 0, timers: [] };
+function karaClear(){ K.timers.forEach(clearTimeout); K.timers = []; document.querySelectorAll('.tk.on').forEach(e => e.classList.remove('on')); }
+function karaMark(i, j, scroll){
+  document.querySelectorAll('.tk.on').forEach(e => e.classList.remove('on'));
+  const el = document.querySelector(`.tk[data-i="${i}"][data-ti="${j}"]`);
+  if (el) { el.classList.add('on'); if (scroll) el.closest('.sent').scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+}
+function utter(text, rate){ const u = new SpeechSynthesisUtterance(text); u.lang = 'en-US'; if (voice) u.voice = voice; u.rate = rate; return u; }
+function cleanWord(t){ const w = t.replace(/^[^A-Za-z0-9]+|[^A-Za-z0-9]+$/g, ''); return /^\d{4,}$/.test(w) ? w.split('').join(' ') : w; }
+function sayLine(id, byWord, scroll){
+  const s = SENT[id], T = toks(s), g = K.gen;
+  if (byWord) {
+    let last = null;
+    T.forEach((t, j) => { const w = cleanWord(t.t); if (!w) return; const u = utter(w, 0.7); u.onstart = () => { if (K.gen === g) karaMark(id, j, scroll && j === 0); }; speechSynthesis.speak(u); last = u; });
+    if (last) last.onend = () => { if (K.gen === g) karaClear(); };
+    return;
+  }
+  const u = utter(s.tts || s.en, 0.85); let real = false;
+  u.onstart = () => {
+    if (K.gen !== g) return;
+    karaMark(id, 0, scroll);
+    let at = 0;
+    T.forEach((t, j) => { if (!j) return; const p = T[j - 1].t; at += (p.length + 1) / 13 * 1000 + (/[.,!?]$/.test(p) ? 280 : 0);
+      K.timers.push(setTimeout(() => { if (K.gen === g && !real) karaMark(id, j); }, at)); });
+  };
+  u.onboundary = e => {
+    if (K.gen !== g || s.tts || (e.name && e.name !== 'word')) return;
+    if (!real) { real = true; K.timers.forEach(clearTimeout); K.timers = []; }
+    let j = T.findIndex(t => e.charIndex < t.b); if (j < 0) j = T.length - 1; karaMark(id, j);
+  };
+  u.onend = () => { if (K.gen === g) karaClear(); };
+  speechSynthesis.speak(u);
+}
+function stopSpeech(){ if (TTS) { speechSynthesis.cancel(); K.gen++; } karaClear(); }
+function startSpeech(){ if (!TTS) { toast('这台设备不支持朗读，换个浏览器试试'); return false; } stopSpeech(); return true; }
+function readSay(id, byWord){
+  const k = 's' + id;
+  if (!S.read[k]) { S.read[k] = true; save(); render(); }
+  if (startSpeech()) sayLine(id, byWord, false);
 }
 function readAll(){
-  if (!TTS) { speak(''); return; }
-  speechSynthesis.cancel();
-  G.order.forEach(i => { const u = new SpeechSynthesisUtterance(U.sentences[i].en); u.lang = 'en-US'; if (voice) u.voice = voice; u.rate = 0.8; speechSynthesis.speak(u); S.read[U.id + ':' + i] = true; });
-  save(); readStar(); render();
+  if (!startSpeech()) return;
+  G.order.forEach(x => S.read['s' + x.id] = true); save(); render(); readStar();
+  G.order.forEach(x => sayLine(x.id, false, true));
+}
+function readWord(id, j){
+  const t = toks(SENT[id])[j], w = t && cleanWord(t.t); if (!w || !startSpeech()) return;
+  const g = K.gen, u = utter(w, 0.75);
+  u.onstart = () => { if (K.gen === g) karaMark(id, j); };
+  u.onend = () => { if (K.gen === g) karaClear(); };
+  speechSynthesis.speak(u);
 }
 
 /* ----- 7 句子填空 ----- */
+/* 把干扰项变成和答案一样的形式（-s / -ing / -ed），免得一眼看出答案 */
+const NOPL = new Set(['rubbish', 'glue', 'clothes', 'service']);
+function inflect(base, suf){
+  const ps = base.split(' '); let w = ps[0]; const cvc = /^[^aeiou]*[aeiou][bdgklmnprt]$/.test(w);
+  if (suf === 'ing') w = /[^e]e$/.test(w) ? w.slice(0, -1) + 'ing' : cvc ? w + w.slice(-1) + 'ing' : w + 'ing';
+  else if (suf === 'ed') w = /e$/.test(w) ? w + 'd' : /[^aeiou]y$/.test(w) ? w.slice(0, -1) + 'ied' : cvc ? w + w.slice(-1) + 'ed' : w + 'ed';
+  else if (suf) w = /(s|sh|ch|x|z)$/.test(w) ? w + 'es' : /[^aeiou]y$/.test(w) ? w.slice(0, -1) + 'ies' : w + 's';
+  ps[0] = w; return ps.join(' ');
+}
 function makeFill(){
-  const items = [];
-  U.sentences.forEach(s => {
-    const ms = [...s.en.matchAll(wordRe(U))]; if (!ms.length) return;
-    const m = ms[Math.floor(Math.random() * ms.length)];
-    const w = U.words.find(x => x.w.toLowerCase() === m[1].toLowerCase()); if (!w) return;
-    const ans = m[0], cap = /^[A-Z]/.test(ans);
+  const el = U.sentences.filter(x => toks(x).length >= 3 && [...x.en.matchAll(wordRe(U))].length);
+  const items = batch(U.id + '-fill', el).map(s => {
+    const ms = [...s.en.matchAll(wordRe(U))], m = ms[Math.floor(Math.random() * ms.length)];
+    const w = baseOf(m[0], U) || U.words[0], ans = m[0], cap = m.index === 0;
     const fix = t => cap ? t[0].toUpperCase() + t.slice(1) : t;
-    const head = w.w.split(' ')[0];
-    const others = shuffle(U.words.filter(x => x !== w && x.w.split(' ')[0] !== head)).slice(0, 3).map(x => fix(x.w));
-    items.push({ s, w, ans, before: s.en.slice(0, m.index), after: s.en.slice(m.index + ans.length), opts: shuffle([ans, ...others]) });
+    const head = w.w.split(' ')[0], a0 = ans.split(/\s+/)[0].toLowerCase();
+    const suf = a0 !== head.toLowerCase() && a0.startsWith(head.toLowerCase()) ? a0.slice(head.length).replace(/^es$/, 's') : '';
+    const okPos = x => !suf ? true : (suf === 'ing' || suf === 'ed') ? /v\.|动词/.test(x.pos) : /^n\./.test(x.pos) && !NOPL.has(x.w) && !x.w.includes(' ');
+    let pool2 = U.words.filter(x => x.w !== w.w && x.w.split(' ')[0] !== head && okPos(x));
+    if (pool2.length < 3) pool2 = pool2.concat(shuffle(U.words.filter(x => x.w !== w.w && x.w.split(' ')[0] !== head && !pool2.includes(x))));
+    const others = shuffle(pool2.slice(0, Math.max(3, pool2.length))).slice(0, 3).map(x => fix(suf && okPos(x) ? inflect(x.w, suf) : x.w));
+    return { s, w, ans, before: s.en.slice(0, m.index), after: s.en.slice(m.index + ans.length), opts: shuffle([ans, ...others]) };
   });
-  return S.shuffle ? shuffle(items) : items;
+  return { items, more: el.length > ROUND };
 }
 function vFill(){
   const it = G.items[G.i], n = G.items.length;
@@ -856,7 +2120,7 @@ function vFill(){
 }
 function fillNext(){
   G.i++; G.answered = false; G.picked = null;
-  if (G.i >= G.items.length) finish('fill', ratioStars(G.correct / G.items.length), `填对 ${G.correct} / ${G.items.length} 句`);
+  if (G.i >= G.items.length) finish('fill', ratioStars(G.correct / G.items.length), `填对 ${G.correct} / ${G.items.length} 句` + (G.more ? '。再玩一次会换下一组句子' : ''));
   else render();
 }
 
@@ -871,17 +2135,17 @@ function vOrder(){
   const s = G.list[G.i], n = G.list.length, paper = S.orderPaper;
   const seg = `<div class="seg" role="group" aria-label="练习方式">
       <button class="${paper ? '' : 'on'}" data-a="omode" data-v="0">👆 点词排序</button>
-      <button class="${paper ? 'on' : ''}" data-a="omode" data-v="1">✏️ 纸上写句子</button></div>`;
+      <button class="${paper ? 'on' : ''}" data-a="omode" data-v="1">🗣️ 说或写整句</button></div>`;
   const nextBtn = `<button class="btn primary" data-a="onext">${G.i === n - 1 ? '完成 ★' : '下一句 →'}</button>`;
   let main;
   if (paper) {
     const ref = G.bank.map(b => `<span class="wtok ref">${esc(b.t)}</span>`).join('');
-    if (G.state === 'play') main = `<p class="tap-tip">参考下面的单词，在纸上把整句话写出来</p><div class="tiles">${ref}</div><button class="btn primary" data-a="oreveal">写好了，看答案</button>`;
+    if (G.state === 'play') main = `<p class="tap-tip">看中文，大声说出整句，或在纸上写出来。卡住了可以看看下面的单词。</p><div class="tiles">${ref}</div><button class="btn primary" data-a="oreveal">说完 / 写完了，看答案</button>`;
     else {
       main = `<div class="line ok"><span class="word fill-ans">${esc(s.en)}</span></div><div class="row center"><button class="btn sm sun" data-a="say" data-t="${esc(s.en)}">🔊 听一听</button></div>`;
       main += G.state === 'reveal'
-        ? `<p class="tap-tip">单词和顺序都对才算对，别忘了句首大写和句末标点</p><div class="row center"><button class="btn primary" data-a="oself" data-ok="1">✓ 写对了</button><button class="btn" data-a="oself" data-ok="0">✗ 没写对</button></div>`
-        : `<p class="feedback ${G.state === 'right' ? 'ok' : 'no'}">${G.state === 'right' ? '写对了！' : '对照答案改一改，再读一遍'}</p>${nextBtn}`;
+        ? `<p class="tap-tip">单词和顺序都对才算对。写的话，别忘了句首大写和句末标点。</p><div class="row center"><button class="btn primary" data-a="oself" data-ok="1">✓ 我做对了</button><button class="btn" data-a="oself" data-ok="0">✗ 没做对</button></div>`
+        : `<p class="feedback ${G.state === 'right' ? 'ok' : 'no'}">${G.state === 'right' ? '太棒了！' : '对照答案再说一遍'}</p>${nextBtn}`;
     }
   } else {
     const line = G.line.length ? G.line.map((bi, j) => `<button class="wtok ${G.bad && G.bad[j] ? 'bad' : ''}" data-a="oline" data-i="${j}">${esc(G.bank[bi].t)}</button>`).join('') : '<span class="line-hint">点下面的单词，按顺序放到这里</span>';
@@ -895,7 +2159,7 @@ function vOrder(){
   return `${actTop((G.i + 1) + ' / ' + n)}
   <div class="progress"><i style="width:${G.i / n * 100}%"></i></div>
   ${seg}
-  <div class="stage"><p class="q-label">${paper ? '把这句话写成英文：' : '把单词排成这句话：'}</p><div class="q-cn" style="font-size:24px">${esc(s.cn)}</div>${main}</div>`;
+  <div class="stage"><p class="q-label">${paper ? '这句话用英语怎么说？' : '把单词排成这句话：'}</p><div class="q-cn" style="font-size:24px">${esc(s.cn)}</div>${main}</div>`;
 }
 function checkOrder(){
   const s = G.list[G.i], guess = G.line.map(i => G.bank[i].t);
@@ -915,15 +2179,17 @@ function orderShow(){
 /* ----- 结果页 ----- */
 function vResult(){
   const msg = ['再来一次就会更好！', '继续加油！', '不错哦！', '太棒了！'][R.stars];
-  return `<div class="topbar">${R.review ? '<button class="btn sm" data-a="miss">← 错题本</button>' : `<button class="btn sm" data-a="back">← ${uname(U)}</button>`}</div>
+  return `<div class="topbar">${R.daily ? '<button class="btn sm" data-a="home">← 营地</button>' : R.review ? '<button class="btn sm" data-a="miss">← 错题本</button>' : `<button class="btn sm" data-a="back">← ${uname(U)}</button>`}</div>
   <div class="stage result">
     <div class="big-stars">${[0,1,2].map(i => `<span class="${i < R.stars ? 'on' : 'off'}">★</span>`).join('')}</div>
     <h2 style="font-size:34px">${msg}</h2>
     <p class="muted" style="margin:0">${esc(R.detail || '')}</p>
     ${R.sticker ? `<p class="new-sticker">解锁新贴纸 ${R.sticker}</p>` : ''}
     <div class="row center">
-      ${R.review ? '<button class="btn primary" data-a="miss">回错题本</button>' : `<button class="btn" data-a="act" data-act="${R.id}">再玩一次</button><button class="btn primary" data-a="back">回到 ${uname(U)}</button>`}
+      ${R.daily ? '<button class="btn primary" data-a="home">回到营地</button>' : R.review ? '<button class="btn primary" data-a="miss">回错题本</button>' : (() => { const AS = actsFor(U), nx = AS[AS.findIndex(a => a.id === R.id) + 1];
+        return `<button class="btn" data-a="act" data-act="${R.id}">再玩一次</button>` + (nx ? `<button class="btn primary" data-a="act" data-act="${nx.id}">下一站：${nx.name} →</button>` : `<button class="btn primary" data-a="back">回到 ${uname(U)}</button>`); })()}
     </div>
+    ${!R.review && !R.daily && actsFor(U)[actsFor(U).length - 1].id !== R.id ? `<button class="link" data-a="back">回到 ${uname(U)}</button>` : ''}
   </div>`;
 }
 
@@ -954,22 +2220,27 @@ const H = {
   setcore: () => { S.coreOnly = !S.coreOnly; save(); render(); },
   setshuf: () => { S.shuffle = !S.shuffle; save(); render(); },
   mixtog: el => { const id = +el.dataset.u; let sel = mixSel(); sel = sel.includes(id) ? sel.filter(x => x !== id) : sel.concat(id).sort((a, b) => a - b); S.mixSel = sel; save(); render(); },
-  mixall: () => { S.mixSel = UNITS.map(u => u.id); save(); render(); },
+  mixall: () => { S.mixSel = mixSel().length === UNITS.length ? [] : UNITS.map(u => u.id); save(); render(); },
   mixgo: () => { if (mixSel().length) go('unit', mixUnit()); },
   omode: el => { S.orderPaper = el.dataset.v === '1'; save(); initOrder(); render(); },
   oreveal: () => { G.state = 'reveal'; speak(G.list[G.i].en); render(); },
   oself: el => { if (el.dataset.ok === '1') { G.state = 'right'; G.first++; tone(true); } else { G.state = 'wrong'; tone(false); } render(); },
   // cards
-  flip: () => { const f = document.querySelector('.flash-inner'); if (f) f.classList.toggle('is-flipped'); },
+  flip: () => {
+    const f = document.querySelector('.flash-inner'); if (!f) return;
+    const w = G.list[G.i], ex = w.exS, mean = f.querySelector('.mean'), more = f.querySelector('.tap-more');
+    if (G.face === 0) { f.classList.add('is-flipped'); G.face = ex ? 1 : 2; if (ex) speak(ex.tts || ex.en); }
+    else if (G.face === 1) { mean.hidden = false; if (more) more.hidden = true; G.face = 2; }
+    else { f.classList.remove('is-flipped'); G.face = 0; if (ex) setTimeout(() => { if (G.face === 0) { mean.hidden = true; if (more) more.hidden = false; } }, 450); }
+  },
   cprev: () => { if (G.i > 0) { G.i--; render(); } },
-  cnext: () => { if (G.i < G.list.length - 1) { G.i++; render(); } else { const k = G.list.filter(w => S.known[w.k]).length; finish('cards', 3, `看完 ${G.list.length} 张卡片，记住了 ${k} 个`); } },
-  cknow: () => { const w = G.list[G.i]; if (S.known[w.k]) delete S.known[w.k]; else { S.known[w.k] = true; tone(true); } save(); render(); },
+  cnext: () => { if (G.i < G.list.length - 1) { G.i++; render(); } else finish('cards', 3, `看完 ${G.list.length} 张卡片`); },
   // quiz
   pick: el => {
     if (G.answered) return;
     const j = +el.dataset.i, q = G.qs[G.i];
     G.answered = true; G.picked = j; G.lastOk = q.opts[j] === q.ans;
-    if (G.lastOk) { G.correct++; okMiss(q.ans.k); tone(true); if (q.type === 'cn2en') speak(q.ans.w); }
+    if (G.lastOk) { G.correct++; okMiss(q.ans.k); if (G.daily) srsUp(q.ans.k); tone(true); if (q.type === 'cn2en') speak(q.ans.w); }
     else { addMiss(q.ans.k); tone(false); }
     render();
     if (G.lastOk) { const g = G, i = G.i; setTimeout(() => { if (G === g && G.i === i && view === 'act') nextQ(); }, 1100); }
@@ -995,23 +2266,34 @@ const H = {
     const j = +el.dataset.i, it = G.items[G.i];
     G.answered = true; G.picked = j; G.lastOk = it.opts[j] === it.ans;
     if (G.lastOk) { G.correct++; okMiss(it.w.k); tone(true); } else { addMiss(it.w.k); tone(false); }
-    render(); speak(it.s.en);
+    render(); speak(it.s.tts || it.s.en);
     if (G.lastOk) { const g = G, i = G.i; setTimeout(() => { if (G === g && G.i === i && view === 'act') fillNext(); }, 2600); }
   },
   fnext: () => fillNext(),
   // read
   rsay: el => readSay(+el.dataset.i, el.dataset.slow === '1'),
   rcn: () => { G.showCn = !G.showCn; G.cn = {}; render(); },
-  rcn1: el => { const i = +el.dataset.i; if (G.showCn) { G.showCn = false; U.sentences.forEach((s, k) => G.cn[k] = true); } G.cn[i] = !G.cn[i]; render(); },
+  rrev: el => { const i = +el.dataset.i; G.rev[i] = true; readSay(i, false); render(); },
+  rword: el => readWord(+el.dataset.i, +el.dataset.ti),
+  mixunit: el => { const n = +el.dataset.n; S.mixSel = UNITS.filter(u => u.unit === n).map(u => u.id); save(); render(); },
+  rcn1: el => { const i = +el.dataset.i; if (G.showCn) { G.showCn = false; SENT.forEach(x => G.cn[x.id] = true); } G.cn[i] = !G.cn[i]; render(); },
+  rtab: el => { G.mode = el.dataset.v; G.rev = {}; stopSpeech(); render(); scrollTo(0, 0); },
+  rsaytog: () => { G.say = !G.say; G.rev = {}; stopSpeech(); render(); },
+  wshuf: () => { G.wl = shuffle(G.wl); G.wi = 0; G.rev = {}; stopSpeech(); render(); toast('已打乱单词顺序'); },
+  wprev: () => { if (G.wi > 0) { G.wi--; G.rev = {}; stopSpeech(); render(); scrollTo(0, 0); } },
+  wnext: () => { stopSpeech(); if (G.wi < G.wl.length - 1) { G.wi++; G.rev = {}; render(); scrollTo(0, 0); }
+    else { const ids = [...new Set(G.wl.flatMap(w => w.rs.map(x => x.id)))], h = ids.filter(id => S.read['s' + id]).length;
+      finish('read', ratioStars(h / ids.length), `${G.wl.length} 个单词，听过 ${h} / ${ids.length} 个句子` + (h < ids.length ? '。每句都点 ▶ 听一遍，就能拿满 3 颗星' : '')); } },
   rall: () => readAll(),
   // order
   obank: el => { const i = +el.dataset.i; if (G.state !== 'play' || G.bank[i].used) return; G.bank[i].used = true; G.line.push(i); if (G.line.length === G.toks.length) checkOrder(); else render(); },
   oline: el => { if (G.state !== 'play') return; const j = +el.dataset.i; G.bank[G.line[j]].used = false; G.line.splice(j, 1); render(); },
   oclear: () => { if (G.state !== 'play') return; G.bank.forEach(b => b.used = false); G.line = []; render(); },
   oshow: () => orderShow(),
-  onext: () => { G.i++; if (G.i >= G.list.length) finish('order', ratioStars(G.first / G.list.length), `做对 ${G.first} / ${G.list.length} 句`); else { initOrder(); render(); } },
+  onext: () => { G.i++; if (G.i >= G.list.length) finish('order', ratioStars(G.first / G.list.length), `做对 ${G.first} / ${G.list.length} 句` + (G.more ? '。再玩一次会换下一组句子' : '')); else { initOrder(); render(); } },
   // mistakes
   mreview: () => startAct('quiz', true),
+  daily: () => { if (dueList().length) startAct('quiz', 'daily'); },
 };
 $app.addEventListener('submit', e => { e.preventDefault(); if (e.target.id === 'dict-form') dictCheck(); });
 $app.addEventListener('click', e => { const el = e.target.closest('[data-a]'); if (!el || !$app.contains(el)) return; const f = H[el.dataset.a]; if (f) f(el); });
