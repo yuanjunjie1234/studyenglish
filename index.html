@@ -2021,7 +2021,7 @@ function readStar(){
   S.stars[key] = 3; save(); bumpStreak(); toast('整篇课文都听过了，得到 3 颗星！'); confetti();
 }
 /* 朗读时逐词变色 */
-const K = { gen: 0, timers: [] };
+const K = { gen: 0, timers: [], keep: [] };
 function karaClear(){ K.timers.forEach(clearTimeout); K.timers = []; document.querySelectorAll('.tk.on').forEach(e => e.classList.remove('on')); }
 function karaMark(i, j, scroll){
   document.querySelectorAll('.tk.on').forEach(e => e.classList.remove('on'));
@@ -2033,12 +2033,25 @@ function cleanWord(t){ const w = t.replace(/^[^A-Za-z0-9]+|[^A-Za-z0-9]+$/g, '')
 function sayLine(id, byWord, scroll){
   const s = SENT[id], T = toks(s), g = K.gen;
   if (byWord) {
-    let last = null;
-    T.forEach((t, j) => { const w = cleanWord(t.t); if (!w) return; const u = utter(w, 0.7); u.onstart = () => { if (K.gen === g) karaMark(id, j, scroll && j === 0); }; speechSynthesis.speak(u); last = u; });
-    if (last) last.onend = () => { if (K.gen === g) karaClear(); };
+    /* 一个词读完再读下一个：先变色，再朗读，读完（或超时）后接着下一个 */
+    const list = T.map((t, j) => ({ w: cleanWord(t.t), j })).filter(x => x.w);
+    let k = 0;
+    const next = () => {
+      if (K.gen !== g) return;
+      if (k >= list.length) { karaClear(); return; }
+      const { w, j } = list[k++];
+      karaMark(id, j, scroll && k === 1);
+      const u = utter(w, 0.7); K.keep.push(u);
+      let done = false;
+      const go = () => { if (done) return; done = true; clearTimeout(t); setTimeout(next, 180); };
+      const t = setTimeout(go, 900 + w.length * 180);
+      u.onend = go; u.onerror = go;
+      speechSynthesis.speak(u);
+    };
+    next();
     return;
   }
-  const u = utter(s.tts || s.en, 0.85); let real = false;
+  const u = utter(s.tts || s.en, 0.85); let real = false; K.keep.push(u);
   u.onstart = () => {
     if (K.gen !== g) return;
     karaMark(id, 0, scroll);
@@ -2054,7 +2067,7 @@ function sayLine(id, byWord, scroll){
   u.onend = () => { if (K.gen === g) karaClear(); };
   speechSynthesis.speak(u);
 }
-function stopSpeech(){ if (TTS) { speechSynthesis.cancel(); K.gen++; } karaClear(); }
+function stopSpeech(){ if (TTS) { speechSynthesis.cancel(); K.gen++; } K.keep = []; karaClear(); }
 function startSpeech(){ if (!TTS) { toast('这台设备不支持朗读，换个浏览器试试'); return false; } stopSpeech(); return true; }
 function readSay(id, byWord){
   const k = 's' + id;
@@ -2068,7 +2081,7 @@ function readAll(){
 }
 function readWord(id, j){
   const t = toks(SENT[id])[j], w = t && cleanWord(t.t); if (!w || !startSpeech()) return;
-  const g = K.gen, u = utter(w, 0.75);
+  const g = K.gen, u = utter(w, 0.75); K.keep.push(u);
   u.onstart = () => { if (K.gen === g) karaMark(id, j); };
   u.onend = () => { if (K.gen === g) karaClear(); };
   speechSynthesis.speak(u);
